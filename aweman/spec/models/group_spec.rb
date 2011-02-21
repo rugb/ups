@@ -35,7 +35,7 @@ describe Group do
     end
     
     it "should have a groupprojects method" do
-      @group.should respond_to(:groupprojects)
+      @group.should respond_to(:group_projects)
     end
   end
 end

@@ -1,4 +1,6 @@
 class GroupProject < ActiveRecord::Base
+  attr_accessible :project_id, :group_id
+  
   belongs_to :group
   belongs_to :project
   
