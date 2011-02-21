@@ -87,6 +87,13 @@ describe Group do
       @group2 = Group.new(:nr => 2)
     end
     
+    it "should sort groups by nr" do
+      @group2.save
+      @group1.save
+      
+      Group.all.should == [@group1, @group2]
+    end
+    
     it "should have a method next" do
       Group.should respond_to(:next)
     end
