@@ -22,6 +22,10 @@ class Group < ActiveRecord::Base
     group_projects.find_by_project_id(project).destroy
   end
   
+  def to_s
+    nr.to_s
+  end
+  
   def self.next
     nr = 1
     Group.all.each do |group|
