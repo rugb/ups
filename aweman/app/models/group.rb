@@ -8,6 +8,8 @@ class Group < ActiveRecord::Base
   has_many :group_projects, :dependent => :destroy
   has_many :projects, :through => :group_projects
   
+  default_scope :order => 'groups.nr'
+  
   def has_project?(project)
     group_projects.find_by_project_id(project)
   end
