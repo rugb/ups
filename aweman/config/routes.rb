@@ -5,5 +5,9 @@ Aweman::Application.routes.draw do
 
   resources :groups
 
-  resources :users
+  resources :users do
+    member do
+      post :group_with
+    end
+  end
 end

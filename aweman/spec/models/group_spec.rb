@@ -12,6 +12,12 @@ describe Group do
     Group.create!(@attr)
   end
   
+  it "should return the nr as string" do
+    group = Group.new(@attr)
+    
+    group.to_s.should == group.nr.to_s
+  end
+  
   it "should reject number 0" do
     group = Group.new(@attr.merge(:nr => 0))
     group.should_not be_valid

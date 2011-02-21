@@ -1,0 +1,7 @@
+<%= form_tag(group_with_user_path(@user)) do |f| %>
+
+<%= select("group_with", "user_id", free_users_options(@user), {:include_blank => 'None'}) %>
+
+<%= submit_tag("create group") %>
+
+<% end %>

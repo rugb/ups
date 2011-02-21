@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-  attr_accessible :name, :email
+  attr_accessible :name, :email, :group_id
   
   email_regex = /\A[\w+\-.]{1,128}@[a-z\d\-.]{1,128}\.[a-z]{2,4}\z/i
   
@@ -20,5 +20,9 @@ class User < ActiveRecord::Base
     self.save
     
     return Group.find_by_id(group)
+  end
+  
+  def self.free_users(user)
+    where("group_id IS NULL AND NOT id = ?", user.id)
   end
 end
