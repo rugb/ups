@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-  attr_accessible :name, :email
+  attr_accessible :name, :email, :group_id
   
   email_regex = /\A[\w+\-.]{1,128}@[a-z\d\-.]{1,128}\.[a-z]{2,4}\z/i
   
