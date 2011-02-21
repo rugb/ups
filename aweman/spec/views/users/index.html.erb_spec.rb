@@ -6,12 +6,12 @@ describe "users/index.html.erb" do
       stub_model(User,
         :name => "Name",
         :email => "Email",
-        :group => 1
+        :group_id => 1
       ),
       stub_model(User,
         :name => "Name",
         :email => "Email",
-        :group => 1
+        :group_id => 1
       )
     ])
   end

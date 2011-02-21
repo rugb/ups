@@ -5,7 +5,7 @@ describe "users/edit.html.erb" do
     @user = assign(:user, stub_model(User,
       :name => "MyString",
       :email => "MyString",
-      :group => 1
+      :group_id => 1
     ))
   end
 
@@ -16,7 +16,7 @@ describe "users/edit.html.erb" do
     assert_select "form", :action => users_path(@user), :method => "post" do
       assert_select "input#user_name", :name => "user[name]"
       assert_select "input#user_email", :name => "user[email]"
-      assert_select "input#user_group", :name => "user[group]"
+      assert_select "input#user_group_id", :name => "user[group_id]"
     end
   end
 end
