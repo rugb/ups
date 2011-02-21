@@ -3,9 +3,9 @@ require 'spec_helper'
 describe User do
   before(:each) do
     @attr = {
-	:name => "Foobar",
-	:email => "foo@bar.de"
-      }
+      :name => "Foobar",
+	    :email => "foo@bar.de"
+    }
   end
   
   it "should create a new instance given valid attrs" do
@@ -33,16 +33,16 @@ describe User do
     it "should accept valid email addresses" do
       addresses = %w[user@foo.com THE_USER@foo.bar.org first.last@foo.jp]
       addresses.each do |address|
-	valid_email_user = User.new(@attr.merge(:email => address))
-	valid_email_user.should be_valid
+        valid_email_user = User.new(@attr.merge(:email => address))
+        valid_email_user.should be_valid
       end
     end
     
     it "should reject invalid email addresses" do
       addresses = %w[user@foo,com user_at_foo.org example.user@foo.]
       addresses.each do |address|
-	invalid_email_user = User.new(@attr.merge(:email => address))
-	invalid_email_user.should_not be_valid
+        invalid_email_user = User.new(@attr.merge(:email => address))
+        invalid_email_user.should_not be_valid
       end
     end
     
@@ -57,6 +57,22 @@ describe User do
       User.create!(@attr.merge(:email => upcased_email))
       user_with_duplicate_email = User.new(@attr)
       user_with_duplicate_email.should_not be_valid
+    end
+  end
+  
+  describe "group association" do
+    before(:each) do
+      @group = Group.create(:nr => 25)
+      @user = @group.users.create(@attr)
+    end
+    
+    it "should have a group attribute" do
+      @user.should respond_to(:group)
+    end
+    
+    it "should have the right associated group" do
+      @user.group_id.should == @group.id
+      @user.group == @group
     end
   end
 end
