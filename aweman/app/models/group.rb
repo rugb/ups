@@ -21,16 +21,17 @@ class Group < ActiveRecord::Base
   def remove_project!(project)
     group_projects.find_by_project_id(project).destroy
   end
-  
+
+  # Find next free group number and create a group using it  
   def self.next
-    nr = 1
-    Group.all.each do |group|
-      if(group.nr==nr) 
-        nr+=1
-      else
-        break
-      end
+    return self.new(:nr => next_free_nr) 
+  end
+
+  def self.next_free_nr
+    groups = Group.all
+    groups.each_with_index do |group, nr|
+      return nr + 1 if(group.nr != nr + 1)
     end
-    self.new(:nr => nr)
+    return groups.size + 1
   end
 end
