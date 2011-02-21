@@ -61,8 +61,8 @@ describe Project do
       @project.groups.should include(@group)
     end
     
-    it "should have a remove_group method" do
-      @project.should respond_to(:remove_group)
+    it "should have a remove_group! method" do
+      @project.should respond_to(:remove_group!)
     end
     
     it "should remove a group" do

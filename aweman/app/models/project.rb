@@ -13,4 +13,8 @@ class Project < ActiveRecord::Base
   def add_group!(group)
     group_projects.create!(:group_id => group.id)
   end
+  
+  def remove_group!(group)
+    group_projects.find_by_group_id(group).destroy
+  end
 end
