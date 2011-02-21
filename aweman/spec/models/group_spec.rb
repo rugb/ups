@@ -80,4 +80,35 @@ describe Group do
       @group.should respond_to(:users)
     end
   end
+  
+  describe "group building" do
+    before(:each) do
+      @group1 = Group.new(:nr => 1)
+      @group2 = Group.new(:nr => 2)
+    end
+    
+    it "should have a method next" do
+      Group.should respond_to(:next)
+    end
+    
+    it "should give the lowest free number to new group 1/3" do
+      @group = Group.next
+      @group.nr.should == 1
+    end
+    
+    it "should give the lowest free number to new group 2/3" do
+      @group2.save
+      
+      @group = Group.next
+      @group.nr.should == 1
+    end
+    
+    it "should give the lowest free number to new group 3/3" do
+      @group1.save
+      @group2.save
+      
+      @group = Group.next
+      @group.nr.should == 3
+    end
+  end
 end
