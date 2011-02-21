@@ -30,4 +30,14 @@ describe Client do
       duplicate_client.should_not be_valid
     end
   end
+  
+  describe "project association" do
+    before(:each) do
+      @client = Client.create(@attr)
+    end
+    
+    it "should have a projects attribute" do
+      @client.should respond_to(:projects)
+    end
+  end
 end
