@@ -21,4 +21,16 @@ class Group < ActiveRecord::Base
   def remove_project!(project)
     group_projects.find_by_project_id(project).destroy
   end
+  
+  def self.next
+    nr = 1
+    Group.all.each do |group|
+      if(group.nr==nr) 
+        nr+=1
+      else
+        break
+      end
+    end
+    self.new(:nr => nr)
+  end
 end
