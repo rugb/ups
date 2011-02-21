@@ -68,6 +68,15 @@ class UsersController < ApplicationController
       end
     end
   end
+  
+  def group_with
+    @user = User.find(params[:id])
+    
+    otherUser = User.find(params[:group_with][:user_id])
+    @user.group_with!(otherUser)
+    
+    redirect_to(@user)
+  end
 
   # DELETE /users/1
   # DELETE /users/1.xml
