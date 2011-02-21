@@ -30,8 +30,8 @@ describe Group do
   
   describe "group_projects" do
     before(:each) do
-      @group = Group.new(@attr)
-      @project = Project.new(:name => "foo")
+      @group = Group.create(@attr)
+      @project = Project.create(:name => "foo")
     end
     
     it "should have a group_projects method" do
@@ -52,7 +52,7 @@ describe Group do
     
     it "should add projects" do
       @group.add_project!(@project)
-      @group.has_project?.should be_true
+      @group.has_project?(@project).should be_true
     end
     
     it "should include the project in the projects array" do

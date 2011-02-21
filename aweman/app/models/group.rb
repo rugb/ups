@@ -6,4 +6,12 @@ class Group < ActiveRecord::Base
   
   has_many :group_projects, :dependent => :destroy
   has_many :projects, :through => :group_projects
+  
+  def has_project?(project)
+    group_projects.find_by_project_id(project)
+  end
+  
+  def add_project!(project)
+    group_projects.create!(:project_id => project.id)
+  end
 end
