@@ -1,5 +1,30 @@
 require 'spec_helper'
 
 describe Group do
-  pending "add some examples to (or delete) #{__FILE__}"
+  
+  before(:each) do
+    @attr = {
+      :nr => 23
+    }
+  end
+  
+  it "should create instance" do
+    Group.create!(@attr)
+  end
+  
+  it "should reject number 0" do
+    group = Group.new(@attr.merge(:nr => 0))
+    group.should_not be_valid
+  end
+  
+  it "should reject float numbers" do
+    group = Group.new(@attr.merge(:nr => 23.5))
+    group.should_not be_valid
+  end
+  
+  it "should reject duplicate numbers" do
+    Group.create!(@attr)
+    group_duplicate = Group.new(@attr)
+    group_duplicate.should_not be_valid
+  end
 end
