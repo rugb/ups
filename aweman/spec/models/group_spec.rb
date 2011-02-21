@@ -28,14 +28,36 @@ describe Group do
     group_duplicate.should_not be_valid
   end
   
-  describe "groupprojects" do
+  describe "group_projects" do
     before(:each) do
       @group = Group.new(@attr)
       @project = Project.new(:name => "foo")
     end
     
-    it "should have a groupprojects method" do
+    it "should have a group_projects method" do
       @group.should respond_to(:group_projects)
+    end
+    
+    it "should have a projects method" do
+      @group.should respond_to(:projects)
+    end
+    
+    it "should have a method has_project?" do
+      @group.should respond_to(:has_project?)
+    end
+    
+    it "should have a method add_project!" do
+      @group.should respond_to(:add_project!)
+    end
+    
+    it "should add projects" do
+      @group.add_project!(@project)
+      @group.has_project?.should be_true
+    end
+    
+    it "should include the project in the projects array" do
+      @group.add_project!(@project)
+      @group.projects.should include(@project)
     end
   end
 end
