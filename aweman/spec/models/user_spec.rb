@@ -75,4 +75,25 @@ describe User do
       @user.group == @group
     end
   end
+  
+  describe "group building" do
+    before(:each) do
+      @user = User.create(@attr)
+      @user2 = User.create(@attr.merge(:name => "James Bond", :email => "oo7@mi6.co.uk"))
+    end
+    
+    it "should have a method group_with!" do
+      @user.should respond_to(:group_with!)
+    end
+    
+    it "should generate a group with both users" do
+      @group = @user.group_with!(@user2)
+      @group.should be_valid
+      @group.users.should include([@user, @user2])
+    end
+    
+    it "should reject nil" do
+      @user.group_with!(nil).should_not be_valid
+    end
+  end
 end
