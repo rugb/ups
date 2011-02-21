@@ -27,4 +27,15 @@ describe Group do
     group_duplicate = Group.new(@attr)
     group_duplicate.should_not be_valid
   end
+  
+  describe "groupprojects" do
+    before(:each) do
+      @group = Group.new(@attr)
+      @project = Project.new(:name => "foo")
+    end
+    
+    it "should have a groupprojects method" do
+      @group.should respond_to(:groupprojects)
+    end
+  end
 end
