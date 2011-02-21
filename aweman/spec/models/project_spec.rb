@@ -71,4 +71,20 @@ describe Project do
       @project.has_group?(@group).should be_false
     end
   end
+  
+  describe "client association" do
+    before(:each) do
+      @client = Client.create(:name => "Microsoft")
+      @project = @client.projects.create(@attr)
+    end
+    
+    it "should have a client attribute" do
+      @project.should respond_to(:client)
+    end
+    
+    it "should have the right associated client" do
+      @project.client_id.should == @client.id
+      @project.client == @client
+    end
+  end
 end
