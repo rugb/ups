@@ -5,7 +5,7 @@ describe GroupProject do
     @group = Group.new(:nr => 23)
     @project = Project.new(:name => "foo")
 
-    @groupproject = @group.groupprojects.build(:project_id => @project.id)
+    @groupproject = @group.group_projects.build(:project_id => @project.id)
   end
 
   it "should create a new instance given valid attributes" do
@@ -33,4 +33,18 @@ describe GroupProject do
       @groupproject.project.should == @project
     end
   end
+  
+  describe "validations" do
+
+    it "should require a project_id" do
+      @groupproject.project_id = nil
+      @groupproject.should_not be_valid
+    end
+
+    it "should require a group_id" do
+      @groupproject.group_id = nil
+      @groupproject.should_not be_valid
+    end
+  end
+
 end
