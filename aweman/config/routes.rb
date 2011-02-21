@@ -10,4 +10,6 @@ Aweman::Application.routes.draw do
       post :group_with
     end
   end
+
+  root :to => 'users#index'
 end
