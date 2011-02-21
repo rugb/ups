@@ -3,6 +3,8 @@ class Project < ActiveRecord::Base
   
   validates :name, :presence => true, :length => { :maximum => 50 }, :uniqueness => true
   
+  belongs_to :client
+  
   has_many :group_projects, :dependent => :destroy
   has_many :groups, :through => :group_projects
   
