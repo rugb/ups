@@ -70,4 +70,14 @@ describe Group do
       @group.has_project?(@project).should be_false
     end
   end
+  
+  describe "user association" do
+    before(:each) do
+      @group = Group.create(@attr)
+    end
+    
+    it "should have a users attribute" do
+      @group.should respond_to(:users)
+    end
+  end
 end
