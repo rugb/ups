@@ -21,4 +21,8 @@ class User < ActiveRecord::Base
     
     return Group.find_by_id(group)
   end
+  
+  def self.free_users(user)
+    where("group_id IS NULL AND NOT id = ?", user.id)
+  end
 end
