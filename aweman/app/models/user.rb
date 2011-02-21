@@ -8,4 +8,17 @@ class User < ActiveRecord::Base
   
   belongs_to :group
   
+  def group_with!(user)
+    return nil if user.nil? 
+    
+    group = Group.next
+    
+    user.group = group
+    self.group = group
+    
+    user.save
+    self.save
+    
+    return Group.find_by_id(group)
+  end
 end

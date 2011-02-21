@@ -89,11 +89,12 @@ describe User do
     it "should generate a group with both users" do
       @group = @user.group_with!(@user2)
       @group.should be_valid
-      @group.users.should include([@user, @user2])
+      @group.users.should include(@user)
+      @group.users.should include(@user2)
     end
     
     it "should reject nil" do
-      @user.group_with!(nil).should_not be_valid
+      @user.group_with!(nil).should == nil
     end
   end
 end
