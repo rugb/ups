@@ -4,6 +4,6 @@ module UsersHelper
   end
   
   def groups_options
-    Group.all.collect {|u| [u.nr.to_s, u.id] }
+    Group.all.collect {|u| [u.to_s, u.id] }
   end
 end

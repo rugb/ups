@@ -28,7 +28,7 @@ describe UsersHelper do
     
     it "should contain one groups number and id if one group exists" do
       @group.save
-      groups_options.should == [[@group.nr, @group.id]]
+      groups_options.should == [[@group.to_s, @group.id]]
     end
   end
 end
