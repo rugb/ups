@@ -8,4 +8,10 @@ class PageContent < ActiveRecord::Base
   belongs_to :page
   belongs_to :language
   
+  before_save :update_int_title
+  
+  def update_int_title
+    
+  end
+  
 end

@@ -7,6 +7,10 @@ describe PagesController do
       { :get => "/pages/1/foo" }.should route_to(:controller => "pages", :action => "show", :id => "1", :int_title => "foo")
     end
     
+    it "recognizes and generates #show with id and empty int_title" do
+      { :get => "/pages/1/" }.should route_to(:controller => "pages", :action => "show", :id => "1")
+    end
+    
     it "recognizes and generates #show with id only" do
       { :get => "/pages/1" }.should route_to(:controller => "pages", :action => "show", :id => "1")
     end
