@@ -9,11 +9,12 @@ describe PageContent do
       :page_id => 1,
       :language_id => 1
       }
+    
+    @page = Page.create!(:type => :page, :enabled => true)
   end
   
   it "should create a valid instance" do
-    page = Page.create!(:type => :page, :enabled => true)
-    pageContent = Page.page_contents.build
+    pageContent = @page.page_contents.build(@attr)
   end
   
   describe "validation" do
@@ -44,12 +45,25 @@ describe PageContent do
     end
     
     describe "language" do
+      
       it "should not accept an empty language" do
 	PageContent.new(@attr.merge(:language_id => NIL)).should_not be_valid
       end
     
       it "should not have a language_id equal 0" do
 	PageContent.new(@attr.merge(:lanuage_id => 0)).should_not be_valid
+      end
+      
+      describe "relation" do
+	before(:each) do
+	  @lang = Language.create!(:short => "de", :name => "deutsch")
+	end
+	
+	it "should have the right language" do
+	  page_content = @page.page_contents.build(@attr.merge(:language_id => @lang.id))
+	  
+	  page_content.language.short.should == "de"
+	end
       end
     end
   end
