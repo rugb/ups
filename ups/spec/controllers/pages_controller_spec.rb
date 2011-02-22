@@ -11,11 +11,21 @@ describe PagesController do
 
   describe "GET 'show'" do
     it "should be successful" do
-      get 'show'
+      get 'show', :id => 1
+      response.should be_success
+    end
+    
+    it "should be successful with int_title" do
+      get 'show', :id => 1, :int_title => "foo"
+      response.should be_success
+    end
+    
+    it "should be successful with empty int_title" do
+      get 'show', :id => 1, :int_title => ""
       response.should be_success
     end
   end
-
+  
   describe "GET 'new'" do
     it "should be successful" do
       get 'new'
@@ -25,7 +35,12 @@ describe PagesController do
 
   describe "GET 'edit'" do
     it "should be successful" do
-      get 'edit'
+      get 'edit', :id => 1
+      response.should be_success
+    end
+    
+    it "should be successful with int_title" do
+      get 'edit', :id => 1, :int_title => "foo"
       response.should be_success
     end
   end
@@ -39,14 +54,14 @@ describe PagesController do
 
   describe "DELETE 'destroy'" do
     it "should be successful" do
-      delete 'destroy'
+      delete 'destroy', :id => 1
       response.should be_success
     end
   end
 
   describe "PUT 'update'" do
     it "should be successful" do
-      put 'update'
+      put 'update', :id => 1
       response.should be_success
     end
   end
