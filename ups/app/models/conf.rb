@@ -6,6 +6,10 @@ class Conf < ActiveRecord::Base
     Language.find_by_short(get(:default_language))
   end
   
+  def to_s
+    name + ": " + value
+  end
+  
   private
   
   def self.set(name, value)

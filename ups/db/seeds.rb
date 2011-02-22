@@ -1,7 +1,25 @@
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
-#
-# Examples:
-#
-#   cities = City.create([{ :name => 'Chicago' }, { :name => 'Copenhagen' }])
-#   Mayor.create(:name => 'Daley', :city => cities.first)
+
+# extend with helper method for ensuring / updating seed objects
+class ActiveRecord::Base
+  # given a hash of attributes including the ID, look up the record by ID. 
+  # If it does not exist, it is created with the rest of the options. 
+  # If it exists, it is updated with the given options. 
+  #
+  # Raises an exception if the record is invalid to ensure seed data is loaded correctly.
+  # 
+  # Returns the record.
+  def self.ensure(options = {})
+    id = options.delete(:id)
+    record = find_by_id(id) || new
+    record.id = id
+    record.attributes = options
+    record.save!
+  end
+end
+
+Language.ensure(:id => 1, :short => "en", :name => "English")
+Language.ensure(:id => 2, :short => "de", :name => "Deutsch")
+
+Conf.create!(:id => 1, :name => :default_language, :value => "en")

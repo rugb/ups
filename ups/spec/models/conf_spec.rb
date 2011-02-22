@@ -1,6 +1,16 @@
 require 'spec_helper'
 
 describe Conf do
+  it "should have a to_s method" do
+    conf = Conf.new(:name => "a", :value => "b")
+    conf.should respond_to(:to_s)
+  end
+  
+  it "should have a name: value to_s output" do
+    conf = Conf.new(:name => "a", :value => "b")
+    conf.to_s.should == conf.name + ": " + conf.value
+  end
+  
   describe "attributes" do
     it "should accept a name string between 1 and 50 chars" do
       conf = Conf.new(:name => "a" * 23, :value => "test")
