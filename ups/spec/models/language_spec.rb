@@ -42,6 +42,11 @@ describe Language do
       it "should not accept an empty name" do
 	Language.new(@attr.merge(:name => "")).should_not be_valid
       end
+      
+      it "should not accept name longer than 255" do
+	long_name = "a" * (255+1)
+	Language.new(@attr.merge(:name => long_name)).should_not be_valid
+      end
     end
   end
 end
