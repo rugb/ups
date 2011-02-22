@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110222190204) do
+ActiveRecord::Schema.define(:version => 20110222230301) do
 
   create_table "confs", :force => true do |t|
     t.string   "name"
@@ -25,6 +25,8 @@ ActiveRecord::Schema.define(:version => 20110222190204) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "languages", ["short"], :name => "index_languages_on_short"
 
   create_table "page_contents", :force => true do |t|
     t.string   "title"

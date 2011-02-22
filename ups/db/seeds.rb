@@ -16,10 +16,12 @@ class ActiveRecord::Base
     record.id = id
     record.attributes = options
     record.save!
+    
+    record
   end
 end
 
 Language.ensure(:id => 1, :short => "en", :name => "English")
 Language.ensure(:id => 2, :short => "de", :name => "Deutsch")
 
-Conf.create!(:id => 1, :name => :default_language, :value => "en")
+Conf.ensure(:id => 1, :name => :default_language, :value => "en")

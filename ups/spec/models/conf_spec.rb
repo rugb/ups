@@ -57,12 +57,12 @@ describe Conf do
     end
     
     it "should reject nil" do
-      Conf.set_default_language(nil).should_not be_valid
+      expect { Conf.set_default_language(nil) }.to raise_error
     end
     
     it "should store the right language" do
       default_lang = Conf.get_default_language
-      lang = Language.create!(:short => "xx", :name => "Kaesoaili")
+      lang = Language.new(:short => "xx", :name => "Kaesoaili")
       Conf.set_default_language lang
       Conf.get_default_language.should == lang
       
