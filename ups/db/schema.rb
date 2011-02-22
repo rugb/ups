@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110222160511) do
+ActiveRecord::Schema.define(:version => 20110222173846) do
 
   create_table "languages", :force => true do |t|
     t.string   "short"
@@ -32,7 +32,7 @@ ActiveRecord::Schema.define(:version => 20110222160511) do
   create_table "pages", :force => true do |t|
     t.integer  "parent_id"
     t.integer  "position"
-    t.string   "type"
+    t.string   "page_type"
     t.datetime "start_time"
     t.boolean  "enabled"
     t.string   "forced_url"
