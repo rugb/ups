@@ -11,7 +11,15 @@ class PageContent < ActiveRecord::Base
   before_save :update_int_title
   
   def update_int_title
-    
+    if (Conf.get_default_language == language || page.page_contents.size == 1)
+      page.int_title = make_short_title(title)
+    end
   end
+  
+  private
+  
+    def make_short_title(title)
+      title
+    end
   
 end
