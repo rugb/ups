@@ -3,7 +3,7 @@ require 'date'
 
 describe Page do
   before(:each) do
-    @page_attr_minimal = {:type => :page, :enabled => true}
+    @page_attr_minimal = {:type => :page, :enabled => false}
     @page_attr = {:type => :page, :enabled => true, :int_title => "testpage"}
   end
   
@@ -55,7 +55,7 @@ describe Page do
     
     it "should accept an integer greater than 0" do
       page = Page.new @page_attr_minimal.merge(:position => 1)
-      page.should_not be_valid
+      page.should be_valid
     end
     
     it "should reject values below 0" do
@@ -72,12 +72,12 @@ describe Page do
     
     it "should accept :news" do
       page = Page.new @page_attr_minimal.merge(:type => :news)
-      page.should_not be_valid
+      page.should be_valid
     end
     
     it "should accept :page" do
       page = Page.new @page_attr_minimal.merge(:type => :page)
-      page.should_not be_valid
+      page.should be_valid
     end
     
     it "should reject anything" do
@@ -106,6 +106,11 @@ describe Page do
     it "should accept a boolean" do
       page = Page.new @page_attr_minimal.merge(:enabled => false)
       page.should be_valid
+    end
+    
+    it "should reject true, if page has no int_title" do
+      page = Page.new @page_attr_minimal.merge(:int_title => "", :enabled => true)
+      page.should_not be_valid
     end
   end
   
@@ -137,7 +142,7 @@ describe Page do
     end
     
     it "should reject a string with more than 256 chars" do
-      page = Page.new @page_attr_minimal.merge(:int_title => "a" * (256+1))
+      page = Page.new @page_attr_minimal.merge(:int_title => "a" * (255 + 1))
       page.should_not be_valid
     end
   end
