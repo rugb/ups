@@ -10,7 +10,7 @@ describe PageContent do
       }
     
     @attr_page = {
-      :type => :page,
+      :page_type => :page,
       :enabled => true,
       :int_title => "test_page"
       }
