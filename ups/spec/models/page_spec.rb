@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'date'
 
 describe Page do
   before(:each) do
@@ -82,6 +83,69 @@ describe Page do
     it "should reject anything" do
       page = Page.new @page_attr_minimal.merge(:type => :foobar)
       page.should_not be_valid
+    end
+  end
+  
+  describe "start_time" do
+    it "should accept nil" do
+      page = Page.new @page_attr_minimal.merge(:start_time => nil)
+      page.should be_valid
+    end
+    
+    it "should accept any timestamp" do
+      page = Page.new @page_attr_minimal.merge(:start_time => DateTime.now)
+    end
+  end
+  
+  describe "enabled" do
+    it "should reject nil" do
+      page = Page.new @page_attr_minimal.merge(:enabled => nil)
+      page.should_not be_valid
+    end
+    
+    it "should accept a boolean" do
+      page = Page.new @page_attr_minimal.merge(:enabled => false)
+      page.should be_valid
+    end
+  end
+  
+  describe "forced_url" do
+    it "should accept nil" do
+      page = Page.new @page_attr_minimal.merge(:forced_url => nil)
+      page.should be_valid
+    end
+    
+    it "should accept a valid routed relative path"
+    
+    it "should reject a not routed relative path"
+  end
+  
+  describe "int_title" do
+    it "should acccept nil" do
+      page = Page.new @page_attr_minimal.merge(:int_title => nil)
+      page.should be_valid
+    end
+    
+    it "should accept a string containing a-z and _" do
+      page = Page.new @page_attr_minimal.merge(:int_title => "titi_tutu")
+      page.should be_valid
+    end
+    
+    it "should reject a string containing other letters than a-z and _" do
+      page = Page.new @page_attr_minimal.merge(:int_title => "We love AWE11")
+      page.should_not be_valid
+    end
+    
+    it "should reject a string with more than 256 chars" do
+      page = Page.new @page_attr_minimal.merge(:int_title => "a" * (256+1))
+      page.should_not be_valid
+    end
+  end
+  
+  describe "relation to PageContent" do
+    it "should have a page_contents method" do
+      page = Page.create!(@page_attr)
+      page.should respond_to(:page_contents)
     end
   end
 end
