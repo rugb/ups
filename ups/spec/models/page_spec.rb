@@ -1,5 +1,9 @@
 require 'spec_helper'
 
 describe Page do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe "basic attributes" do
+    before(:each) do
+      @page_attr = {:type => :page}
+    end
+  end
 end

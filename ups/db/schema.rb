@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110222155931) do
+ActiveRecord::Schema.define(:version => 20110222160511) do
 
   create_table "languages", :force => true do |t|
     t.string   "short"
@@ -38,6 +38,7 @@ ActiveRecord::Schema.define(:version => 20110222155931) do
     t.string   "forced_url"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "int_title"
   end
 
 end
