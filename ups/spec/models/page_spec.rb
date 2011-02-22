@@ -131,12 +131,12 @@ describe Page do
       page.should be_valid
     end
     
-    it "should accept a string containing a-z and _" do
-      page = Page.new @page_attr_minimal.merge(:int_title => "titi_tutu")
+    it "should accept a string containing a-z, 0-9 and _" do
+      page = Page.new @page_attr_minimal.merge(:int_title => "titi_tutu2")
       page.should be_valid
     end
     
-    it "should reject a string containing other letters than a-z and _" do
+    it "should reject a string containing other letters than a-z, 0-9 and _" do
       page = Page.new @page_attr_minimal.merge(:int_title => "We love AWE11")
       page.should_not be_valid
     end
