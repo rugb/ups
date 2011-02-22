@@ -69,13 +69,17 @@ describe PageContent do
       
       describe "relation" do
 	before(:each) do
-	  @lang = Language.create!(:short => "de", :name => "deutsch")
+	  @lang_attr = {
+	    :short => "de",
+	    :name => "deutsch"
+	  }
+	  @lang = Language.create!(@lang_attr)
 	end
 	
 	it "should have the right language" do
 	  page_content = @page.page_contents.build(@attr.merge(:language_id => @lang.id))
 	  
-	  page_content.language.short.should == "de"
+	  page_content.language.short.should == @lang_attr[:short]
 	end
       end
     end
