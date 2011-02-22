@@ -1,7 +1,12 @@
 Aweman::Application.routes.draw do
   resources :clients
 
-  resources :projects
+  resources :projects do
+    member do
+      post :add_group
+      delete :remove_group
+    end
+  end
 
   resources :groups
 
