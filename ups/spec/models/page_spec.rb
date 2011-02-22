@@ -108,4 +108,15 @@ describe Page do
       page.should be_valid
     end
   end
+  
+  describe "forced_url" do
+    it "should accept nil" do
+      page = Page.new @page_attr_minimal.merge(:forced_url => nil)
+      page.should be_valid
+    end
+    
+    it "should accept a valid routed relative path"
+    
+    it "should reject a not routed relative path"
+  end
 end
