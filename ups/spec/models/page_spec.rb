@@ -96,4 +96,16 @@ describe Page do
       page = Page.new @page_attr_minimal.merge(:start_time => DateTime.now)
     end
   end
+  
+  describe "enabled" do
+    it "should reject nil" do
+      page = Page.new @page_attr_minimal.merge(:enabled => nil)
+      page.should_not be_valid
+    end
+    
+    it "should accept a boolean" do
+      page = Page.new @page_attr_minimal.merge(:enabled => false)
+      page.should be_valid
+    end
+  end
 end
