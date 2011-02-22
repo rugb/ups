@@ -32,7 +32,7 @@ describe UsersController do
     end
     
     it "recognizes and generates #group_with" do
-      { :post => "/users/1/group_with"}.should_route_to(:controller => "users", :action => "group_with", :id => "1")
+      { :post => "/users/1/group_with" }.should route_to(:controller => "users", :action => "group_with", :id => "1")
     end
     
   end
