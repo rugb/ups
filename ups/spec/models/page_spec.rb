@@ -62,4 +62,26 @@ describe Page do
       page.should_not be_valid
     end
   end
+  
+  describe "type" do
+    it "should reject nil" do
+      page = Page.new @page_attr_minimal.merge(:type => nil)
+      page.should_not be_valid
+    end
+    
+    it "should accept :news" do
+      page = Page.new @page_attr_minimal.merge(:type => :news)
+      page.should_not be_valid
+    end
+    
+    it "should accept :page" do
+      page = Page.new @page_attr_minimal.merge(:type => :page)
+      page.should_not be_valid
+    end
+    
+    it "should reject anything" do
+      page = Page.new @page_attr_minimal.merge(:type => :foobar)
+      page.should_not be_valid
+    end
+  end
 end
