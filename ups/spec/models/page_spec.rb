@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'date'
 
 describe Page do
   before(:each) do
@@ -82,6 +83,17 @@ describe Page do
     it "should reject anything" do
       page = Page.new @page_attr_minimal.merge(:type => :foobar)
       page.should_not be_valid
+    end
+  end
+  
+  describe "start_time" do
+    it "should accept nil" do
+      page = Page.new @page_attr_minimal.merge(:start_time => nil)
+      page.should be_valid
+    end
+    
+    it "should accept any timestamp" do
+      page = Page.new @page_attr_minimal.merge(:start_time => DateTime.now)
     end
   end
 end
