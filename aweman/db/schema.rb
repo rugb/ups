@@ -10,13 +10,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110222100359) do
+ActiveRecord::Schema.define(:version => 20110222101200) do
 
   create_table "clients", :force => true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "clients", ["name"], :name => "index_clients_on_name", :unique => true
 
   create_table "group_projects", :force => true do |t|
     t.integer  "group_id"
@@ -25,11 +27,16 @@ ActiveRecord::Schema.define(:version => 20110222100359) do
     t.datetime "updated_at"
   end
 
+  add_index "group_projects", ["group_id"], :name => "index_group_projects_on_group_id"
+  add_index "group_projects", ["project_id"], :name => "index_group_projects_on_project_id"
+
   create_table "groups", :force => true do |t|
     t.integer  "nr"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "groups", ["nr"], :name => "index_groups_on_nr", :unique => true
 
   create_table "projects", :force => true do |t|
     t.string   "name"
@@ -39,6 +46,9 @@ ActiveRecord::Schema.define(:version => 20110222100359) do
     t.datetime "updated_at"
   end
 
+  add_index "projects", ["client_id"], :name => "index_projects_on_client_id"
+  add_index "projects", ["name"], :name => "index_projects_on_name", :unique => true
+
   create_table "users", :force => true do |t|
     t.string   "name"
     t.string   "email"
@@ -46,5 +56,8 @@ ActiveRecord::Schema.define(:version => 20110222100359) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "users", ["email"], :name => "index_users_on_email", :unique => true
+  add_index "users", ["group_id"], :name => "index_users_on_group_id"
 
 end
