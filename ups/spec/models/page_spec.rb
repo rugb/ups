@@ -36,9 +36,9 @@ describe Page do
       page.save
     end
     
-    it "should reject itself as parent at save" do
-      @parent_page.parent_id @parent_page.id
-      @parent_page.save
+    it "should reject itself as parent" do
+      @parent_page.parent_id= @parent_page.id
+      @parent_page.should_not be_valid
     end
   end
   
