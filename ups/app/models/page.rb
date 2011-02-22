@@ -14,4 +14,8 @@ class Page < ActiveRecord::Base
   validates_inclusion_of :page_type, :in => [:news, :page]
   validates_inclusion_of :enabled, :in => [true, false]
   validates_format_of :int_title, :with => /^[a-z0-9_]{0,255}$/
+  
+  def to_s
+    self.int_title
+  end
 end
