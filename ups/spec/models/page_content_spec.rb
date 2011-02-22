@@ -6,11 +6,15 @@ describe PageContent do
       :title => "Foo Title",
       :text => "page text",
       :excerpt => "page",
-      :page_id => 1,
       :language_id => 1
       }
     
-    @page = Page.create!(:type => :page, :enabled => true)
+    @attr_page = {
+      :type => :page,
+      :enabled => true,
+      :int_title => "test_page"
+      }
+    @page = Page.create!(@attr_page)
   end
   
   it "should create a valid instance" do
@@ -35,12 +39,21 @@ describe PageContent do
     end
     
     describe "page_id" do
+      
       it "should not accept a NIL page_id" do
 	PageContent.new(@attr.merge(:page_id => NIL)).should_not be_valid
       end
     
       it "should not accept a page_id equal/less 0" do
 	PageContent.new(@attr.merge(:page_id => 0)).should_not be_valid
+      end
+      
+      describe "relation" do
+	
+	it "should have the right page_id" do
+	  pageContent = @page.page_contents.build(@attr)
+	  pageContent.page.int_title.should == @attr_page[:int_title]
+	end
       end
     end
     
