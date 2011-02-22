@@ -55,7 +55,7 @@ describe Page do
     
     it "should accept an integer greater than 0" do
       page = Page.new @page_attr_minimal.merge(:position => 1)
-      page.should_not be_valid
+      page.should be_valid
     end
     
     it "should reject values below 0" do
