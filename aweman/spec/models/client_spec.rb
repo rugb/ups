@@ -40,4 +40,10 @@ describe Client do
       @client.should respond_to(:projects)
     end
   end
+  
+  it "should convert to string" do
+    client = Client.new(@attr)
+    
+    client.to_s.should == client.name.to_s
+  end
 end
