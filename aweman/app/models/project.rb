@@ -1,5 +1,5 @@
 class Project < ActiveRecord::Base
-  attr_accessible :name, :description
+  attr_accessible :name, :description, :client_id
   
   validates :name, :presence => true, :length => { :maximum => 50 }, :uniqueness => true
   
