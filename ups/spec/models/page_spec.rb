@@ -141,4 +141,11 @@ describe Page do
       page.should_not be_valid
     end
   end
+  
+  describe "relation to PageContent" do
+    it "should have a page_contents method" do
+      page = Page.create!(@page_attr)
+      page.should respond_to(:page_contents)
+    end
+  end
 end
