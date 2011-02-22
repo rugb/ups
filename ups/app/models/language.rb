@@ -2,5 +2,5 @@ class Language < ActiveRecord::Base
   attr_accessible :short, :name
   
   validates :short, :presence => true, :length => 2..2
-  validates_presence_of :name
+  validates :name, :presence => true, :length => { :maximum => 255 }
 end
