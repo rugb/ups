@@ -3,8 +3,8 @@ require 'date'
 
 describe Page do
   before(:each) do
-    @page_attr_minimal = {:type => :page, :enabled => false}
-    @page_attr = {:type => :page, :enabled => true, :int_title => "testpage"}
+    @page_attr_minimal = {:page_type => :page, :enabled => false}
+    @page_attr = {:page_type => :page, :enabled => true, :int_title => "testpage"}
   end
   
   it "should be valid with minimum requirements" do
@@ -66,22 +66,22 @@ describe Page do
   
   describe "type" do
     it "should reject nil" do
-      page = Page.new @page_attr_minimal.merge(:type => nil)
+      page = Page.new @page_attr_minimal.merge(:page_type => nil)
       page.should_not be_valid
     end
     
     it "should accept :news" do
-      page = Page.new @page_attr_minimal.merge(:type => :news)
+      page = Page.new @page_attr_minimal.merge(:page_type => :news)
       page.should be_valid
     end
     
     it "should accept :page" do
-      page = Page.new @page_attr_minimal.merge(:type => :page)
+      page = Page.new @page_attr_minimal.merge(:page_type => :page)
       page.should be_valid
     end
     
     it "should reject anything" do
-      page = Page.new @page_attr_minimal.merge(:type => :foobar)
+      page = Page.new @page_attr_minimal.merge(:page_type => :foobar)
       page.should_not be_valid
     end
   end
