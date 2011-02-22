@@ -72,12 +72,12 @@ describe Page do
     
     it "should accept :news" do
       page = Page.new @page_attr_minimal.merge(:type => :news)
-      page.should_not be_valid
+      page.should be_valid
     end
     
     it "should accept :page" do
       page = Page.new @page_attr_minimal.merge(:type => :page)
-      page.should_not be_valid
+      page.should be_valid
     end
     
     it "should reject anything" do
