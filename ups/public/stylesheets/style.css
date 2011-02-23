@@ -1,0 +1,83 @@
+@charset "utf-8";
+@import url(https://fonts.googleapis.com/css?family=Ubuntu:regular,italic);
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: #f0f0f0;
+    color: #fff;
+	font-family: 'Ubuntu', sans-serif;
+	font-size: 12px;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+td, th {
+	border: 1px solid #444;
+	padding: 5px;
+}
+
+th {
+	background: #f0f0f0;
+}
+
+p {
+	background: #f0f0f0;
+	margin: 5px 0;
+	padding: 5px;
+}
+
+pre {
+	margin-top: 20px;
+}
+
+header, section {
+	display: block;
+}
+
+header, #content {
+	-moz-border-radius: 2px;
+	background: #fff;
+	border: 1px solid #aaa;
+	color: #000;
+	margin: 20px;
+	padding: 20px;
+}
+
+#footer {
+	font-size: 10px;
+	margin-right: 20px;
+	text-align: right;
+}
+
+header a {
+	padding: 5px;
+}
+
+header h1 {
+	display: inline;
+}
+
+header h1 span {
+	color: #444;
+	text-decoration: underline;
+}
+
+#header_menu {
+	float: right;
+}
+
+#content h1 {
+	margin-bottom: 20px;
+}
+
+.field {
+	background: #f0f0f0;
+	margin: 2px 0;
+	padding: 5px;
+}

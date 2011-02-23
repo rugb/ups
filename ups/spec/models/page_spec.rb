@@ -16,6 +16,10 @@ describe Page do
     Page.create! @page_attr
   end
   
+  it "should be sorted by position" do
+    
+  end
+  
   describe "parent_id" do
     before(:each) do
       @parent_page = Page.create!(@page_attr_minimal)
