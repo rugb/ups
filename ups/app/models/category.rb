@@ -1,6 +1,8 @@
 class Category < ActiveRecord::Base
   has_many :category_names
-  has_many :pages
+  
+  has_many :page_categories
+  has_many :pages, :through => :page_categories
   
   def initialize(options)
     super()
