@@ -40,4 +40,15 @@ class Page < ActiveRecord::Base
     p += "_"
     p += position unless position.nil?
   end
+  
+  def position_select=(position)
+    position = position.split("_")
+    if position.empty?
+      write_attribute("parent_id", nil)
+      write_attribute("position", nil)
+    else
+      write_attribute("parent_id", position.first)
+      write_attribute("position", position.last)
+    end
+  end
 end

@@ -21,6 +21,13 @@ class PagesController < ApplicationController
   end
   
   def create
+    @page = Page.new(params[:page])
+    
+    if @page.save
+      redirect_to edit_page_path(@page)
+    else
+      render :action => "new"
+    end
   end
   
   def destroy

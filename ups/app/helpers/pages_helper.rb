@@ -11,7 +11,24 @@ module PagesHelper
     page_contents
   end
   
-  def possible_page_positions_options
-    [["not in menu", "_"], ["first", "_1"]]
+  def possible_page_positions_options(page)
+    options = [["not in menu", "_"], ["first", "_1"]]
+    root_pages = Page.find :all, :conditions => { :parent_id => nil }
+    root_pages.each do |root_page|
+      make_page_position_tree(root_page, options, me)
+    end
+    
+    options
+  end
+  
+  private
+  def make_page_position_tree(page, options, me)
+    if(page == me)
+      options.push [page.int_title, page.position_select]
+    else
+      options.push ["after " + page.int_title, page.position_select]
+      options.push ["under " + page.int_title, page.id + "_1"]
+      page.children.each { |child| make_page_position_tree(child, options, me) }
+    end
   end
 end
