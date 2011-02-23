@@ -1,5 +1,6 @@
 module PagesHelper
   def make_page_path(page)
+    
     if page.forced_url.nil?
       if(page.int_title.nil?)
         page_path(page)
@@ -23,7 +24,7 @@ module PagesHelper
     options = [["not in menu", "_"], ["first", "_1"]]
     root_pages = Page.find :all, :conditions => { :parent_id => nil }
     root_pages.each do |root_page|
-      make_page_position_tree(root_page, options, me)
+      make_page_position_tree(root_page, options, page)
     end
     
     options
@@ -35,7 +36,7 @@ module PagesHelper
       options.push [page.int_title, page.position_select]
     else
       options.push ["after " + page.int_title, page.position_select]
-      options.push ["under " + page.int_title, page.id + "_1"]
+      options.push ["under " + page.int_title, page.id.to_s + "_1"]
       page.children.each { |child| make_page_position_tree(child, options, me) }
     end
   end
