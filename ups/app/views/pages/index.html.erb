@@ -2,11 +2,11 @@
 <% page_tree = lambda do |page, depth| %>
 <tr>
   <td>
-    <%= "&nbsp;" * depth + (page.int_title or "(new)") %>
+    <%= ">" * depth + " " + (page.int_title or "(new)") %>
   </td>
-  <td>
+  <td class="actions">
     <% page.page_contents.each do |page_content| %>
-    <%= page_content.language.name %>
+    <%= link_to page_content.language.name, edit_page_content_page_path(page.id, page_content.language.id), :class => "edit" %>
     <% end %>
   </td>
   <td class="actions">
