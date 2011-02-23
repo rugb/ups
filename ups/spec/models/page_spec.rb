@@ -16,9 +16,9 @@ describe Page do
     Page.create! @page_attr
   end
   
-  it "should be sorted by position" do
-    
-  end
+  it "should be sorted by position"
+  
+  it "should not be possible to destroy the default_page"
   
   describe "parent_id" do
     before(:each) do

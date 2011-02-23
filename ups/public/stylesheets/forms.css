@@ -1,0 +1,17 @@
+fieldset {
+	border: 1px solid #aaa;
+}
+
+fieldset .field, fieldset .actions {
+	margin: 10px;
+}
+
+fieldset .field {
+	padding: 10px;
+}
+
+fieldset .field label {
+	display: block;
+	float: left;
+	width: 150px;
+}

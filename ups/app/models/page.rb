@@ -43,4 +43,11 @@ class Page < ActiveRecord::Base
   def remove_category(category)
     self.categories.delete(category)
   end
+  
+  def position_select
+    p = ""
+    p = parent_id unless parent_id.nil?
+    p += "_"
+    p += position unless position.nil?
+  end
 end
