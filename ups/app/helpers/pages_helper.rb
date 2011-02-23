@@ -1,6 +1,14 @@
 module PagesHelper
   def make_page_path(page)
-    page.forced_url.nil? ? show_page_path(page.id, page.int_title) : page.forced_url 
+    if page.forced_url.nil?
+      if(page.int_title.nil?)
+        page_path(page)
+      else
+        show_page_path(page.id, page.int_title)
+      end
+    else
+      page.forced_url
+    end
   end
   
   def get_page_contents_by_all_languages(page)

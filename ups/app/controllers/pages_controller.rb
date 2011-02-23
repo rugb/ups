@@ -7,7 +7,10 @@ class PagesController < ApplicationController
   
   def show
     @page = Page.find_by_id(params[:id])
-    redirect_to show_page_path(@page.id, @page.int_title) if(params[:int_title] != @page.int_title)
+    
+    redirect_to show_page_path(@page.id, @page.int_title) if (params[:int_title] != @page.int_title)
+    
+    render :action => :home unless @page.enabled
     
     @page_content = select_by_language_id(@page.page_contents)
   end
