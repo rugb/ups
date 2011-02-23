@@ -72,7 +72,7 @@ describe PageContent do
           @lang_attr = {
 	    :short => "es",
 	    :name => "Spanish"
-          }
+	  }
           @lang = Language.create!(@lang_attr)
         end
         
@@ -103,23 +103,23 @@ describe PageContent do
     
     describe "more than one page_content" do
       before(:each) do
-	@page_content_2 = @page.page_contents.build(@attr.merge(:language_id => @lang_non_default.id))
+        @page_content_2 = @page.page_contents.build(@attr.merge(:language_id => @lang_non_default.id))
       end
       
       it "should not change the int_title, non default language" do
-	old_int_title = @page_content_2.page.int_title
-	
-	@page_content_2.update_int_title
-	
-	old_int_title.should == @page_content_2.page.int_title
+        old_int_title = @page_content_2.page.int_title
+        
+        @page_content_2.update_int_title
+        
+        old_int_title.should == @page_content_2.page.int_title
       end
       
       it "should change the int_title, default language" do
-	old_int_title = @page_content_1.page.int_title
-	
-	@page_content_1.update_int_title
-	
-	old_int_title.should_not == @page_content_1.page.int_title
+        old_int_title = @page_content_1.page.int_title
+        
+        @page_content_1.update_int_title
+        
+        old_int_title.should_not == @page_content_1.page.int_title
       end
     end    
   end

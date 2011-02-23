@@ -120,9 +120,10 @@ describe Page do
       page.should be_valid
     end
     
-    it "should accept a valid routed relative path"
-    
-    it "should reject a not routed relative path"
+    it "should accept a string" do
+      page = Page.new @page_attr_minimal.merge(:forced_url => "abc")
+      page.should be_valid
+    end
   end
   
   describe "int_title" do
@@ -143,6 +144,12 @@ describe Page do
     
     it "should reject a string with more than 256 chars" do
       page = Page.new @page_attr_minimal.merge(:int_title => "a" * (255 + 1))
+      page.should_not be_valid
+    end
+    
+    it "should reject duplicates of int_title" do
+      Page.create! @page_attr
+      page = Page.new @page_attr
       page.should_not be_valid
     end
   end

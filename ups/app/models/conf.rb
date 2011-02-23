@@ -14,10 +14,21 @@ class Conf < ActiveRecord::Base
     set(:default_language, lang.short)
   end
   
+  def self.get_default_page
+    Page.find_by_id(get(:default_page))
+  end
+  
+  def self.set_default_page(page)
+    raise "page should not be nil" if page.nil?
+    page.save if page.changed?
+    set(:default_page, page.id)
+  end
+  
   def to_s
     name + ": " + value
   end
   
+  private
   def self.set(name, value)
     conf = Conf.find_by_name(name)
     if conf.nil?

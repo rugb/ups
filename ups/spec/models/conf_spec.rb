@@ -70,4 +70,37 @@ describe Conf do
       Conf.get_default_language.should == default_lang
     end
   end
+  
+  describe "default page" do
+    it "should have a get_default_page method" do
+      Conf.should respond_to(:get_default_page)
+    end
+    
+    it "should not return nil" do
+      Conf.get_default_page.should_not == nil
+    end
+    
+    it "should have a set_default_page method" do
+      Conf.should respond_to(:set_default_page)
+    end
+    
+    it "should reject nil" do
+      expect { Conf.set_default_page(nil) }.to raise_error
+    end
+    
+    it "should store the right page" do
+      default_page = Conf.get_default_page
+      page = Page.new(:page_type => :page, :enabled => true, :int_title => "test")
+      Conf.set_default_page page
+      Conf.get_default_page.should == page
+      
+      Conf.set_default_page default_page
+      Conf.get_default_page.should == default_page
+    end
+    
+    it "should reject disabled pages" do
+      page = Page.new(:page_type => :page, :enabled => false)
+      expect { Conf.set_default_page(page) }.to raise_error
+    end
+  end
 end

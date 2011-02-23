@@ -25,3 +25,10 @@ Language.ensure(:id => 1, :short => "en", :name => "English")
 Language.ensure(:id => 2, :short => "de", :name => "Deutsch")
 
 Conf.ensure(:id => 1, :name => :default_language, :value => "en")
+
+if Page.all.empty? || PageContent.all.empty?
+  page = Page.ensure(:id => 1, :int_title => :home, :page_type => :page, :enabled => true)
+  page.page_contents.build(:id => 1, :language_id => 2, :title => "Startseite", :text => "Dies ist die Default-Startseite.").save
+  
+  Conf.ensure(:id => 2, :name => :default_page, :value => 1)
+end
