@@ -181,13 +181,21 @@ describe Page do
 	@category = Category.create!(:name => "Grillen", :language => "de")
       end
       
-      it "should use an existing category" do
+      it "should add existing category" do
+	@page.add_category(@category)
+	
+	@page.categories.should include(@category)
+      end
+      
+      it "should not add a category twice" do
+	@page.add_category(@category)
 	@page.add_category(@category)
 	
 	@page.categories.should include(@category)
       end
       
       it "should remove an existing category" do
+	@page.add_category(@category)
 	@page.remove_category(@category)
 	
 	@page.categories.should_not include(@category)

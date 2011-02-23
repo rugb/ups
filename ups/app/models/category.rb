@@ -5,7 +5,7 @@ class Category < ActiveRecord::Base
   has_many :pages, :through => :page_categories
   
   has_many :link_categories
-  has_many :links, :though => :link_categories
+  has_many :links, :through => :link_categories
   
   def initialize(options)
     super()

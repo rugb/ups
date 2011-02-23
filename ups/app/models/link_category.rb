@@ -1,4 +1,4 @@
 class LinkCategory < ActiveRecord::Base
-  belongs_to :categories
-  belongs_to :links
+  belongs_to :category
+  belongs_to :link
 end
