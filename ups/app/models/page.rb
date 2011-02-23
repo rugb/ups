@@ -5,7 +5,9 @@ class Page < ActiveRecord::Base
   has_many :children, :class_name => "Page", :foreign_key => "parent_id", :dependent => :destroy
   
   has_many :page_contents, :dependent => :destroy
-  has_many :tags
+
+  has_many :page_tags, :dependent => :destroy
+  has_many :tags, :through => :page_tags
   
   has_many :page_categories, :dependent => :destroy
   has_many :categories, :through => :page_categories
@@ -37,11 +39,19 @@ class Page < ActiveRecord::Base
   end
   
   def add_category(category)
-    self.categories.push(category)
+    self.categories.push(category) unless self.categories.include?(category)
   end
   
   def remove_category(category)
     self.categories.delete(category)
+  end
+  
+  def add_tag(tag)
+    self.tags.push(tag) unless self.tags.include?(tag)
+  end
+  
+  def remove_tag(tag)
+    self.tags.delete(tag)
   end
   
   def position_select
