@@ -56,9 +56,9 @@ class Page < ActiveRecord::Base
   
   def position_select
     p = ""
-    p += parent_id unless parent_id.nil?
+    p += parent_id.to_s unless parent_id.nil?
     p += "_"
-    p += position unless position.nil?
+    p += position.to_s unless position.nil?
     
     p
   end
