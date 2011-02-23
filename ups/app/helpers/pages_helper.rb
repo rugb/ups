@@ -13,8 +13,9 @@ module PagesHelper
   end
   
   def get_page_contents_by_all_languages(page)
-    Languages.all.each do |language|
-      page_contents[language] = page.page_contents.find { |page_content| page_content.language == language }
+    page_contents = {}
+    Language.all.each do |language|
+      page_contents[language] = page.page_contents.find :all, :conditions => { :language_id => language.id }
     end
     
     page_contents
@@ -33,10 +34,10 @@ module PagesHelper
   private
   def make_page_position_tree(page, options, me)
     if(page == me)
-      options.push [page.int_title, page.position_select]
+      options.push [(page.int_title or "(new)"), page.position_select]
     else
-      options.push ["after " + page.int_title, page.position_select]
-      options.push ["under " + page.int_title, page.id.to_s + "_1"]
+      options.push ["after " + (page.int_title or "(new)"), page.position_select]
+      options.push ["under " + (page.int_title or "(new)"), page.id.to_s + "_1"]
       page.children.each { |child| make_page_position_tree(child, options, me) }
     end
   end

@@ -1,2 +1,29 @@
-<h1>Pages#edit</h1>
-<p>Find me in app/views/pages/edit.html.erb</p>
+<h1>edit page</h1>
+<%= render 'form' %>
+<h2>content</h2>
+<table>
+  <thead>
+    <tr>
+      <th>
+        language
+      </th>
+      <th>
+        title
+      </th>
+      <th>
+        excerpt
+      </th>
+      <th>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <% get_page_contents_by_all_languages(@page).each do |language, page_content| %>
+    <tr>
+      <td>
+        <%= language.name %>
+      </td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>

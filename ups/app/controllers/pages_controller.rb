@@ -21,6 +21,8 @@ class PagesController < ApplicationController
   end
   
   def edit
+    @page = Page.find_by_id(params[:id])
+    @page_content = select_by_language_id(@page.page_contents)
   end
   
   def destroy
@@ -31,7 +33,7 @@ class PagesController < ApplicationController
   end
   
   def update
-    @page = Page.new(params[:page])
+    @page = Page.find(params[:id])
     
     if @page.save
       redirect_to edit_page_path(@page)

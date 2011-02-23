@@ -13,6 +13,10 @@ body {
 	font-size: 12px;
 }
 
+h2, h3, h4, h5 {
+	margin: 20px 0 10px 0;
+}
+
 table {
 	border-collapse: collapse;
 }
