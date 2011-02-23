@@ -15,7 +15,7 @@ module PagesHelper
   def get_page_contents_by_all_languages(page)
     page_contents = {}
     Language.all.each do |language|
-      page_contents[language] = page.page_contents.find :all, :conditions => { :language_id => language.id }
+      page_contents[language] = page.page_contents.find :first, :conditions => { :language_id => language.id }
     end
     
     page_contents
