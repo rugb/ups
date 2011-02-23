@@ -9,3 +9,9 @@ fieldset .field, fieldset .actions {
 fieldset .field {
 	padding: 10px;
 }
+
+fieldset .field label {
+	display: block;
+	float: left;
+	width: 150px;
+}

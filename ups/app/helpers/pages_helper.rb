@@ -10,4 +10,8 @@ module PagesHelper
     
     page_contents
   end
+  
+  def possible_page_positions_options
+    [["not in menu", "_"], ["first", "_1"]]
+  end
 end

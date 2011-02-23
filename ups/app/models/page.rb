@@ -33,4 +33,11 @@ class Page < ActiveRecord::Base
   def page_type=(type)
     write_attribute("page_type", type.to_s)
   end
+  
+  def position_select
+    p = ""
+    p = parent_id unless parent_id.nil?
+    p += "_"
+    p += position unless position.nil?
+  end
 end

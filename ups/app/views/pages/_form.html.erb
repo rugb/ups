@@ -6,6 +6,12 @@
     </label>
     <span><%= @page_content.title unless @page_content.nil? %> <i>(<%= @page.int_title %>)</i></span>
   </div>
+  <div class="field">
+    <label>
+      position:
+    </label>
+    <%= select(:page, :position_select, possible_page_positions_options) %>
+  </div>
   
   <div class="actions">
   	<%= f.submit :class => "continue" %>
