@@ -27,7 +27,10 @@ class PagesController < ApplicationController
   
   def home
     default_page = Conf.get_default_page
-    redirect_to page_path(default_page)
+    redirect_to make_page_path(default_page)
+  end
+  
+  def credits
   end
   
 end
