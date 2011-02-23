@@ -70,8 +70,8 @@ describe PageContent do
       describe "relation" do
         before(:each) do
           @lang_attr = {
-	    :short => "de",
-	    :name => "deutsch"
+	    :short => "es",
+	    :name => "Spanish"
           }
           @lang = Language.create!(@lang_attr)
         end
