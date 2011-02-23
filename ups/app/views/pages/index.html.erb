@@ -2,7 +2,7 @@
 <% page_tree = lambda do |page, depth| %>
 <tr>
   <td>
-    <%= "&nbsp;" * depth + page.int_title %>
+    <%= "&nbsp;" * depth + (page.int_title or "(new)") %>
   </td>
   <td>
     <% page.page_contents.each do |page_content| %>

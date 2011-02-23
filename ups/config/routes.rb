@@ -6,6 +6,7 @@ Ups::Application.routes.draw do
   resources :pages
   
   match "/credits" => "pages#credits"
+  match "/setup" => "pages#setup"
   
   root :to => "pages#home"
   

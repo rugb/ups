@@ -1,20 +1,35 @@
 <%= form_for(@page) do |f| %>
+<%= hidden_field :page, :enabled %>
+<%= hidden_field :page, :page_type %>
+<%= hidden_field :page, :id %>
 <fieldset>
+  <% if @page.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(@page.errors.count, "error") %>
+      prohibited this page from being saved:</h2>
+    <ul>
+      <% @page.errors.full_messages.each do |msg| %>
+      <li>
+        <%= msg %>
+      </li>
+      <% end %>
+    </ul>
+  </div>
+  <% end %>
   <div class="field">
     <label>
       title:
     </label>
-    <span><%= @page_content.title unless @page_content.nil? %> <i>(<%= @page.int_title %>)</i></span>
+    <span><%= @page_content.title unless @page_content.nil? %><i>(<%= (@page.int_title or "new") %>)</i></span>
   </div>
   <div class="field">
     <label>
       position:
     </label>
-    <%= select(:page, :position_select, possible_page_positions_options) %>
+    <%= select(:page, :position_select, possible_page_positions_options(@page), :selected => @page.position_select) %>
   </div>
-  
   <div class="actions">
-  	<%= f.submit :class => "continue" %>
+    <%= f.submit :class => "continue" %>
   </div>
 </fieldset>
 <% end %>
