@@ -31,11 +31,11 @@ describe Category do
     end
     
     it "should accept with long language" do
-      
+      Category.new(@attr.merge(:language => Language.first.name)).should be_valid
     end
     
     it "should accept with language id" do
-      
+      Category.new(@attr.merge(:language => Language.first.id)).should be_valid
     end
   end
 end
