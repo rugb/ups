@@ -24,6 +24,8 @@ class PagesController < ApplicationController
   def destroy
     Page.find_by_id(params[:id]).destroy
     flash[:success] = "page deleted"
+    
+    redirect_to pages_path
   end
   
   def update
@@ -31,7 +33,7 @@ class PagesController < ApplicationController
   
   def home
     default_page = Conf.get_default_page
-    redirect_to make_page_path(default_page)
+    redirect_to view_context.make_page_path(default_page)
   end
   
   def credits
