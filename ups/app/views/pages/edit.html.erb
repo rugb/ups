@@ -1,4 +1,7 @@
 <h1>edit page</h1>
+<p class="actions">
+  <%= link_to "back", pages_path, :class => "back" %>
+</p>
 <%= render 'form' %>
 <h2>content</h2>
 <table>
@@ -22,6 +25,21 @@
     <tr>
       <td>
         <%= language.name %>
+      </td>
+      <td>
+        <%= page_content.title unless page_content.nil? %>
+      </td>
+      <td>
+        <%= page_content.excerpt unless page_content.nil? %>
+      </td>
+      <td class="actions">
+        <% if page_content.nil? %>
+        <%= link_to "create", "#", :class => "new" %>
+        <% else %>
+        <%= link_to "show", "#", :class => "continue" %> |
+		<%= link_to "edit", "#", :class => "edit" %> |
+		<%= link_to "delete", "#", :confirm => "Are you sure?", :method => :delete, :class => "delete" %>
+        <% end %>
       </td>
     </tr>
     <% end %>
