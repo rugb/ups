@@ -1,6 +1,6 @@
 class PagesController < ApplicationController
   def index
-    @pages = Pages.find_by_parent(nil)
+    @pages = Page.find :all, :conditions => { :parent_id => nil }
   end
   
   def show

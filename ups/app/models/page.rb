@@ -1,5 +1,8 @@
 class Page < ActiveRecord::Base
-  attr_accessible :page_type, :enabled, :position, :int_title, :forced_url
+  attr_accessible :parent_id, :page_type, :enabled, :position, :int_title, :forced_url
+  
+  belongs_to :parent, :class_name => "Page", :foreign_key => "parent_id"
+  has_many :children, :class_name => "Page", :foreign_key => "parent_id"
   
   has_many :page_contents
   
