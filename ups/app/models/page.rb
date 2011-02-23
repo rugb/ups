@@ -2,9 +2,9 @@ class Page < ActiveRecord::Base
   attr_accessible :parent_id, :page_type, :enabled, :position, :int_title, :forced_url
   
   belongs_to :parent, :class_name => "Page", :foreign_key => "parent_id"
-  has_many :children, :class_name => "Page", :foreign_key => "parent_id"
+  has_many :children, :class_name => "Page", :foreign_key => "parent_id", :dependent => :destroy
   
-  has_many :page_contents
+  has_many :page_contents, :dependent => :destroy
   
   validate do |record|
     # reject pages having itself as parent

@@ -22,6 +22,8 @@ class PagesController < ApplicationController
   end
   
   def destroy
+    Page.find_by_id(params[:id]).destroy
+    flash[:success] = "page deleted"
   end
   
   def update
