@@ -165,6 +165,36 @@ describe Page do
     end
   end
   
+  describe "relation to Category" do
+    before(:each) do
+      @page = Page.create!(@page_attr)
+    end
+    
+    it "should create a new category" do
+      category = @page.categories.build(:name => "Grillen", :language => "de")
+      
+      @page.categories.should include(category)
+    end
+    
+    describe "existing category" do
+      before(:each) do
+	@category = Category.create!(:name => "Grillen", :language => "de")
+      end
+      
+      it "should use an existing category" do
+	@page.add_category(@category)
+	
+	@page.categories.should include(@category)
+      end
+      
+      it "should remove an existing category" do
+	@page.remove_category(@category)
+	
+	@page.categories.should_not include(@category)
+      end
+    end
+  end
+  
   describe "relation to parent" do
     it "may have a parent"
   end
