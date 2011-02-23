@@ -1,6 +1,8 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
   
+  helper_method :select_by_language_id
+  
   def select_by_language_id(elements)
     wanted_languages.each { |language|
       elements.each { |element|

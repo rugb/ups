@@ -9,8 +9,10 @@
   <body>
     <header>
       <h1><%= link_to "ups - university project system", root_path %></h1>
-	  <nav id="menu"></nav>
     </header>
+    <nav id="menu">
+      <%= render 'layouts/menu' %>
+    </nav>
     <section id="content">
       <%= yield %>
     </section>

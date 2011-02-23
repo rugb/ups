@@ -17,6 +17,14 @@ h2, h3, h4, h5 {
 	margin: 20px 0 10px 0;
 }
 
+a {
+	color: #049;
+}
+
+a:hover {
+	color: #09f;
+}
+
 table {
 	border-collapse: collapse;
 }
@@ -40,7 +48,7 @@ pre {
 	margin-top: 20px;
 }
 
-header, section {
+header, section, nav {
 	display: block;
 }
 
@@ -51,6 +59,37 @@ header, #content {
 	color: #000;
 	margin: 20px;
 	padding: 20px;
+}
+
+header {
+	margin-bottom: 0;
+}
+
+#content {
+	margin-top: 0;
+}
+
+#menu {
+	-moz-border-radius: 2px;
+	background: #09f;
+	border: 1px solid #049;
+	margin: 5px 20px;
+	padding: 5px;
+}
+
+#menu li {
+	float: left;
+}
+
+#menu a {
+	color: #fff;
+	font-weight: bold;
+	padding: 5px;
+	text-decoration: none;
+}
+
+#menu a:hover {
+	text-decoration: underline;
 }
 
 #footer {
@@ -84,4 +123,8 @@ header h1 span {
 	background: #f0f0f0;
 	margin: 2px 0;
 	padding: 5px;
+}
+
+.clear {
+	clear: both;
 }

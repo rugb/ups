@@ -1,6 +1,5 @@
 module PagesHelper
   def make_page_path(page)
-    
     if page.forced_url.nil?
       if(page.int_title.nil?)
         page_path(page)
