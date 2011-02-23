@@ -31,6 +31,6 @@ class Page < ActiveRecord::Base
   end
   
   def page_type=(type)
-      write_attribute("page_type", type.to_s)
+    write_attribute("page_type", type.to_s)
   end
 end
