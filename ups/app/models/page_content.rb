@@ -19,7 +19,7 @@ class PageContent < ActiveRecord::Base
   private
   
     def make_short_title(title)
-      title
+      "short: " + title
     end
   
 end

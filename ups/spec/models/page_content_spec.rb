@@ -87,8 +87,7 @@ describe PageContent do
     
   describe "change int_title" do
     before(:each) do	
-      #@lang_default = Conf.get_default_language
-      @lang_default = Language.create!(:short => "en", :name => "englisch")
+      @lang_default = Conf.get_default_language
       @lang_non_default = Language.create!(:short => "fo", :name => "foobar")
       
       @page_content_1 = @page.page_contents.build(@attr.merge(:language_id => @lang_default.id))
@@ -112,7 +111,7 @@ describe PageContent do
 	
 	@page_content_2.update_int_title
 	
-	old_int_title.should_not == @page_content_2.page.int_title
+	old_int_title.should == @page_content_2.page.int_title
       end
       
       it "should change the int_title, default language" do
@@ -120,7 +119,7 @@ describe PageContent do
 	
 	@page_content_1.update_int_title
 	
-	old_int_title.should == @page_content_2.page.int_title
+	old_int_title.should_not == @page_content_1.page.int_title
       end
     end
   end
