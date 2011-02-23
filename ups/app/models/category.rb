@@ -12,4 +12,12 @@ class Category < ActiveRecord::Base
     
     self.category_names.build(:name => options[:name], :language_id => lang_id)
   end
+  
+  def self.get_or_new(options)
+    if (!options[:id].nil?)
+      return Category.find(options[:id])
+    else
+      return Category.new(options)
+    end
+  end
 end

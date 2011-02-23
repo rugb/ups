@@ -27,11 +27,21 @@ class Page < ActiveRecord::Base
   end
   
   def page_type
-    read_attribute("page_type").to_sym
+    pt = read_attribute("page_type")
+    
+    pt.to_sym unless pt.nil?
   end
   
   def page_type=(type)
-    write_attribute("page_type", type.to_s)
+      write_attribute("page_type", type.to_s) unless type.nil?
+  end
+  
+  def add_category(category)
+    self.categories.push(category)
+  end
+  
+  def remove_category(category)
+    self.categories.delete(category)
   end
   
   def position_select
