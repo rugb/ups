@@ -1,5 +1,5 @@
 class Page < ActiveRecord::Base
-  attr_accessible :page_type, :enabled, :position, :int_title
+  attr_accessible :page_type, :enabled, :position, :int_title, :forced_url
   
   has_many :page_contents
   
