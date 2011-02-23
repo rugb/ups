@@ -147,7 +147,11 @@ describe Page do
       page.should_not be_valid
     end
     
-    it "should reject duplicates of int_title"
+    it "should reject duplicates of int_title" do
+      Page.create! @page_attr
+      page = Page.new @page_attr
+      page.should_not be_valid
+    end
   end
   
   describe "relation to PageContent" do
