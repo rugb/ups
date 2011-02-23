@@ -191,7 +191,7 @@ describe Page do
 	@page.add_category(@category)
 	@page.add_category(@category)
 	
-	@page.categories.should include(@category)
+	@page.categories.count.should == 1
       end
       
       it "should remove an existing category" do

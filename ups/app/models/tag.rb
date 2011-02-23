@@ -1,7 +1,8 @@
 class Tag < ActiveRecord::Base
   attr_accessible :name
   
-  belongs_to :page
+  has_many :page_tags
+  has_many :pages, :through => :page_tags
   
   validates :name, :presence => true, :uniqueness => { :case_sensitive => false }
 end
