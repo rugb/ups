@@ -10,7 +10,19 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110222230301) do
+ActiveRecord::Schema.define(:version => 20110223105659) do
+
+  create_table "categories", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "category_names", :force => true do |t|
+    t.string   "name"
+    t.integer  "language_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "confs", :force => true do |t|
     t.string   "name"
@@ -27,6 +39,14 @@ ActiveRecord::Schema.define(:version => 20110222230301) do
   end
 
   add_index "languages", ["short"], :name => "index_languages_on_short"
+
+  create_table "links", :force => true do |t|
+    t.string   "title"
+    t.string   "href"
+    t.integer  "category_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "page_contents", :force => true do |t|
     t.string   "title"
@@ -48,6 +68,12 @@ ActiveRecord::Schema.define(:version => 20110222230301) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "int_title"
+  end
+
+  create_table "tags", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
 end
