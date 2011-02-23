@@ -4,11 +4,7 @@ describe CategoryName do
   before(:each) do
     @attr_de = {
       :name => "Nachrichten",
-      :language_id => Language.first.id
-    }
-    @attr_en = {
-      :name => "News",
-      :language_id => Language.last.id
+      :language_id => Language.find_by_short("de").id
     }
   end
   
@@ -30,7 +26,7 @@ describe CategoryName do
       
       it "should reject duplicates" do
 	category_name_1 = CategoryName.create!(@attr_de)
-	CatetoryName.new(@attr_de).shoult_not be_valid
+	CategoryName.new(@attr_de).should_not be_valid
       end
     end
     
@@ -42,6 +38,11 @@ describe CategoryName do
       
       it "should reject a language_id of 0" do
 	CategoryName.new(@attr_de.merge(:language_id => 0)).should_not be_valid
+      end
+      
+      it "should have the right language" do
+	category_name_1 = CategoryName.new(@attr_de)
+	category_name_1.language.short.should == Language.find_by_short("de").short
       end
     end
   end  
