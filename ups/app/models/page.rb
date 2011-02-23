@@ -5,6 +5,10 @@ class Page < ActiveRecord::Base
   has_many :children, :class_name => "Page", :foreign_key => "parent_id"
   
   has_many :page_contents
+  has_many :tags
+  
+  has_many :page_categories, :dependent => :destroy
+  has_many :categories, :through => :page_categories
   
   validate do |record|
     # reject pages having itself as parent
@@ -20,5 +24,13 @@ class Page < ActiveRecord::Base
   
   def to_s
     self.int_title
+  end
+  
+  def page_type
+    read_attribute("page_type").to_sym
+  end
+  
+  def page_type=(type)
+      write_attribute("page_type", type.to_s)
   end
 end
