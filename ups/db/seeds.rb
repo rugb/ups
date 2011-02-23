@@ -30,6 +30,9 @@ if Page.all.empty? || PageContent.all.empty?
   page = Page.ensure(:id => 1, :int_title => :home, :page_type => :page, :enabled => true)
   page.page_contents.build(:id => 1, :language_id => 1, :title => "Homepage", :text => "This is the default homepage.").save
   page.page_contents.build(:id => 2, :language_id => 2, :title => "Startseite", :text => "Dies ist die Default-Startseite.").save
-  
+    
   Conf.ensure(:id => 2, :name => :default_page, :value => 1)
+  
+  page = Page.ensure(:id => 2, :int_title => :edit_pages, :page_type => :page, :enabled => true, :forced_url => "/pages")
+  page.page_contents.build(:id => 3, :language_id => 1, :title => "Pageadmin").save
 end

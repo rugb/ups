@@ -20,6 +20,8 @@ describe Page do
   
   it "should not be possible to destroy the default_page"
   
+  it "should not be possible to destroy a page with forced_url"
+  
   describe "parent_id" do
     before(:each) do
       @parent_page = Page.create!(@page_attr_minimal)

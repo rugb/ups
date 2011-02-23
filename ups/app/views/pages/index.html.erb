@@ -2,7 +2,7 @@
 <% page_tree = lambda do |page, depth| %>
 <tr>
   <td>
-    <%= ">" * depth + " " + (page.int_title or "(new)") %>
+    <%= ">" * depth + " " + ((select_by_language_id(page.page_contents) and select_by_language_id(page.page_contents).title) or "(new)") %>
   </td>
   <td class="actions">
     <% page.page_contents.sort_by { |page_content| page_content.language.name }.each do |page_content| %>
