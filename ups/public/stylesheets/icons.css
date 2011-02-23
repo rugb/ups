@@ -1,0 +1,20 @@
+.actions a {
+    background: top left no-repeat;
+    padding: 1px 0 1px 18px;
+}
+
+.actions .continue {
+    background-image: url('/images/icons/arrow_right.png');
+}
+
+.actions .new {
+    background-image: url('/images/icons/add.png');
+}
+
+.actions .edit {
+    background-image: url('/images/icons/page_edit.png');
+}
+
+.actions .delete {
+    background-image: url('/images/icons/delete.png');
+}
