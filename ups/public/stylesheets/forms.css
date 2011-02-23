@@ -1,0 +1,11 @@
+fieldset {
+	border: 1px solid #aaa;
+}
+
+fieldset .field, fieldset .actions {
+	margin: 10px;
+}
+
+fieldset .field {
+	padding: 10px;
+}

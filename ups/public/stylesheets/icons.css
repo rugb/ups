@@ -1,4 +1,4 @@
-.actions a {
+.actions a, .actions input {
     background: top left no-repeat;
     padding: 1px 0 1px 18px;
 }

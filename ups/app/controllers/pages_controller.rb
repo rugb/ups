@@ -13,6 +13,8 @@ class PagesController < ApplicationController
   end
   
   def new
+    @page = Page.new(:page_type => :page, :enabled => false, :int_title => "new")
+    @page_content = @page.page_contents.build(:title => "new page")
   end
   
   def edit
