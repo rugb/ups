@@ -1,12 +1,17 @@
 <h1>Edit pages</h1>
 <% page_tree = lambda do |page, depth| %>
 <tr>
-	<td><%= "&nbsp;" * depth + page.int_title %></td>
-	<td></td>
-	<td></td>
+  <td>
+    <%= "&nbsp;" * depth + page.int_title %>
+  </td>
+  <td>
+  </td>
+  <td class="actions">
+  	<%= link_to "show", page_path(page) %>
+    <%= link_to "edit", edit_page_path(page) %>
+  </td>
 </tr>
-<% 
-page.children.each { |page| page_tree.call page, depth + 1 }
+<% page.children.each { |page| page_tree.call page, depth + 1 }
 end %>
 <table>
   <thead>
