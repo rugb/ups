@@ -1,2 +1,28 @@
-<h1>Pages#index</h1>
-<p>Find me in app/views/pages/index.html.erb</p>
+<h1>Edit pages</h1>
+<% page_tree = lambda do |page, depth| %>
+<tr>
+	<td><%= "&nbsp;" * depth + page.int_title %></td>
+	<td></td>
+	<td></td>
+</tr>
+<% 
+page.children.each { |page| page_tree.call page, depth + 1 }
+end %>
+<table>
+  <thead>
+    <tr>
+      <th>
+        title
+      </th>
+      <th>
+        languages
+      </th>
+      <th>
+        actions
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @pages.each { |page| page_tree.call page, 0 } %>
+  </tbody>
+</table>

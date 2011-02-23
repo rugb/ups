@@ -160,4 +160,12 @@ describe Page do
       page.should respond_to(:page_contents)
     end
   end
+  
+  describe "relation to parent" do
+    it "may have a parent"
+  end
+  
+  describe "relation to children" do
+    it "may have children"
+  end
 end
