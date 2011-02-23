@@ -12,7 +12,7 @@
   <td class="actions">
     <%= link_to "show", make_page_path(page), :class => "continue" %> |
     <%= link_to "edit", edit_page_path(page), :class => "edit" %> |
-	<%= link_to "delete", page, :confirm => "Are you sure?", :method => :delete, :class => "delete" %>
+	<%= link_to "delete", page, :confirm => "Are you sure?", :method => :delete, :class => "delete" if page.forced_url.nil? %>
   </td>
 </tr>
 <% page.children.each { |page| page_tree.call page, depth + 1 }
