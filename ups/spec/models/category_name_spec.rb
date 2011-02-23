@@ -28,6 +28,12 @@ describe CategoryName do
 	category_name_1 = CategoryName.create!(@attr_de)
 	CategoryName.new(@attr_de).should_not be_valid
       end
+      
+      it "should reject names longer than 255 chars" do
+	long_name = "a" * 256
+	
+	CategoryName.new(@attr_de.merge(:name => long_name)).should_not be_valid
+      end
     end
     
     describe "of language_id" do
