@@ -13,7 +13,7 @@ class Page < ActiveRecord::Base
   validates_numericality_of :position, :only_integer => true, :greater_than => 0, :allow_nil => true
   validates_inclusion_of :page_type, :in => [:news, :page]
   validates_inclusion_of :enabled, :in => [true, false]
-  validates_format_of :int_title, :with => /^[a-z0-9_]{0,255}$/
+  validates :int_title, :uniqueness => true,  :format => /^[a-z0-9_]{0,255}$/, :allow_nil => true
   
   def to_s
     self.int_title
