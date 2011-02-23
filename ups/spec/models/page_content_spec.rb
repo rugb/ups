@@ -84,8 +84,8 @@ describe PageContent do
       end
     end
   end
-    
-  describe "change int_title" do
+  
+  describe "validate changing int_title" do
     before(:each) do	
       @lang_default = Conf.get_default_language
       @lang_non_default = Language.create!(:short => "fo", :name => "foobar")
@@ -121,6 +121,6 @@ describe PageContent do
 	
 	old_int_title.should_not == @page_content_1.page.int_title
       end
-    end
+    end    
   end
 end
