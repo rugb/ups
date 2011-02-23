@@ -16,11 +16,13 @@ class PagesController < ApplicationController
   end
   
   def new
+    @title = "create new page"
     @page = Page.create!(:page_type => :page, :enabled => false)
     @page_content = @page.page_contents.build(:title => "new page")
   end
   
   def edit
+    @title = "edit page"
     @page = Page.find_by_id(params[:id])
     @page_content = select_by_language_id(@page.page_contents)
   end

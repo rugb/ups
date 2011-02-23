@@ -18,3 +18,7 @@
 .actions .delete {
     background-image: url('/images/icons/delete.png');
 }
+
+.actions .back {
+    background-image: url('/images/icons/arrow_left.png');
+}
