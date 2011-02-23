@@ -70,4 +70,35 @@ describe Link do
       end
     end
   end
+  
+  describe "page category relation" do
+    before(:each) do
+      @link = Link.create!(@attr)
+    end
+    
+    it "should create and add a new category" do
+      category = @link.categories.build(:name => "Grillen", :language => "de")
+      
+      @link.categories.should include(category)
+    end
+    
+    describe "existing category" do
+      before(:each) do
+	@category = Category.create!(:name => "Grillen", :language => "de")
+      end
+      
+      it "should add an existing category" do
+	@link.add_category(@category)
+	
+	@link.categories.should include(@category)
+      end
+      
+      it "should remove a category" do
+	@link.add_category(@category)
+	@link.remove_category(@category)
+	
+	@link.categories.should_not include(@category)
+      end
+    end
+  end
 end
