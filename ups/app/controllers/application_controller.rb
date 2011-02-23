@@ -12,7 +12,23 @@ class ApplicationController < ActionController::Base
   end
   
   def wanted_languages
-    [Conf.get_default_language]
+    wanted_languages = []
+    
+    # explicit selected in url
+    wanted_languages << Language.find_by_short(params[:language_short])
+    
+    # session/user
+    
+    # wanted by browser
+    wanted_languages |= accepted_languages.map do |lang|
+      Language.find_by_short(lang)
+    end
+    
+    # default language
+    wanted_languages << Conf.get_default_language
+    
+    # cleanup
+    wanted_languages.delete_if{ |lang| lang.nil? }
   end
   
   ##
@@ -37,7 +53,12 @@ class ApplicationController < ActionController::Base
     }
     
     # sort by quality
-    accepted.sort { |l1, l2| l1[1] <=> l2[1] }
+    accepted.sort { |l1, l2| l2[1] - l1[1] }
+    
+    # reduce to short
+    accepted.map do |a|
+      a[0]
+    end
   end
   
 end

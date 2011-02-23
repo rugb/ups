@@ -1,5 +1,3 @@
-require 'pages_helper'
-
 class PagesController < ApplicationController
   def index
     @pages = Page.find :all, :conditions => { :parent_id => nil }

@@ -34,11 +34,11 @@
       </td>
       <td class="actions">
         <% if page_content.nil? %>
-        <%= link_to "create", "#", :class => "new" %>
+        <%= link_to "create", new_page_content_page_path(@page.id, language.id), :class => "new" %>
         <% else %>
-        <%= link_to "show", "#", :class => "continue" %> |
-		<%= link_to "edit", "#", :class => "edit" %> |
-		<%= link_to "delete", "#", :confirm => "Are you sure?", :method => :delete, :class => "delete" %>
+        <%= link_to "show", show_page_path(@page.id, @page.int_title, language.short), :class => "continue" %> |
+		<%= link_to "edit", edit_page_content_page_path(@page.id, language.id), :class => "edit" %> |
+		<%= link_to "delete", destroy_page_content_page_path(@page.id, language.id), :confirm => "Are you sure?", :method => :delete, :class => "delete" %>
         <% end %>
       </td>
     </tr>
