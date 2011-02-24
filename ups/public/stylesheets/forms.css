@@ -17,7 +17,11 @@ fieldset .field label {
 }
 
 fieldset .field ul {
-	clear: both;
+	margin-left: 150px;
+}
+
+fieldset .field ul ul {
+	margin-left: 15px;
 }
 
 fieldset .field ul li {

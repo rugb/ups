@@ -38,6 +38,10 @@ class PagesController < ApplicationController
     @page = Page.find(params[:id])
     
     position_select = params[:position_select].split("_")
+    
+    puts "ahaa: " + @page.parent.to_s
+    puts "ahaa: " + @page.position.to_s
+    
     if position_select.empty?
       @page.parent = nil
       @page.position = nil
@@ -45,6 +49,9 @@ class PagesController < ApplicationController
       @page.parent = Page.find_by_id(position_select[0])
       @page.position = position_select[1] == "" ? nil : position_select[1].to_i
     end
+    
+    puts "ahaa: " + @page.parent.to_s
+    puts "ahaa: " + @page.position.to_s
     
     if @page.save
       redirect_to edit_page_path(@page)

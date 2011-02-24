@@ -15,6 +15,8 @@ class Page < ActiveRecord::Base
   has_many :comments
   belongs_to :user
   
+  default_scope :order => "pages.position"
+  
   validate do |record|
     # reject pages having itself as parent
     record.errors.add :parent_id, "cannot have itself as parent" if record.parent_id.present? && record.parent_id == record.id

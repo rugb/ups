@@ -29,7 +29,7 @@ module PagesHelper
     if page_content.nil?
       page.int_title or "new"
     else
-      page_content.title + " parent:" + page.parent_id.to_s + ", pos:" + page.position.to_s
+      page_content.title
     end
   end
   
@@ -39,7 +39,7 @@ module PagesHelper
     
     if(parent.nil?)
       pages = Page.find :all, :conditions => { :parent_id => nil }
-      options << radio_button_tag(:position_select, "_") + " not in menu"
+      options << radio_button_tag(:position_select, "_", me.parent.nil? && me.position.nil?) + " not in menu"
       options << radio_button_tag(:position_select, "_1") + " first"
     else
       pages = parent.children
@@ -47,11 +47,13 @@ module PagesHelper
     end
     
     pages.each do |page|
-      if(page == me)
-        options << radio_button_tag(:position_select, page.position_select, true) + " " + make_page_title(page)
-      elsif(page.position.present?)
-        options << " " + make_page_title(page) + make_page_position_tree(page, me)
-        options << radio_button_tag(:position_select, page.parent_id.to_s + "_" + (page.position + 1).to_s)
+      if page.position.present?
+        if page == me 
+          options << radio_button_tag(:position_select, page.position_select, true) + " " + make_page_title(page)
+        else
+          options << " " + make_page_title(page) + make_page_position_tree(page, me)
+          options << radio_button_tag(:position_select, page.parent_id.to_s + "_" + (page.position + 1).to_s) + " after " + make_page_title(page)
+        end
       end
     end
     
