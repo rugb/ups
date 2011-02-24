@@ -175,14 +175,14 @@ describe Page do
     describe "to Category" do
       
       it "should create a new category" do
-        category = @page.categories.build(:name => "Grillen", :language => "de")
+        category = @page.categories.build(:name => "angrillen", :language => "de")
         
         @page.categories.should include(category)
       end
       
       describe "existing category" do
         before(:each) do
-          @category = Category.create!(:name => "Grillen", :language => "de")
+          @category = Category.create!(:name => "abgrillen", :language => "de")
         end
         
         it "should add existing category" do
@@ -231,6 +231,22 @@ describe Page do
           @page.tags.should_not include(@tag)
         end
       end
+    end
+    
+    describe "to comments" do
+      before(:each) do
+	@comment_attr = {
+	  :text => "comment text",
+	  :user_id => 1
+	}
+      end
+      
+      it "should add an comment" do
+	@comment = @page.comments.build(@comment_attr)
+	
+	@page.comments.should include(@comment)
+      end
+      
     end
     
     describe "to parent" do

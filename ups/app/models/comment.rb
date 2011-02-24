@@ -19,11 +19,14 @@ class Comment < ActiveRecord::Base
   end
   
   validates :name,   :length   => { :maximum => 255 },
-		     :allow_nil => true
+                     :allow_nil => true
   validates :email,  :format     => { :with => email_regex },
                      :uniqueness => { :case_sensitive => false },
-		     :length => { :maximum => 255 },
-		     :allow_nil => true
+                     :length => { :maximum => 255 },
+                     :allow_nil => true
+  validates :user_id, :presence => true,
+                      :allow_nil => true
+  validates_numericality_of :user_id, :greater_than => 0
   
   private
   
