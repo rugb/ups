@@ -41,7 +41,6 @@ end
 
 Role.all.each { |r| r.destroy }
 
-
 Role.ensure(:name => "Administrator", :int_name => :admin)
 guest = Role.ensure(:name => "Guest", :int_name => :guest)
 Role.ensure(:name => "User", :int_name => :user)
