@@ -1,8 +1,7 @@
 Ups::Application.routes.draw do
-  #resources :pages, :constraints => {:int_title => /[a-z_]{0,255}/}
-  
   match "/page/:id/(:int_title)(/:language_short)" => "pages#show", :as => :show_page, :via => :get
   
+  resources :categories
   resources :pages do
     member do
       get 'activate'

@@ -1,0 +1,29 @@
+<h1>Edit categories</h1>
+<% if Category.all.any? %>
+<table>
+  <thead>
+    <tr>
+      <td>
+        name
+      </td>
+      <td>
+        news/pages
+      </td>
+      <td>
+        links
+      </td>
+      <td>
+      </td>
+      <td>
+      </td>
+      <td>
+      </td>
+    </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table>
+<% end %>
+<p class="actions">
+  <%= link_to "new category", new_category_path, :class => "new" %>
+</p>
