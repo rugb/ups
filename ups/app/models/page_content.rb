@@ -11,16 +11,15 @@ class PageContent < ActiveRecord::Base
   before_save :update_int_title
   
   def update_int_title
-    #if (Conf.get_default_language == language || page.page_contents.size == 1)
-    if(page.int_title.blank?)
+    if(page.int_title.blank? || Conf.get_default_language == language)
       page.int_title = make_short_title(title)
-      page.save
+      page.save! if page.changed?
     end
   end
   
   private
   def make_short_title(title)
-    title.sub(" ", "_").downcase.sub("[^a-z0-9_]", "")
+    title.tr(" ", "_").downcase.tr("^a-z0-9_", "")
   end
   
 end

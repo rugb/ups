@@ -1,6 +1,5 @@
 <%= form_for(@page_content) do |f| %>
 <%= hidden_field :page_content, :language_id %>
-<%= hidden_field :page_content, :page_id %>
 <fieldset>
   <% if @page_content.errors.any? %>
   <div id="error_explanation">

@@ -46,7 +46,7 @@
       </td>
       <% else %>
       <td class="actions">
-        <%= link_to "show", show_page_path(@edit_page.id, @edit_page.int_title, language.short), :class => "continue" %>
+        <%= link_to "show", show_page_path(@edit_page.id, @edit_page.int_title, language.short), :class => "continue" if @edit_page.visible? %>
       </td>
       <td class="actions">
         <%= link_to "edit", edit_page_content_page_path(@edit_page.id, language.id), :class => "edit" %>

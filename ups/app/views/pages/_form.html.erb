@@ -16,12 +16,16 @@
     </ul>
   </div>
   <% end %>
-  <div class="field">
+  <div class="field actions">
     <label>
       title:
     </label>
     <span><%= @edit_page_content.title unless @edit_page_content.nil? %>
       <i>(<%= (@edit_page.int_title or "new") %>)</i></span>
+    <span><%= link_to "activate", activate_page_path(@edit_page), :class => "enable" if @edit_page.activatable? %>
+    </span>
+    <span><%= link_to "deactivate", deactivate_page_path(@edit_page), :class => "disable" if @edit_page.deactivatable? %>
+    </span>
   </div>
   <div class="field">
     <label>
