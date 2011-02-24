@@ -1,4 +1,10 @@
 Ups::Application.routes.draw do
+  get "session/new"
+
+  get "session/create"
+
+  get "session/destroy"
+
   #resources :pages, :constraints => {:int_title => /[a-z_]{0,255}/}
   
   match "/page/:id/(:int_title)(/:language_short)" => "pages#show", :as => :show_page, :via => :get
