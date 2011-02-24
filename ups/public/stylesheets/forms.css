@@ -15,3 +15,11 @@ fieldset .field label {
 	float: left;
 	width: 150px;
 }
+
+fieldset .field ul {
+	clear: both;
+}
+
+fieldset .field ul li {
+	padding: 5px;
+}

@@ -1,5 +1,4 @@
 class Page < ActiveRecord::Base
-  attr_accessor :enable
   attr_accessible :parent_id, :page_type, :enabled, :position, :int_title, :forced_url, :start_time
   
   belongs_to :parent, :class_name => "Page", :foreign_key => "parent_id"
@@ -18,7 +17,7 @@ class Page < ActiveRecord::Base
   
   validate do |record|
     # reject pages having itself as parent
-    record.errors.add :parent_id, "cannot have itself as parent" if !record.parent_id.nil? && record.parent_id == record.id
+    record.errors.add :parent_id, "cannot have itself as parent" if record.parent_id.present? && record.parent_id == record.id
     
     # page cannot be enabled without int_title
     record.errors.add :enabled, "connot be true if page has no internal title" if record.enabled && (record.int_title.nil? || record.int_title == "")

@@ -37,6 +37,15 @@ class PagesController < ApplicationController
   def update
     @page = Page.find(params[:id])
     
+    position_select = params[:position_select].split("_")
+    if position_select.empty?
+      @page.parent = nil
+      @page.position = nil
+    else
+      @page.parent = Page.find_by_id(position_select[0])
+      @page.position = position_select[1] == "" ? nil : position_select[1].to_i
+    end
+    
     if @page.save
       redirect_to edit_page_path(@page)
     else
@@ -59,7 +68,7 @@ class PagesController < ApplicationController
     @page = Page.find(params[:id])
     @page.enabled = false
     @page.save
-        if(@page.save)
+    if(@page.save)
       redirect_to pages_path
     else
       flash[:error] = "this page cannot be deactivated."

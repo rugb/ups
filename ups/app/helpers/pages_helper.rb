@@ -20,24 +20,46 @@ module PagesHelper
     page_contents
   end
   
-  def possible_page_positions_options(page)
-    options = [["not in menu", "_"], ["first", "_1"]]
-    root_pages = Page.find :all, :conditions => { :parent_id => nil }
-    root_pages.each do |root_page|
-      make_page_position_tree(root_page, options, page)
+  def possible_page_position_options(page)
+    make_page_position_tree(nil, page)
+  end
+  
+  def make_page_title(page)
+    page_content = select_by_language_id(page.page_contents)
+    if page_content.nil?
+      page.int_title or "new"
+    else
+      page_content.title + " parent:" + page.parent_id.to_s + ", pos:" + page.position.to_s
     end
-    
-    options
   end
   
   private
-  def make_page_position_tree(page, options, me)
-    if(page == me)
-      options.push [(page.int_title or "(new)"), page.position_select]
+  def make_page_position_tree(parent, me)
+    options = []
+    
+    if(parent.nil?)
+      pages = Page.find :all, :conditions => { :parent_id => nil }
+      options << radio_button_tag(:position_select, "_") + " not in menu"
+      options << radio_button_tag(:position_select, "_1") + " first"
     else
-      options.push ["after " + (page.int_title or "(new)"), page.position_select]
-      options.push ["under " + (page.int_title or "(new)"), page.id.to_s + "_1"]
-      page.children.each { |child| make_page_position_tree(child, options, me) }
+      pages = parent.children
+      options << radio_button_tag(:position_select, parent.id.to_s+"_1") + " under " + make_page_title(parent)
     end
+    
+    pages.each do |page|
+      if(page == me)
+        options << radio_button_tag(:position_select, page.position_select, true) + " " + make_page_title(page)
+      elsif(page.position.present?)
+        options << " " + make_page_title(page) + make_page_position_tree(page, me)
+        options << radio_button_tag(:position_select, page.parent_id.to_s + "_" + (page.position + 1).to_s)
+      end
+    end
+    
+    make_html_list(options)
+  end
+  
+  def make_html_list(array)
+    return "" if array.empty?
+    raw "<ul>" + array.map { |e| "<li>" + e + "</li>" }.join + "</ul>"
   end
 end

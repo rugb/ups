@@ -27,7 +27,7 @@
     <label>
       position:
     </label>
-    <%= select(:page, :position_select, possible_page_positions_options(@page), :selected => @page.position_select) %>
+    <%= possible_page_position_options(@page) %>
   </div>
   <div class="actions">
     <%= f.submit :class => "continue" %>
