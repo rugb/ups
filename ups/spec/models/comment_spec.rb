@@ -60,9 +60,14 @@ describe Comment do
       it "should reject with invalid email" do
 	addresses = %w[user@foo,com user_at_foo.org example.user@foo.]
 	addresses.each do |address|
-	  invalid_email_user = User.new(@attr.merge(:email => address))
-	  invalid_email_user.should_not be_valid 
+	  invalid_email_comment = Comment.new(@attr_wo_user_id.merge(:email => address))
+	  invalid_email_comment.should_not be_valid 
 	end
+      end
+      
+      it "should reject too long email" do
+	long_email = "foo" + 'a' * 255 + "@bar.com"
+	Comment.new(@attr_wo_user_id.merge(:email => long_email)).should_not be_valid
       end
     end
   end
