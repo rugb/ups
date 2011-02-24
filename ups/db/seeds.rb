@@ -36,3 +36,10 @@ if Page.all.empty? || PageContent.all.empty?
   page = Page.ensure(:id => 2, :int_title => :edit_pages, :page_type => :page, :enabled => true, :forced_url => "/pages")
   page.page_contents.build(:id => 3, :language_id => 1, :title => "Pageadmin").save
 end
+
+Role.all.each { |r| r.destroy }
+
+Role.ensure(:name => "Administrator", :int_name => "admin")
+Role.ensure(:name => "Guest", :int_name => "guest")
+Role.ensure(:name => "User", :int_name => "user")
+Role.ensure(:name => "Projectmember", :int_name => "projectmemeber")

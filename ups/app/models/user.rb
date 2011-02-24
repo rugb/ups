@@ -1,8 +1,10 @@
 class User < ActiveRecord::Base
-  attr_accessible :openid, :email, :name
+  attr_accessible :openid, :email, :name, :role
   
   has_many :pages
   has_many :comments
+  
+  belongs_to :role
   
   
   email_regex = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
