@@ -1,0 +1,28 @@
+<%= form_for(@edit_category) do |f| %>
+<fieldset>
+  <% if @edit_category.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(@edit_category.errors.count, "error") %>
+      prohibited this page from being saved:</h2>
+    <ul>
+      <% @edit_category.errors.full_messages.each do |msg| %>
+      <li>
+        <%= msg %>
+      </li>
+      <% end %>
+    </ul>
+  </div>
+  <% end %>
+  <% @edit_category.category_names.each do |category_name| %>
+  <div class="field">
+    <label>
+      name in <%= category_name.language.name %>
+    </label>
+    <%= text_field :category_name, :name %>
+  </div>
+  <% end %>
+  <div class="actions">
+    <%= f.submit :class => "continue" %>
+  </div>
+</fieldset>
+<% end %>
