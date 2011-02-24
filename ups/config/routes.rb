@@ -1,8 +1,8 @@
 Ups::Application.routes.draw do
-  get "session/new"
+  get "session/login"
   get "session/start"
   get "session/complete"
-  get "session/destroy"
+  get "session/logout"
 
   #resources :pages, :constraints => {:int_title => /[a-z_]{0,255}/}
   
