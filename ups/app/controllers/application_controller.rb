@@ -1,6 +1,8 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
   
+  before_filter :set_current_user
+  
   helper_method :select_by_language_id
   
   def http_404
@@ -72,5 +74,14 @@ class ApplicationController < ActionController::Base
       a[0]
     end
   end
+  
+  protected
+  
+    # neccessary for declarative_authorization model permissions
+    def set_current_user
+      # current_user should be defined somewhere as the logged in used
+      Authorization.current_user = current_user
+    end
+
   
 end
