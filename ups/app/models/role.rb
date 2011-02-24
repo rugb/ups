@@ -17,4 +17,8 @@ class Role < ActiveRecord::Base
   def int_name=(intname)
     write_attribute("int_name", intname.to_s) unless intname.nil?
   end
+  
+  def to_sym
+    int_name
+  end
 end

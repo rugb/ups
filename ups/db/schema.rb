@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110224143137) do
+ActiveRecord::Schema.define(:version => 20110224153334) do
 
   create_table "categories", :force => true do |t|
     t.datetime "created_at"
@@ -120,7 +120,7 @@ ActiveRecord::Schema.define(:version => 20110224143137) do
     t.string   "openid"
     t.string   "email"
     t.string   "name"
-    t.integer  "role"
+    t.integer  "role_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

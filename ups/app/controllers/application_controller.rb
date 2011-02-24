@@ -75,6 +75,10 @@ class ApplicationController < ActionController::Base
     end
   end
   
+  def current_user
+    user ||= User.find_by_id(0)
+  end
+  
   protected
   
     # neccessary for declarative_authorization model permissions
@@ -83,9 +87,7 @@ class ApplicationController < ActionController::Base
       Authorization.current_user = current_user
     end
     
-    def current_user
-      user ||= User.find_by_id(0)
-    end
+    
 
   
 end
