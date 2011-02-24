@@ -1,11 +1,11 @@
 class Page < ActiveRecord::Base
-  attr_accessible :parent_id, :page_type, :enabled, :position, :int_title, :forced_url
+  attr_accessible :parent_id, :page_type, :enabled, :position, :int_title, :forced_url, :start_time
   
   belongs_to :parent, :class_name => "Page", :foreign_key => "parent_id"
   has_many :children, :class_name => "Page", :foreign_key => "parent_id", :dependent => :destroy
   
   has_many :page_contents, :dependent => :destroy
-
+  
   has_many :page_tags, :dependent => :destroy
   has_many :tags, :through => :page_tags
   
@@ -38,7 +38,7 @@ class Page < ActiveRecord::Base
   end
   
   def page_type=(type)
-      write_attribute("page_type", type.to_s) unless type.nil?
+    write_attribute("page_type", type.to_s) unless type.nil?
   end
   
   def add_category(category)
@@ -57,6 +57,7 @@ class Page < ActiveRecord::Base
     self.tags.delete(tag)
   end
   
+  # builds unique position string for editing page position
   def position_select
     p = ""
     p += parent_id.to_s unless parent_id.nil?
@@ -66,14 +67,7 @@ class Page < ActiveRecord::Base
     p
   end
   
-  def position_select=(position)
-    position = position.split("_")
-    if position.empty?
-      write_attribute("parent_id", nil)
-      write_attribute("position", nil)
-    else
-      write_attribute("parent_id", position.first)
-      write_attribute("position", position.last)
-    end
+  def visible?
+    enabled && (start_time.nil? or DateTime.now > start_time) && page_contents.any?
   end
 end
