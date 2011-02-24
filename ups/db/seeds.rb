@@ -41,7 +41,10 @@ end
 
 Role.all.each { |r| r.destroy }
 
+
 Role.ensure(:name => "Administrator", :int_name => :admin)
-Role.ensure(:name => "Guest", :int_name => :guest)
+guest = Role.ensure(:name => "Guest", :int_name => :guest)
 Role.ensure(:name => "User", :int_name => :user)
 Role.ensure(:name => "Member", :int_name => :member)
+
+User.ensure(:id => 0, :role_id => guest.id)

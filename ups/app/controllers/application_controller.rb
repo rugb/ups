@@ -82,6 +82,10 @@ class ApplicationController < ActionController::Base
       # current_user should be defined somewhere as the logged in used
       Authorization.current_user = current_user
     end
+    
+    def current_user
+      user ||= User.find_by_id(0)
+    end
 
   
 end
