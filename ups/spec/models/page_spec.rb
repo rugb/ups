@@ -208,7 +208,27 @@ describe Page do
   
       describe " to tag" do
 	before(:each) do
-	  @page = Page.create!(@page_attr)
+	  @tag = Tag.create!(:name => "foo tag")
+	end
+	
+	it "should add an tag" do
+	  @page.add_tag(@tag)
+	  
+	  @page.tags.should include(@tag)
+	end
+	
+	it "should not add a tag twice" do
+	  @page.add_tag(@tag)
+	  @page.add_tag(@tag)
+	  
+	  @page.tags.count.should == 1
+	end
+	
+	it "should remove a tag" do
+	  @page.add_tag(@tag)
+	  @page.remove_tag(@tag)
+	  
+	  @page.tags.should_not include(@tag)
 	end
       end
     end
