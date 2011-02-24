@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110224153334) do
+ActiveRecord::Schema.define(:version => 20110224225925) do
 
   create_table "categories", :force => true do |t|
     t.datetime "created_at"
@@ -64,6 +64,21 @@ ActiveRecord::Schema.define(:version => 20110224153334) do
     t.integer  "category_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "open_id_associations", :force => true do |t|
+    t.binary  "server_url", :null => false
+    t.string  "handle",     :null => false
+    t.binary  "secret",     :null => false
+    t.integer "issued",     :null => false
+    t.integer "lifetime",   :null => false
+    t.string  "assoc_type", :null => false
+  end
+
+  create_table "open_id_nonces", :force => true do |t|
+    t.string  "server_url", :null => false
+    t.integer "timestamp",  :null => false
+    t.string  "salt",       :null => false
   end
 
   create_table "page_categories", :force => true do |t|

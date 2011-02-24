@@ -1,11 +1,10 @@
 Ups::Application.routes.draw do
-
   match "/category/:id/(:name)" => "categories#show", :as => :show_category, :via => :get
 
-  get "session/new"
+  get "session/login"
   get "session/start"
   get "session/complete"
-  get "session/destroy"
+  get "session/logout"
 
   #resources :pages, :constraints => {:int_title => /[a-z_]{0,255}/}
   
