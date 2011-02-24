@@ -167,49 +167,78 @@ describe Page do
     end
   end
   
-  describe "relation to Category" do
+  describe "relation" do
     before(:each) do
       @page = Page.create!(@page_attr)
     end
     
-    it "should create a new category" do
-      category = @page.categories.build(:name => "Grillen", :language => "de")
+    describe "to Category" do
+        
+      it "should create a new category" do
+	category = @page.categories.build(:name => "Grillen", :language => "de")
+	
+	@page.categories.should include(category)
+      end
+    
+      describe "existing category" do
+	before(:each) do
+	  @category = Category.create!(:name => "Grillen", :language => "de")
+	end
       
-      @page.categories.should include(category)
+	it "should add existing category" do
+	  @page.add_category(@category)
+	  
+	  @page.categories.should include(@category)
+	end
+	
+	it "should not add a category twice" do
+	  @page.add_category(@category)
+	  @page.add_category(@category)
+	  
+	  @page.categories.count.should == 1
+	end
+	
+	it "should remove an existing category" do
+	  @page.add_category(@category)
+	  @page.remove_category(@category)
+	  
+	  @page.categories.should_not include(@category)
+	end
+      end
+  
+      describe " to tag" do
+	before(:each) do
+	  @tag = Tag.create!(:name => "foo tag")
+	end
+	
+	it "should add an tag" do
+	  @page.add_tag(@tag)
+	  
+	  @page.tags.should include(@tag)
+	end
+	
+	it "should not add a tag twice" do
+	  @page.add_tag(@tag)
+	  @page.add_tag(@tag)
+	  
+	  @page.tags.count.should == 1
+	end
+	
+	it "should remove a tag" do
+	  @page.add_tag(@tag)
+	  @page.remove_tag(@tag)
+	  
+	  @page.tags.should_not include(@tag)
+	end
+      end
+    end
+  
+    describe "to parent" do
+      it "may have a parent"
     end
     
-    describe "existing category" do
-      before(:each) do
-	@category = Category.create!(:name => "Grillen", :language => "de")
-      end
-      
-      it "should add existing category" do
-	@page.add_category(@category)
-	
-	@page.categories.should include(@category)
-      end
-      
-      it "should not add a category twice" do
-	@page.add_category(@category)
-	@page.add_category(@category)
-	
-	@page.categories.count.should == 1
-      end
-      
-      it "should remove an existing category" do
-	@page.add_category(@category)
-	@page.remove_category(@category)
-	
-	@page.categories.should_not include(@category)
-      end
+    describe "to children" do
+      it "may have children"
     end
-  end
-  
-  describe "relation to parent" do
-    it "may have a parent"
-  end
-  
-  describe "relation to children" do
-    it "may have children"
   end
 end
