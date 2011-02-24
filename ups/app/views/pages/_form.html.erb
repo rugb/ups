@@ -1,14 +1,14 @@
-<%= form_for(@page) do |f| %>
-<%= hidden_field :page, :enabled %>
-<%= hidden_field :page, :page_type %>
-<%= hidden_field :page, :id %>
+<%= form_for(@edit_page) do |f| %>
+<%= hidden_field :edit_page, :enabled %>
+<%= hidden_field :edit_page, :page_type %>
+<%= hidden_field :edit_page, :id %>
 <fieldset>
-  <% if @page.errors.any? %>
+  <% if @edit_page.errors.any? %>
   <div id="error_explanation">
-    <h2><%= pluralize(@page.errors.count, "error") %>
+    <h2><%= pluralize(@edit_page.errors.count, "error") %>
       prohibited this page from being saved:</h2>
     <ul>
-      <% @page.errors.full_messages.each do |msg| %>
+      <% @edit_page.errors.full_messages.each do |msg| %>
       <li>
         <%= msg %>
       </li>
@@ -20,14 +20,14 @@
     <label>
       title:
     </label>
-    <span><%= @page_content.title unless @page_content.nil? %>
-      <i>(<%= (@page.int_title or "new") %>)</i></span>
+    <span><%= @edit_page_content.title unless @edit_page_content.nil? %>
+      <i>(<%= (@edit_page.int_title or "new") %>)</i></span>
   </div>
   <div class="field">
     <label>
       position:
     </label>
-    <%= possible_page_position_options(@page) %>
+    <%= possible_page_position_options(@edit_page) %>
   </div>
   <div class="actions">
     <%= f.submit :class => "continue" %>

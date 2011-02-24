@@ -27,3 +27,25 @@ fieldset .field ul ul {
 fieldset .field ul li {
 	padding: 5px;
 }
+
+.flash {
+	-moz-border-radius: 2px;
+	border: 1px solid #aaa;
+	padding: 20px;
+	margin: 0 0 20px 0;
+}
+
+.flash.success {
+	background: #9f9;
+	border-color: #090;
+}
+
+.flash.error {
+	background: #f99;
+	border-color: #900;
+}
+
+.flash.notice {
+	background: #ff9;
+	border-color: #990;
+}

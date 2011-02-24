@@ -6,64 +6,60 @@ class PagesController < ApplicationController
   def show
     @page = Page.find_by_id(params[:id])
     
-    if(@page.nil? || !@page.visible?)
-      http_404
-    else
-      redirect_to show_page_path(@page.id, @page.int_title) if (params[:int_title] != @page.int_title)
-      
-      @page_content = select_by_language_id(@page.page_contents)
-    end
+    http_404 and return if(@page.nil? || !@page.visible?)
+    
+    redirect_to show_page_path(@page.id, @page.int_title) if (params[:int_title] != @page.int_title)
+    
+    @page_content = select_by_language_id(@page.page_contents)
   end
   
   def new
     @title = "create new page"
-    @page = Page.create!(:page_type => :page, :enabled => false)
-    @page_content = @page.page_contents.build(:title => "new page")
+    @edit_page = Page.create!(:page_type => :page, :enabled => false)
+    flash[:success] = "page created."
+    redirect_to edit_page_path(@edit_page)
   end
   
   def edit
     @title = "edit page"
-    @page = Page.find_by_id(params[:id])
-    @page_content = select_by_language_id(@page.page_contents)
+    @edit_page = Page.find_by_id(params[:id])
+    @edit_page_content = select_by_language_id(@edit_page.page_contents)
   end
   
   def destroy
     Page.find_by_id(params[:id]).destroy
-    flash[:success] = "page deleted"
+    flash[:success] = "page deleted."
     
     redirect_to pages_path
   end
   
   def update
-    @page = Page.find(params[:id])
+    @edit_page = Page.find(params[:id])
     
     position_select = params[:position_select].split("_")
     
-    puts "ahaa: " + @page.parent.to_s
-    puts "ahaa: " + @page.position.to_s
-    
     if position_select.empty?
-      @page.parent = nil
-      @page.position = nil
+      @edit_page.parent = nil
+      @edit_page.position = nil
     else
-      @page.parent = Page.find_by_id(position_select[0])
-      @page.position = position_select[1] == "" ? nil : position_select[1].to_i
+      @edit_page.parent = Page.find_by_id(position_select[0])
+      @edit_page.position = position_select[1] == "" ? nil : position_select[1].to_i
     end
     
-    puts "ahaa: " + @page.parent.to_s
-    puts "ahaa: " + @page.position.to_s
-    
-    if @page.save
-      redirect_to edit_page_path(@page)
+    if @edit_page.save
+      flash[:success] = "page updated."
+      redirect_to edit_page_path(@edit_page)
     else
+      flash[:success] = "page update failed."
       render :action => "edit"
     end
   end
   
   def activate
-    @page = Page.find(params[:id])
-    @page.enabled = true
-    if(@page.save)
+    @edit_page = Page.find(params[:id])
+    @edit_page.enabled = true
+    if(@edit_page.save)
+      flash[:success] = "activated."
       redirect_to pages_path
     else
       flash[:error] = "this page cannot be activated."
@@ -72,10 +68,11 @@ class PagesController < ApplicationController
   end
   
   def deactivate
-    @page = Page.find(params[:id])
-    @page.enabled = false
-    @page.save
-    if(@page.save)
+    @edit_page = Page.find(params[:id])
+    @edit_page.enabled = false
+    @edit_page.save
+    if(@edit_page.save)
+      flash[:success]="deactivated."
       redirect_to pages_path
     else
       flash[:error] = "this page cannot be deactivated."
