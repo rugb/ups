@@ -242,9 +242,17 @@ describe Page do
       end
       
       it "should add an comment" do
-	@comment = @page.comments.build(@comment_attr)
+	comment = @page.comments.build(@comment_attr)
 	
-	@page.comments.should include(@comment)
+	@page.comments.should include(comment)
+      end
+      
+      it "should remove an comment" do
+	comment = @page.comments.build(@comment_attr)
+	
+	@page.comments.delete(comment)
+	
+	@page.comments.should_not include(comment)
       end
       
     end
