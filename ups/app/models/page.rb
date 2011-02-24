@@ -12,6 +12,9 @@ class Page < ActiveRecord::Base
   has_many :page_categories, :dependent => :destroy
   has_many :categories, :through => :page_categories
   
+  has_many :comments
+  belongs_to :user
+  
   validate do |record|
     # reject pages having itself as parent
     record.errors.add :parent_id, "cannot have itself as parent" if !record.parent_id.nil? && record.parent_id == record.id
