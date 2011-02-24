@@ -1,4 +1,5 @@
 class Page < ActiveRecord::Base
+  attr_accessor :enable
   attr_accessible :parent_id, :page_type, :enabled, :position, :int_title, :forced_url, :start_time
   
   belongs_to :parent, :class_name => "Page", :foreign_key => "parent_id"
@@ -69,5 +70,17 @@ class Page < ActiveRecord::Base
   
   def visible?
     enabled && (start_time.nil? or DateTime.now > start_time) && page_contents.any?
+  end
+  
+  def deletable?
+    !visible? && self != Conf.get_default_page && forced_url.nil?
+  end
+  
+  def activatable?
+    !enabled && page_contents.any?
+  end
+  
+  def deactivatable?
+    enabled && forced_url.nil? && self != Conf.get_default_page
   end
 end

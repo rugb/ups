@@ -22,3 +22,11 @@
 .actions .back {
     background-image: url('/images/icons/arrow_left.png');
 }
+
+.actions .enable {
+    background-image: url('/images/icons/page_go.png');
+}
+
+.actions .disable {
+    background-image: url('/images/icons/page_delete.png');
+}

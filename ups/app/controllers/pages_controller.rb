@@ -44,6 +44,25 @@ class PagesController < ApplicationController
     end
   end
   
+  def activate
+    @page = Page.find(params[:id])
+    @page.enabled = true
+    if(@page.save)
+      redirect_to pages_path
+    else
+      flash[:error] = "this page cannot be activated."
+      redirect_to pages_path
+    end
+  end
+  
+  def deactivate
+    @page = Page.find(params[:id])
+    @page.enabled = false
+    @page.save
+    
+    redirect_to pages_path
+  end
+  
   def home
     default_page = Conf.get_default_page
     if default_page.nil?

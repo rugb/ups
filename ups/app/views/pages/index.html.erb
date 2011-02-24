@@ -6,13 +6,19 @@
   </td>
   <td class="actions">
     <% page.page_contents.sort_by { |page_content| page_content.language.name }.each do |page_content| %>
-      <%= link_to page_content.language.name, edit_page_content_page_path(page.id, page_content.language.id), :class => "edit" %>
+    <%= link_to page_content.language.name, edit_page_content_page_path(page.id, page_content.language.id), :class => "edit" %>
     <% end %>
   </td>
   <td class="actions">
-    <%= link_to "show", make_page_path(page), :class => "continue" %> |
-    <%= link_to "edit", edit_page_path(page), :class => "edit" %> |
-	<%= link_to "delete", page, :confirm => "Are you sure?", :method => :delete, :class => "delete" if page.forced_url.nil? %>
+    <%= link_to "show", make_page_path(page), :class => "continue" if page.visible? %>
+    <%= link_to "activate", activate_page_path(page), :class => "enable" if page.activatable? %>
+  </td>
+  <td class="actions">
+    <%= link_to "edit", edit_page_path(page), :class => "edit" %>
+  </td>
+  <td class="actions">
+    <%= link_to "delete", page, :confirm => "Are you sure?", :method => :delete, :class => "delete" if page.deletable? %>
+    <%= link_to "deactivate", deactivate_page_path(page), :class => "disable" if page.deactivatable? %>
   </td>
 </tr>
 <% page.children.each { |page| page_tree.call page, depth + 1 }
@@ -27,7 +33,10 @@ end %>
         languages
       </th>
       <th>
-        actions
+      </th>
+      <th>
+      </th>
+      <th>
       </th>
     </tr>
   </thead>
@@ -35,5 +44,6 @@ end %>
     <% @pages.each { |page| page_tree.call page, 0 } %>
   </tbody>
 </table>
-
-<p class="actions"><%= link_to "new page", new_page_path, :class => "new" %></p>
+<p class="actions">
+  <%= link_to "new page", new_page_path, :class => "new" %>
+</p>
