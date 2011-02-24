@@ -1,0 +1,12 @@
+<div class="list languages">
+  <% if @page.present? %>
+  <h2>select language:</h2>
+  <ul>
+    <% @page.page_contents.each do |page_content| %>
+    <li>
+      <%= link_to page_content.language.name, show_page_path(@page.id, @page.int_title, page_content.language.short) %>
+    </li>
+    <% end %>
+  </ul>
+  <% end %>
+</div>

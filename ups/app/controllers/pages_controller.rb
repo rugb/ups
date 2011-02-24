@@ -59,8 +59,12 @@ class PagesController < ApplicationController
     @page = Page.find(params[:id])
     @page.enabled = false
     @page.save
-    
-    redirect_to pages_path
+        if(@page.save)
+      redirect_to pages_path
+    else
+      flash[:error] = "this page cannot be deactivated."
+      redirect_to pages_path
+    end
   end
   
   def home
