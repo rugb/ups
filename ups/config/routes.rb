@@ -1,5 +1,12 @@
 Ups::Application.routes.draw do
   match "/category/:id/(:name)" => "categories#show", :as => :show_category, :via => :get
+
+  get "session/new"
+  get "session/create"
+  get "session/destroy"
+
+  #resources :pages, :constraints => {:int_title => /[a-z_]{0,255}/}
+  
   match "/page/:id/(:int_title)(/:language_short)" => "pages#show", :as => :show_page, :via => :get
   
   resources :categories do
