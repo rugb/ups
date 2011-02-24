@@ -6,11 +6,13 @@ class PagesController < ApplicationController
   def show
     @page = Page.find_by_id(params[:id])
     
-    redirect_to show_page_path(@page.id, @page.int_title) if (params[:int_title] != @page.int_title)
-    
-    redirect_to root_path unless @page.enabled
-    
-    @page_content = select_by_language_id(@page.page_contents)
+    if(@page.nil? || !@page.visible?)
+      http_404
+    else
+      redirect_to show_page_path(@page.id, @page.int_title) if (params[:int_title] != @page.int_title)
+      
+      @page_content = select_by_language_id(@page.page_contents)
+    end
   end
   
   def new
