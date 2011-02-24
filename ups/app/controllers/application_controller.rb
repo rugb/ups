@@ -3,6 +3,16 @@ class ApplicationController < ActionController::Base
   
   helper_method :select_by_language_id
   
+  def http_404
+    @title = "404 - page not found"
+    render 'errors/404', :status => 404
+  end
+  
+  def http_500
+    @title = "500 - internal server error"
+    render 'errors/500', :status => 500
+  end
+  
   def select_by_language_id(elements)
     wanted_languages.each { |language|
       elements.each { |element|
