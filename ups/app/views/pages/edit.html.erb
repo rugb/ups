@@ -18,6 +18,10 @@
       </th>
       <th>
       </th>
+      <th>
+      </th>
+      <th>
+      </th>
     </tr>
   </thead>
   <tbody>
@@ -32,15 +36,25 @@
       <td>
         <%= page_content.excerpt unless page_content.nil? %>
       </td>
+      <% if page_content.nil? %>
       <td class="actions">
-        <% if page_content.nil? %>
         <%= link_to "create", new_page_content_page_path(@page.id, language.id), :class => "new" %>
-        <% else %>
-        <%= link_to "show", show_page_path(@page.id, @page.int_title, language.short), :class => "continue" %> |
-		<%= link_to "edit", edit_page_content_page_path(@page.id, language.id), :class => "edit" %> |
-		<%= link_to "delete", destroy_page_content_page_path(@page.id, language.id), :confirm => "Are you sure?", :method => :delete, :class => "delete" %>
-        <% end %>
       </td>
+      <td>
+      </td>
+      <td>
+      </td>
+      <% else %>
+      <td class="actions">
+        <%= link_to "show", show_page_path(@page.id, @page.int_title, language.short), :class => "continue" %>
+      </td>
+      <td class="actions">
+        <%= link_to "edit", edit_page_content_page_path(@page.id, language.id), :class => "edit" %>
+      </td>
+      <td class="actions">
+        <%= link_to "delete", destroy_page_content_page_path(@page.id, language.id), :confirm => "Are you sure?", :method => :delete, :class => "delete" if @page.page_contents.size > 1 %>
+      </td>
+      <% end %>
     </tr>
     <% end %>
   </tbody>
