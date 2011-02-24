@@ -173,72 +173,118 @@ describe Page do
     end
     
     describe "to Category" do
-        
-      it "should create a new category" do
-	category = @page.categories.build(:name => "Grillen", :language => "de")
-	
-	@page.categories.should include(category)
-      end
-    
-      describe "existing category" do
-	before(:each) do
-	  @category = Category.create!(:name => "Grillen", :language => "de")
-	end
       
-	it "should add existing category" do
-	  @page.add_category(@category)
-	  
-	  @page.categories.should include(@category)
-	end
-	
-	it "should not add a category twice" do
-	  @page.add_category(@category)
-	  @page.add_category(@category)
-	  
-	  @page.categories.count.should == 1
-	end
-	
-	it "should remove an existing category" do
-	  @page.add_category(@category)
-	  @page.remove_category(@category)
-	  
-	  @page.categories.should_not include(@category)
-	end
+      it "should create a new category" do
+        category = @page.categories.build(:name => "Grillen", :language => "de")
+        
+        @page.categories.should include(category)
       end
-  
+      
+      describe "existing category" do
+        before(:each) do
+          @category = Category.create!(:name => "Grillen", :language => "de")
+        end
+        
+        it "should add existing category" do
+          @page.add_category(@category)
+          
+          @page.categories.should include(@category)
+        end
+        
+        it "should not add a category twice" do
+          @page.add_category(@category)
+          @page.add_category(@category)
+          
+          @page.categories.count.should == 1
+        end
+        
+        it "should remove an existing category" do
+          @page.add_category(@category)
+          @page.remove_category(@category)
+          
+          @page.categories.should_not include(@category)
+        end
+      end
+      
       describe " to tag" do
-	before(:each) do
-	  @tag = Tag.create!(:name => "foo tag")
-	end
-	
-	it "should add an tag" do
-	  @page.add_tag(@tag)
-	  
-	  @page.tags.should include(@tag)
-	end
-	
-	it "should not add a tag twice" do
-	  @page.add_tag(@tag)
-	  @page.add_tag(@tag)
-	  
-	  @page.tags.count.should == 1
-	end
-	
-	it "should remove a tag" do
-	  @page.add_tag(@tag)
-	  @page.remove_tag(@tag)
-	  
-	  @page.tags.should_not include(@tag)
-	end
+        before(:each) do
+          @tag = Tag.create!(:name => "foo tag")
+        end
+        
+        it "should add an tag" do
+          @page.add_tag(@tag)
+          
+          @page.tags.should include(@tag)
+        end
+        
+        it "should not add a tag twice" do
+          @page.add_tag(@tag)
+          @page.add_tag(@tag)
+          
+          @page.tags.count.should == 1
+        end
+        
+        it "should remove a tag" do
+          @page.add_tag(@tag)
+          @page.remove_tag(@tag)
+          
+          @page.tags.should_not include(@tag)
+        end
       end
     end
-  
+    
     describe "to parent" do
       it "may have a parent"
     end
     
     describe "to children" do
       it "may have children"
+    end
+  end
+  
+  describe "position_select" do
+    it "should give _ if page is not in menu" do
+      page = Page.new(:parent_id => nil, :position => nil, :page_type => :page, :enabled => false)
+      page.position_select.should == "_"
+    end
+    
+    it "should give parent_id_position" do
+      page = Page.new(:parent_id => 1, :position => 2, :page_type => :page, :enabled => false)
+      page.position_select.should == "1_2"
+    end
+  end
+  
+  describe "to_s" do
+    it "should be nil if int_title is nil" do
+      page = Page.new(:page_type => :page, :enabled => false)
+      page.to_s.should == nil
+    end
+    
+    it "should be int_title" do
+      page = Page.new(:page_type => :page, :enabled => false, :int_title => "trullala")
+      page.to_s.should == "trullala"
+    end
+  end
+  
+  describe "visible?" do
+    it "should be invisible if disabled" do
+      page = Page.new(:page_type => :page, :enabled => false)
+      page.visible?.should == false
+    end
+    
+    it "should be invisible if enabled but before start_date" do
+      page = Page.new(:page_type => :page, :enabled => true, :int_title => "testala", :start_time => DateTime.tomorrow)
+      page.visible?.should == false
+    end
+    
+    it "should be visible if enabled and without start_date" do
+      page = Page.new(:page_type => :page, :enabled => true, :int_title => "testala", :start_time => nil)
+      page.visible?.should == true
+    end
+    
+    it "should be visible if enabled and after start_date" do
+      page = Page.new(:page_type => :page, :enabled => true, :int_title => "testala", :start_time => DateTime.yesterday)
+      page.visible?.should == true
     end
   end
 end
