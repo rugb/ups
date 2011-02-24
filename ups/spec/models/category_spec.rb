@@ -38,4 +38,26 @@ describe Category do
       Category.new(@attr.merge(:language => Language.first.id)).should be_valid
     end
   end
+  
+  describe "get_or_net test" do
+    before(:each) do
+      @attr = { 
+	:name => "grillen",
+	:language => "de"
+      }
+    end
+    
+    it "should return a new instance" do
+      c = Category.get_or_new(@attr)
+      
+      c.should be_new_record
+    end
+    
+    it "should return an existing instance" do
+      c = Category.get_or_new(@attr)
+      c.save!
+      
+      Category.get_or_new(:id => c.id).should_not be_new_record
+    end
+  end
 end
