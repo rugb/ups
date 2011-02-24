@@ -1,2 +1,5 @@
-<h1>Session#new</h1>
-<p>Find me in app/views/session/new.html.erb</p>
+<% form_tag session_start_path, :method => :get do %>
+<div>
+  <%= image_submit_tag 'https://openid.tzi.de/images/login_button.png' %>
+</div>
+<% end %>

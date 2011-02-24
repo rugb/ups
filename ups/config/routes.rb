@@ -1,8 +1,7 @@
 Ups::Application.routes.draw do
   get "session/new"
-
-  get "session/create"
-
+  get "session/start"
+  get "session/complete"
   get "session/destroy"
 
   #resources :pages, :constraints => {:int_title => /[a-z_]{0,255}/}
@@ -21,6 +20,14 @@ Ups::Application.routes.draw do
       match 'destroy_content/:language_id' => "page_content#destroy", :via => :delete, :as => :destroy_page_content
     end
   end
+  
+  
+  
+#   map.with_options :controller => 'session' do |openid|
+#    openid.openid_start 'openid/start', :action => 'start'
+#    openid.openid_complete 'openid/complete', :action => 'complete'
+#   end
+
   
   match "/credits" => "pages#credits"
   match "/setup" => "pages#setup"
