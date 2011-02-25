@@ -5,6 +5,8 @@ class ApplicationController < ActionController::Base
     
   helper_method :select_by_language_id, :current_user
   
+  before_filter :current_user
+  
   def http_404
     @title = "404 - page not found"
     render 'errors/404', :status => 404

@@ -41,7 +41,7 @@ class User < ActiveRecord::Base
   end
   
   def to_s
-    "Name: #{self.name}, E-Mail: #{self.email}"
+    "Name: #{self.name}, E-Mail: #{self.email} (#{self.role})"
   end
   
   

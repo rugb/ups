@@ -16,6 +16,14 @@ module SessionHelper
     @current_user
   end
 
+  def signed_in?
+    si = @current_user.present? && @current_user.role.int_name != :guest
+
+    puts "current_user: '#{@current_user}' => #{si}"
+
+    si
+  end
+
   def permission_denied
     store_location
     redirect_to session_login_path, :notice => "Please sign in to access this page."

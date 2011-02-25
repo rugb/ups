@@ -31,7 +31,6 @@ class SessionController < ApplicationController
   end
   
   def show
-    @current_user = current_user
   end
   
   def successful_login
@@ -62,10 +61,12 @@ class SessionController < ApplicationController
     authenticate_with_open_id(openid_url, :required => [ :nickname, :email ], :optional => :fullname) do |result, identity_url, registration|      
       if result.successful? && @current_user = User.find_or_initialize_by_openid(identity_url)
         if @current_user.new_record?
-	  @current_user.role = Role.find_by_int_name(:user)
+	  role = User.all.count == 1 ? Role.find_by_int_name(:admin) : Role.find_by_int_name(:user)
+	  @current_user.role = role
           @current_user.name = registration['nickname']
           @current_user.email = registration['email']
 	  @current_user.fullname = registration['fullname']
+	  
           @current_user.save(false)
         end
 	

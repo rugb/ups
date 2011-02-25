@@ -21,4 +21,8 @@ class Role < ActiveRecord::Base
   def to_sym
     int_name
   end
+
+  def to_s
+    iname = read_attribute("int_name")
+  end
 end
