@@ -40,9 +40,12 @@ class User < ActiveRecord::Base
     [role.to_sym]
   end
   
+  def to_s
+    "Name: #{self.name}, E-Mail: #{self.email}"
+  end
+  
   
   def self.authenticate_with_salt(id, cookie_salt)
-    puts "===================", cookie_salt
     user = find_by_id(id)
     (user && user.salt == cookie_salt) ? user : nil
   end
