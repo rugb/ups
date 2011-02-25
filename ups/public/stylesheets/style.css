@@ -129,6 +129,10 @@ header h1 {
     display: inline;
 }
 
+header nav {
+	float: right;
+}
+
 #header_menu {
     float: right;
 }
