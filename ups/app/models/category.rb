@@ -4,6 +4,9 @@ class Category < ActiveRecord::Base
   has_many :page_categories
   has_many :pages, :through => :page_categories
   
+  accepts_nested_attributes_for :category_names
+
+  
   has_many :link_categories
   has_many :links, :through => :link_categories
   

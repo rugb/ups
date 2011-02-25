@@ -13,7 +13,7 @@
     </ul>
   </div>
   <% end %>
-  <% f.fields_for @edit_category.category_names do |name_fields| %>
+  <% f.fields_for :category_names do |name_fields| %>
   <div class="field">
     <label>
       name in <%= name_fields.object.class %>

@@ -31,7 +31,6 @@ class CategoriesController < ApplicationController
       end
       @edit_category.category_names.build(:language_id => language.id) unless given
     end
-    p "error", @edit_category.category_names
   end
   
   def update
