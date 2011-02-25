@@ -1,12 +1,13 @@
 require 'date'
 
 class Page < ActiveRecord::Base
-  attr_accessible :parent_id, :page_type, :enabled, :position, :int_title, :forced_url, :start_at, :role_id
+  attr_accessible :parent_id, :page_type, :enabled, :position, :int_title, :forced_url, :start_at, :role_id, :user_id, :role, :user, :page_contents_attributes
   
   belongs_to :parent, :class_name => "Page", :foreign_key => "parent_id"
   has_many :children, :class_name => "Page", :foreign_key => "parent_id", :dependent => :destroy
   
   has_many :page_contents, :dependent => :destroy
+  accepts_nested_attributes_for :page_contents
   
   has_many :page_tags, :dependent => :destroy
   has_many :tags, :through => :page_tags

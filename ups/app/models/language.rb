@@ -4,6 +4,8 @@ class Language < ActiveRecord::Base
   validates :short, :presence => true, :length => 2..2, :uniqueness => true
   validates :name, :presence => true, :length => { :maximum => 255 }, :uniqueness => true
   
+  default_scope :order => "languages.name"
+  
   def to_s
     name + " (" + short + ")" if valid?
   end
@@ -13,9 +15,9 @@ class Language < ActiveRecord::Base
       return Language.find_by_id(any)
     elsif (any.is_a?(String))
       if (any.size == 2)
-	return Language.find_by_short(any)
+        return Language.find_by_short(any)
       elsif (any.size > 2)
-	return Language.find_by_name(any)
+        return Language.find_by_name(any)
       end
     end
     

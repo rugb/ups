@@ -21,12 +21,10 @@ class CategoriesController < ApplicationController
   
   def edit
     @edit_category = Category.find(params[:id])
-    #@edit_category_names = []
     Language.all.map do |language|
       given = false
       @edit_category.category_names.each do |category_name|
         given = true if category_name.language == language
-        #@edit_category_names[language.id] = category_name.name
       end
       @edit_category.category_names.build(:language_id => language.id) unless given
     end
