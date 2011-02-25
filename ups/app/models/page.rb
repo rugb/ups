@@ -1,8 +1,7 @@
 require 'date'
 
 class Page < ActiveRecord::Base
-  attr_accessible :parent_id, :page_type, :enabled, :position, :int_title,
-:forced_url, :start_at, :role_id
+  attr_accessible :parent_id, :page_type, :enabled, :position, :int_title, :forced_url, :start_at, :role_id
   
   belongs_to :parent, :class_name => "Page", :foreign_key => "parent_id"
   has_many :children, :class_name => "Page", :foreign_key => "parent_id", :dependent => :destroy
@@ -32,6 +31,7 @@ class Page < ActiveRecord::Base
   validates_inclusion_of :page_type, :in => [:news, :page]
   validates_inclusion_of :enabled, :in => [true, false]
   validates :int_title, :uniqueness => true,  :format => /^[a-z0-9_]{0,255}$/, :allow_nil => true
+  validates :role_id, :presence => true, :greater_than => 0
   
   def to_s
     self.int_title

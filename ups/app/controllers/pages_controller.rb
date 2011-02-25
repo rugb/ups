@@ -15,7 +15,7 @@ class PagesController < ApplicationController
   
   def new
     @title = "create new page"
-    @edit_page = Page.create!(:page_type => :page, :enabled => false)
+    @edit_page = Page.create!(:page_type => :page, :enabled => false, :role_id => Role.find_by_int_name(:guest).id)
     flash[:success] = "page created."
     redirect_to edit_page_path(@edit_page)
   end

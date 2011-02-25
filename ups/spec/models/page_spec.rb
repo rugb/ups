@@ -3,8 +3,8 @@ require 'date'
 
 describe Page do
   before(:each) do
-    @page_attr_minimal = {:page_type => :page, :enabled => false}
-    @page_attr = {:page_type => :page, :enabled => true, :int_title => "testpage"}
+    @page_attr_minimal = {:page_type => :page, :enabled => false, :role_id => 1 }
+    @page_attr = {:page_type => :page, :enabled => true, :int_title => "testpage", :role_id => 1}
   end
   
   it "should be valid with minimum requirements" do
@@ -157,6 +157,16 @@ describe Page do
       Page.create! @page_attr
       page = Page.new @page_attr
       page.should_not be_valid
+    end
+  end
+
+  describe "role_id" do
+    it "should reject a NIL role_id" do
+      Page.new(@page_attr_minimal.merge(:role_id => NIL)).should_not be_valid
+    end
+
+    it "should reject a 0 role_id" do
+      Page.new(@page_attr_minimal.merge(:role_id => 0)).should_not be_valid
     end
   end
   
