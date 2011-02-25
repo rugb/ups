@@ -15,10 +15,12 @@ class SessionController < ApplicationController
     @fb3_openid = 'https://openid.tzi.de/'
   end
   
+
   def start    
     open_id_identifier = params[:openid_identifier] if params[:openid_identifier].present?
     open_id_identifier = params[:openid_fb3][:value] if params[:openid_fb3].present?
     
+
     #if open_id_identifier.nil?
     #  redirect_to session_login_path
     #  return
@@ -30,8 +32,8 @@ class SessionController < ApplicationController
   def logout
     sign_out
     
-     flash[:success] = "You have been logged out."
-     redirect_to root_path
+    flash[:success] = "You have been logged out."
+    redirect_to root_path
   end
   
   def show
@@ -40,6 +42,7 @@ class SessionController < ApplicationController
   
   def successful_login
     sign_in @current_user
+
     set_current_user
     
     flash[:success] = "logged in"
@@ -52,7 +55,7 @@ class SessionController < ApplicationController
   end
   
   private
-   
+
   def open_id_authentication(openid_url)
     authenticate_with_open_id(openid_url, :required => [ :nickname, :email ], :optional => :fullname) do |result, identity_url, registration|      
       if result.successful? && @current_user = User.find_or_initialize_by_openid(identity_url)

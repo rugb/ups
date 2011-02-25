@@ -4,12 +4,9 @@ authorization do
     has_permission_on :authorization_usages, :to => :read
     
     has_permission_on :session, :to => :login
-    has_permission_on :session, :to => :show
   end
   
   role :user do
-    
-    
     has_permission_on :session, :to => :show
   end
   

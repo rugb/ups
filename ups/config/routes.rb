@@ -1,4 +1,5 @@
 Ups::Application.routes.draw do
+
   match "/category/:id/(:name)" => "categories#show", :as => :show_category, :via => :get
 
   get "session/login"
