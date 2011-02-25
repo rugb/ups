@@ -14,9 +14,10 @@
   </div>
   <% end %>
   <% f.fields_for :category_names do |name_fields| %>
+  <%= name_fields.hidden_field :language_id %>
   <div class="field">
     <label>
-      name in <%= name_fields.object.class %>
+      name in <%= name_fields.object.language %>
     </label>
     <%= name_fields.text_field :name %>
   </div>

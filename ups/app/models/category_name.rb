@@ -5,4 +5,6 @@ class CategoryName < ActiveRecord::Base
   belongs_to :language
   
   validates :name, :presence => true, :uniqueness => true, :length => { :maximum => 255 }
+  
+  default_scope :order => "category_names.language_id"
 end
