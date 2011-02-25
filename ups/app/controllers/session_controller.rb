@@ -7,7 +7,7 @@ require 'openid/extensions/ax'      # Attribute Exchange Funktionalitäten
 
 
 class SessionController < ApplicationController
-  filter_access_to :login
+  filter_access_to :login, :show
 
   skip_before_filter :verify_authenticity_token
 
@@ -34,19 +34,21 @@ class SessionController < ApplicationController
      redirect_back_or(root_path)
   end
   
-  def info
+  def show
     @current_user = current_user
   end
   
   def successful_login
-    flash[:success] = "logged in"
     sign_in(@current_user)
     set_current_user
-    #redirect_to root_path
+    
+    flash[:success] = "logged in"
+    redirect_to root_path
   end
   
   def failed_login(error)
-     flash.now[:error] = error
+     flash[:error] = error
+     redirect_to session_login_path
   end
   
   private

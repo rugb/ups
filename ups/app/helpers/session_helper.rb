@@ -11,6 +11,9 @@ module SessionHelper
 
   def current_user
     @current_user ||= user_from_remember_token
+    @current_user = User.find_by_role_id(Role.find_by_int_name(:guest).id) if @current_user.nil?
+    
+    puts @current_user
   end
  
   def deny_access
