@@ -9,7 +9,7 @@
   <body>
     <header>
       <h1><%= link_to "ups - university project system", root_path %></h1>
-      <nav><%= user_links %></nav>
+      <nav><%= user_links %><%= link_to "credits", credits_path %></nav>
     </header>
     <nav id="menu">
       <%= render 'layouts/menu' %>
