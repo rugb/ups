@@ -35,7 +35,7 @@ class SessionController < ApplicationController
   end
   
   def info
-    
+    @current_user = current_user
   end
   
   def successful_login
@@ -71,9 +71,7 @@ class SessionController < ApplicationController
 	  @current_user.fullname = registration['fullname']
           @current_user.save(false)
         end
-
-        set_current_user
-
+	
         successful_login
       else
         failed_login(result.message || "Sorry, no user by that identity URL exists (#{identity_url})")
