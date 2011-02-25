@@ -20,21 +20,37 @@ class SessionController < ApplicationController
     open_id_identifier = params[:openid_identifier] if params[:openid_identifier].present?
     open_id_identifier = params[:openid_fb3][:value] if params[:openid_fb3].present?
     
-    authenticate_with_open_id(open_id_identifier, :required => [:nickname, :email]) do |result, identity_url, registration|
-      if result.successful?
-        @user = User.find_or_initialize_by_identity_url(identity_url)
-        if @user.new_record?
-          @user.login = registration['nickname']
-          @user.email = registration['email']
-          @user.save(false)
-        end
-        self.current_user = @user
-        successful_login
-      else
-        failed_login result.message
-      end
+    openid_request = consumer.begin(open_id_identifier)
+    
+    trust_root = root_url
+    return_to = url_for :action => :complete, :only_path => false
+    realm = url_for :action => :login, :id => nil, :only_path => false
+    
+    if openid_request.send_redirect?(realm, return_to)
+      redirect_to openid_request.redirect_url(realm, return_to)
+    else
+      render :text => openid_request.html_markup(realm, return_to)
     end
-
+  end
+  
+  def complete
+    openid_response = consumer.complete(params, url_for({}))
+    
+    case openid_response.status
+    when OpenID::Consumer::SUCCESS
+      id_url = openid_response.identity_url
+      
+      @user = User.find_or_initialize_by_identity_url(id_url)
+      
+    #  if @user.
+    when OpenID::Consumer::SETUP_NEEDED
+	redirect_to openid_response.setup_url
+	return
+	
+      when OpenID::Consumer::FAILURE
+	flash[:error] = "Could not login"
+	redirect_back_or(:controller => :session, :action => :login)
+      end
   end
   
   def loggin_in?
@@ -46,7 +62,7 @@ class SessionController < ApplicationController
   end
   
   def failed_login(error)
-    flash.now[:error] = error
+#     flash.now[:error] = error
   end
   
   private
@@ -55,9 +71,10 @@ class SessionController < ApplicationController
   # Sollte dies nicht erwünscht sein, kann auch ein anderer Store-Mechanismus angegeben
   # werden - näheres dazu findet sich in der Dokumentation des ruby-openid Gems unter:
   # http://www.openidenabled.com/ruby-openid/
-  def openid_consumer
-    store = OpenID::Store::Filesystem.new("#{RAILS_ROOT}/tmp/openid")
-    @openid_consumer ||= OpenID::Consumer.new(session, store)
+  def consumer
+    dir = Pathname.new(RAILS_ROOT).join('db').join('cstore')
+    @store ||= OpenID::Store::Filesystem.new(dir)
+    @openid_consumer ||= OpenID::Consumer.new(session, @store)
   end
   
   # Die URL des Identity Providers - in diesem Fall die URL

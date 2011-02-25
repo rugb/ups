@@ -1,6 +1,8 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
   
+  include SessionHelper
+  
   before_filter :set_current_user
   
   helper_method :select_by_language_id
