@@ -13,12 +13,12 @@
     </ul>
   </div>
   <% end %>
-  <% @edit_category.category_names.each do |category_name| %>
+  <% f.fields_for @edit_category.category_names do |name_fields| %>
   <div class="field">
     <label>
-      name in <%= category_name.language.name %>
+      name in <%= name_fields.object.class %>
     </label>
-    <%= text_field :category_name, :name %>
+    <%= name_fields.text_field :name %>
   </div>
   <% end %>
   <div class="actions">

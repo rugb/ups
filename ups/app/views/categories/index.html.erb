@@ -1,26 +1,48 @@
 <h1>Edit categories</h1>
-<% if Category.all.any? %>
+<% if @edit_categories.any? %>
 <table>
   <thead>
     <tr>
-      <td>
+      <th>
         name
-      </td>
-      <td>
+      </th>
+      <th>
         news/pages
-      </td>
-      <td>
+      </th>
+      <th>
         links
-      </td>
-      <td>
-      </td>
-      <td>
-      </td>
-      <td>
-      </td>
+      </th>
+      <th>
+      </th>
+      <th>
+      </th>
+      <th>
+      </th>
     </tr>
   </thead>
   <tbody>
+    <% @edit_categories.each do |edit_category| %>
+    <tr>
+      <td>
+        <%= select_by_language_id(edit_category.category_names).name %>
+      </td>
+      <td>
+        <%= edit_category.pages.size %>
+      </td>
+      <td>
+        <%= edit_category.links.size %>
+      </td>
+      <td class="actions">
+        <%= link_to "show", category_path(edit_category), :class => "continue" %>
+      </td>
+      <td class="actions">
+        <%= link_to "edit", edit_category_path(edit_category), :class => "edit" %>
+      </td>
+      <td class="actions">
+        <%= link_to "delete", delete_category_path(edit_category), :confirm => "Are you sure?", :method => :delete, :class => "delete" if edit_category.deletable? %>
+      </td>
+    </tr>
+    <% end %>
   </tbody>
 </table>
 <% end %>

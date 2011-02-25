@@ -1,7 +1,10 @@
 Ups::Application.routes.draw do
+  match "/category/:id/(:name)" => "categories#show", :as => :show_category, :via => :get
   match "/page/:id/(:int_title)(/:language_short)" => "pages#show", :as => :show_page, :via => :get
   
-  resources :categories
+  resources :categories do
+    delete 'delete' => "categories#destroy", :on => :member
+  end
   resources :pages do
     member do
       get 'activate'
