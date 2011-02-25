@@ -85,7 +85,8 @@ class PagesController < ApplicationController
     if default_page.nil?
       redirect_to setup_path
     else
-      redirect_to view_context.make_page_path(default_page)
+      redirect_to view_context.make_page_path(default_page), :notice =>
+flash[:notice], :alert => flash[:alert]
     end
   end
   

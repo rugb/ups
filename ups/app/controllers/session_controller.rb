@@ -20,12 +20,6 @@ class SessionController < ApplicationController
     open_id_identifier = params[:openid_identifier] if params[:openid_identifier].present?
     open_id_identifier = params[:openid_fb3][:value] if params[:openid_fb3].present?
     
-
-    #if open_id_identifier.nil?
-    #  redirect_to session_login_path
-    #  return
-    #end
-    
     open_id_authentication open_id_identifier
   end
   
@@ -33,7 +27,7 @@ class SessionController < ApplicationController
     sign_out
     
     flash[:success] = "You have been logged out."
-    redirect_to session_login_path
+    redirect_back_or session_login_path
   end
   
   def show
@@ -45,13 +39,21 @@ class SessionController < ApplicationController
 
     set_current_user
     
-    flash[:success] = "logged in"
-    redirect_to root_path
+    redirect_back_or root_path, :flash => { :success => "You're logged in." }
   end
   
   def failed_login(error)
      flash[:error] = error
      redirect_to session_login_path
+  end
+  
+  def permission_denied
+    if has_role? :guest
+      store_location
+      redirect_to session_login_path, :flash => { :error => "Please sign in to access this page." }
+    else
+      http_404
+    end
   end
   
   private
