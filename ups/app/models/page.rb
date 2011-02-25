@@ -1,7 +1,8 @@
 require 'date'
 
 class Page < ActiveRecord::Base
-  attr_accessible :parent_id, :page_type, :enabled, :position, :int_title, :forced_url, :start_at
+  attr_accessible :parent_id, :page_type, :enabled, :position, :int_title,
+:forced_url, :start_at, :role_id
   
   belongs_to :parent, :class_name => "Page", :foreign_key => "parent_id"
   has_many :children, :class_name => "Page", :foreign_key => "parent_id", :dependent => :destroy
@@ -16,6 +17,7 @@ class Page < ActiveRecord::Base
   
   has_many :comments
   belongs_to :user
+  belongs_to :role
   
   default_scope :order => "pages.position"
   

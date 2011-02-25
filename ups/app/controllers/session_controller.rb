@@ -20,6 +20,13 @@ class SessionController < ApplicationController
     open_id_identifier = params[:openid_identifier] if params[:openid_identifier].present?
     open_id_identifier = params[:openid_fb3][:value] if params[:openid_fb3].present?
     
+    if !using_open_id? open_id_identifier
+      
+      flash[:error] = "OpenID should not be empty"
+      redirect_to :action => :login
+      return
+    end
+    
     open_id_authentication open_id_identifier
   end
   

@@ -7,7 +7,17 @@ authorization do
   end
   
   role :user do
+    includes :guest
+    
     has_permission_on :session, :to => :show
+  end
+
+  role :member do
+    includes :user
+  end
+
+  role :admin do
+    includes :member
   end
   
 #   role :user do

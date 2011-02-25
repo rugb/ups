@@ -1,7 +1,7 @@
 <ul>
   <% (Page.find :all, :conditions => { :enabled => true, :parent_id => nil }).each do |page| %>
   <li>
-  	<%= link_to select_by_language_id(page.page_contents).title, make_page_path(page) if page.visible? && page.position.present? %>
+  	<%= link_to select_by_language_id(page.page_contents).title, make_page_path(page) if page.visible? && page.position.present? && has_role_with_hierarchy?(page.role.int_name) %>
   </li>
   <% end %>
 </ul>

@@ -10,8 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-
-ActiveRecord::Schema.define(:version => 20110225133922) do
+ActiveRecord::Schema.define(:version => 20110225155059) do
 
   create_table "categories", :force => true do |t|
     t.datetime "created_at"
@@ -102,6 +101,7 @@ ActiveRecord::Schema.define(:version => 20110225133922) do
     t.datetime "updated_at"
     t.string   "int_title"
     t.integer  "user_id"
+    t.integer  "role_id"
   end
 
   create_table "roles", :force => true do |t|
