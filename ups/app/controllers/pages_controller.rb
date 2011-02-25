@@ -10,7 +10,7 @@ class PagesController < ApplicationController
     
     redirect_to show_page_path(@page.id, @page.int_title) if (params[:int_title] != @page.int_title)
     
-    @page_content = select_by_language_id(@page.page_contents)
+    redirect_to @page.forced_url if @page.forced_url.present?
   end
   
   def new
