@@ -29,6 +29,12 @@
   </div>
   <div class="field">
     <label>
+      visible after:
+    </label>
+	<%= f.datetime_select :start_at, :order => [:day, :month, :year], :date_seperator => ".", :time_seperator => ":" %>
+  </div>
+  <div class="field">
+    <label>
       position:
     </label>
     <%= possible_page_position_options(@edit_page) %>
