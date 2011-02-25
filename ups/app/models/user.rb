@@ -29,9 +29,8 @@ class User < ActiveRecord::Base
   end
   
   def initialize(options = {})
-    if (options[:role_id].nil?)
-      options[:role_id] = Role.find_by_int_name(:guest).id
-    end
+    options[:role_id] = Role.find_by_int_name(:guest).id if options[:role_id].nil?
+    
     
     super(options)
   end

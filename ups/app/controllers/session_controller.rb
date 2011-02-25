@@ -7,7 +7,8 @@ require 'openid/extensions/ax'      # Attribute Exchange Funktionalitäten
 
 
 class SessionController < ApplicationController
-  
+  filter_access_to :login
+
   skip_before_filter :verify_authenticity_token
 
   def login
@@ -20,49 +21,32 @@ class SessionController < ApplicationController
     open_id_identifier = params[:openid_identifier] if params[:openid_identifier].present?
     open_id_identifier = params[:openid_fb3][:value] if params[:openid_fb3].present?
     
-    openid_request = consumer.begin(open_id_identifier)
-    
-    trust_root = root_url
-    return_to = url_for :action => :complete, :only_path => false
-    realm = url_for :action => :login, :id => nil, :only_path => false
-    
-    if openid_request.send_redirect?(realm, return_to)
-      redirect_to openid_request.redirect_url(realm, return_to)
-    else
-      render :text => openid_request.html_markup(realm, return_to)
-    end
+    open_id_authentication(open_id_identifier)
   end
   
-  def complete
-    openid_response = consumer.complete(params, url_for({}))
+  def logout
+    sign_out
     
-    case openid_response.status
-    when OpenID::Consumer::SUCCESS
-      id_url = openid_response.identity_url
-      
-      @user = User.find_or_initialize_by_identity_url(id_url)
-      
-    #  if @user.
-    when OpenID::Consumer::SETUP_NEEDED
-	redirect_to openid_response.setup_url
-	return
-	
-      when OpenID::Consumer::FAILURE
-	flash[:error] = "Could not login"
-	redirect_back_or(:controller => :session, :action => :login)
-      end
+#     self.current_user.forget_me if logged_in?
+#     cookies.delete :auth_token
+#     reset_session
+     flash[:notice] = "You have been logged out."
+     redirect_back_or(root_path)
   end
   
-  def loggin_in?
-    true
+  def info
+    
   end
   
   def successful_login
-    flash.now[:success] = "logged in"
+    flash[:success] = "logged in"
+    sign_in(@current_user)
+    set_current_user
+    #redirect_to root_path
   end
   
   def failed_login(error)
-#     flash.now[:error] = error
+     flash.now[:error] = error
   end
   
   private
@@ -73,13 +57,28 @@ class SessionController < ApplicationController
   # http://www.openidenabled.com/ruby-openid/
   def consumer
     dir = Pathname.new(RAILS_ROOT).join('db').join('cstore')
-    @store ||= OpenID::Store::Filesystem.new(dir)
+    store = OpenID::Store::Filesystem.new(dir)
     @openid_consumer ||= OpenID::Consumer.new(session, @store)
   end
   
-  # Die URL des Identity Providers - in diesem Fall die URL
-  # des OpenID-Servers des Fachbereich 3 der Uni Bremen
-  def identity_provider
-    'https://openid.tzi.de/'
+  def open_id_authentication(openid_url)
+    authenticate_with_open_id(openid_url, :required => [ :nickname, :email ], :optional => :fullname) do |result, identity_url, registration|      
+      if result.successful? && @current_user = User.find_or_initialize_by_openid(identity_url)
+        if @current_user.new_record?
+	  @current_user.role = Role.find_by_int_name(:user)
+          @current_user.name = registration['nickname']
+          @current_user.email = registration['email']
+	  @current_user.fullname = registration['fullname']
+          @current_user.save(false)
+        end
+
+        set_current_user
+
+        successful_login
+      else
+        failed_login(result.message || "Sorry, no user by that identity URL exists (#{identity_url})")
+      end
+    end
   end
+
 end
