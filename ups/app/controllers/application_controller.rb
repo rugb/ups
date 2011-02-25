@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   
   before_filter :set_current_user
   
-  helper_method :select_by_language_id
+  helper_method :select_by_language_id, :current_user
   
   def http_404
     @title = "404 - page not found"
@@ -78,7 +78,7 @@ class ApplicationController < ActionController::Base
   end
   
   def current_user
-    user ||= User.find_by_id(0)
+    @current_user
   end
   
   protected
@@ -86,7 +86,7 @@ class ApplicationController < ActionController::Base
     # neccessary for declarative_authorization model permissions
     def set_current_user
       # current_user should be defined somewhere as the logged in used
-      Authorization.current_user = current_user
+      Authorization.current_user = @current_user
     end
     
     

@@ -5,6 +5,7 @@ Ups::Application.routes.draw do
   get "session/start"
   get "session/complete"
   get "session/logout"
+  get "session/info"
 
   #resources :pages, :constraints => {:int_title => /[a-z_]{0,255}/}
   
