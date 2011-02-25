@@ -35,6 +35,8 @@ class ApplicationController < ActionController::Base
     wanted_languages << Language.find_by_short(params[:language_short])
     
     # session/user
+    cookies.permanent.signed[:user_language] = params[:language_short] if params[:language_short].present?
+    wanted_languages << Language.find_by_short(cookies.signed[:user_language]) if cookies.signed[:user_language].present?
     
     # wanted by browser
     wanted_languages |= accepted_languages.map do |lang|
@@ -77,17 +79,17 @@ class ApplicationController < ActionController::Base
       a[0]
     end
   end
-
+  
   protected
-
-    # neccessary for declarative_authorization model permissions
-    def set_current_user
-      # current_user should be defined somewhere as the logged in used
-      Authorization.current_user = @current_user
-    end
-
-    def current_page
-      page = Page.find(:first, :conditions => {:forced_url => request.path})
-      @page = page if page.present? && page.visible?
-    end  
+  
+  # neccessary for declarative_authorization model permissions
+  def set_current_user
+    # current_user should be defined somewhere as the logged in used
+    Authorization.current_user = @current_user
+  end
+  
+  def current_page
+    page = Page.find(:first, :conditions => {:forced_url => request.path})
+    @page = page if page.present? && page.visible?
+  end  
 end
