@@ -35,6 +35,12 @@
   </div>
   <div class="field">
     <label>
+      roles:
+    </label>
+        <%= f.select :role_id, roles_options %>
+  </div>
+  <div class="field">
+    <label>
       position:
     </label>
     <%= possible_page_position_options(@edit_page) %>

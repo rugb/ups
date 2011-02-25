@@ -44,6 +44,10 @@ module PagesHelper
       page_content.title
     end
   end
+
+  def roles_options
+    Role.all.collect { |r| [ r.to_s, r.id ] }
+  end
   
   private
   def make_page_position_tree(parent, me)
