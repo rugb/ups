@@ -44,11 +44,11 @@ p {
 }
 
 footer ul, section ul {
-	margin-left: 15px;
+    margin-left: 15px;
 }
 
 footer ul li, section ul li {
-	margin: 2px 0;
+    margin: 2px 0;
 }
 
 pre {
@@ -106,7 +106,7 @@ header {
 footer {
     color: #aaa;
     margin: 0 20px;
-	padding: 0 20px;
+    padding: 0 20px;
 }
 
 footer div {
@@ -116,8 +116,8 @@ footer div {
 
 footer div h2 {
     font-size: 12px;
-	font-weight: bold;
-	margin: 0;
+    font-weight: bold;
+    margin: 0;
     text-decoration: underline;
 }
 
@@ -130,7 +130,7 @@ header h1 {
 }
 
 header nav {
-	float: right;
+    float: right;
 }
 
 #header_menu {
@@ -149,4 +149,23 @@ header nav {
 
 .clear {
     clear: both;
+}
+
+.sidebar {
+    -moz-border-radius: 2px;
+    border: 1px solid #aaa;
+    width: 200px;
+}
+
+.sidebar.right {
+    float: right;
+}
+
+.sidebar h3 {
+	font-size: inherit;
+	margin: 10px 2px 2px 2px;
+}
+
+.sidebar section {
+	margin: 10px;
 }

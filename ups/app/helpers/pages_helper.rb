@@ -71,9 +71,4 @@ module PagesHelper
     
     make_html_list(options)
   end
-  
-  def make_html_list(array)
-    return "" if array.empty?
-    raw "<ul>" + array.map { |e| "<li>" + e + "</li>" }.join + "</ul>"
-  end
 end

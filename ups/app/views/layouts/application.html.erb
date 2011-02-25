@@ -24,12 +24,13 @@
       </div>
       <% end %>
       <%= yield %>
-      <%= debug(params) if Rails.env.development? %>
+	  <div class="clear"></div>
     </section>
     <footer>
       <%= render 'layouts/categories' %>
       <%= render 'layouts/tags' %>
       <%= render 'layouts/languages' %>
+      <%= debug(params) if Rails.env.development? %>
     </footer>
   </body>
 </html>
