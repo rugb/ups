@@ -1,6 +1,8 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
   
+  before_filter :current_page
+  
   helper_method :select_by_language_id
   
   def http_404
@@ -71,6 +73,11 @@ class ApplicationController < ActionController::Base
     accepted.map do |a|
       a[0]
     end
+  end
+  
+  def current_page
+    page = Page.find(:first, :conditions => {:forced_url => request.path})
+    @page = page if page.present? && page.visible?
   end
   
 end

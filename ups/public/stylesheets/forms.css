@@ -1,51 +1,51 @@
 fieldset {
-	border: 1px solid #aaa;
+    border: 1px solid #aaa;
 }
 
 fieldset .field, fieldset .actions {
-	margin: 10px;
+    margin: 10px;
 }
 
 fieldset .field {
-	padding: 10px;
+    padding: 10px;
 }
 
 fieldset .field label {
-	display: block;
-	float: left;
-	width: 150px;
+    display: block;
+    float: left;
+    width: 150px;
 }
 
 fieldset .field ul {
-	margin-left: 150px;
+    margin-left: 150px;
 }
 
 fieldset .field ul ul {
-	margin-left: 15px;
+    margin-left: 15px;
 }
 
 fieldset .field ul li {
-	padding: 5px;
+    padding: 5px;
 }
 
 .flash {
-	-moz-border-radius: 2px;
-	border: 1px solid #aaa;
-	padding: 20px;
-	margin: 0 0 20px 0;
+    -moz-border-radius: 2px;
+    border: 1px solid #aaa;
+    padding: 20px;
+    margin: 0 0 20px 0;
+}
+
+.flash.alert, .flash.error {
+    background: #f99;
+    border-color: #900;
 }
 
 .flash.success {
-	background: #9f9;
-	border-color: #090;
-}
-
-.flash.error {
-	background: #f99;
-	border-color: #900;
+    background: #ff9;
+    border-color: #990;
 }
 
 .flash.notice {
-	background: #ff9;
-	border-color: #990;
+    background: #ff9;
+    border-color: #990;
 }
