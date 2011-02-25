@@ -33,7 +33,7 @@ class SessionController < ApplicationController
     sign_out
     
     flash[:success] = "You have been logged out."
-    redirect_to root_path
+    redirect_to session_login_path
   end
   
   def show
