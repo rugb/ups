@@ -21,8 +21,14 @@ module SessionHelper
   end
 
   def permission_denied
-    store_location
-    redirect_to session_login_path, :notice => "Please sign in to access this page."
+    if signed_in?
+      flash.now[:error] = "You aren't allowed to view this site."
+      @title = "Permission denied"
+      render 'errors/permission_denied'
+    else
+      store_location
+      redirect_to session_login_path, :notice => "Please sign in to access this page."
+    end
   end
 
   def redirect_back_or(default, options = {})

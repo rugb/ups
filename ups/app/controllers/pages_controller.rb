@@ -2,7 +2,7 @@ class PagesController < ApplicationController
   #before_filter :current_show_page
   
   #filter_access_to :home, :index, :show, :new, :edit, :destroy, :update, :activate, :deactivate, :attribute_check => true
-  filter_access_to :show, :attribute_check => true
+  #filter_access_to :show, :attribute_check => true
 
   filter_access_to :all
 
