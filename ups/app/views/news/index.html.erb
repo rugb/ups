@@ -1,1 +1,9 @@
 <%= render 'sidebar' %>
+<% @news.each do |news| %>
+<section class="news">
+  <h2><%= page_title(news) %></h2>
+  <p>
+    <%= page_excerpt(news) %>
+  </p>
+</section>
+<% end %>
