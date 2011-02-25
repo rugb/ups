@@ -31,7 +31,8 @@ class Page < ActiveRecord::Base
   validates_inclusion_of :page_type, :in => [:news, :page]
   validates_inclusion_of :enabled, :in => [true, false]
   validates :int_title, :uniqueness => true,  :format => /^[a-z0-9_]{0,255}$/, :allow_nil => true
-  validates :role_id, :presence => true, :greater_than => 0
+  validates_numericality_of :role_id, :presence => true, :greater_than => 0
+  
   
   def to_s
     self.int_title
