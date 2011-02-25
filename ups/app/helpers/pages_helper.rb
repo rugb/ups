@@ -1,4 +1,12 @@
 module PagesHelper
+  def page_title(page)
+    select_by_language_id(page.page_contents).title
+  end
+  
+  def page_excerpt(page)
+    select_by_language_id(page.page_contents).excerpt
+  end
+  
   def make_page_path(page)
     if page.forced_url.nil?
       if(page.int_title.nil?)

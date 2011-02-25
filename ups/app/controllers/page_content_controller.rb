@@ -10,7 +10,7 @@ class PageContentController < ApplicationController
     @page_content = @page.page_contents.build(params[:page_content]) if @page_content.nil?
     
     @page.save if @page.changed?
-    if @page_content.save!
+    if @page_content.save
       flash[:success] = "page content created."
       redirect_to edit_page_content_page_path(@page.id, @language.id)
     else

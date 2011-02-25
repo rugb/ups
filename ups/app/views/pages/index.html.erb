@@ -4,6 +4,10 @@
   <td>
     <%= ">" * depth + " " + ((select_by_language_id(page.page_contents) and select_by_language_id(page.page_contents).title) or "(new)") %>
   </td>
+  <td>
+    <%= "deactivated" unless page.enabled? %>
+    <%= "at " + page.start_at.to_s if page.enabled? unless page.visible? %>
+  </td>
   <td class="actions">
     <% page.page_contents.sort_by { |page_content| page_content.language.name }.each do |page_content| %>
     <%= link_to page_content.language.name, edit_page_content_page_path(page.id, page_content.language.id), :class => "edit" %>
@@ -28,6 +32,9 @@ end %>
     <tr>
       <th>
         title
+      </th>
+      <th>
+        visible
       </th>
       <th>
         languages

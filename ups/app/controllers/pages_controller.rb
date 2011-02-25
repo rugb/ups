@@ -46,7 +46,7 @@ class PagesController < ApplicationController
       @edit_page.position = position_select[1] == "" ? nil : position_select[1].to_i
     end
     
-    if @edit_page.save
+    if @edit_page.save and @edit_page.update_attributes(params[:page])
       flash[:success] = "page updated."
       redirect_to edit_page_path(@edit_page)
     else

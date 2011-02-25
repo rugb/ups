@@ -10,7 +10,8 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110225134823) do
+
+ActiveRecord::Schema.define(:version => 20110225133922) do
 
   create_table "categories", :force => true do |t|
     t.datetime "created_at"
@@ -94,7 +95,7 @@ ActiveRecord::Schema.define(:version => 20110225134823) do
     t.integer  "parent_id"
     t.integer  "position"
     t.string   "page_type"
-    t.datetime "start_time"
+    t.datetime "start_at"
     t.boolean  "enabled"
     t.string   "forced_url"
     t.datetime "created_at"
