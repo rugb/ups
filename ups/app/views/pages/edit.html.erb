@@ -30,10 +30,10 @@
         <%= language.name %>
       </td>
       <td>
-        <%= page_content.title unless page_content.nil? %>
+        <%= page_content.title if page_content.present? %>
       </td>
       <td>
-        <%= page_content.excerpt unless page_content.nil? %>
+        <%= page_content.excerpt if page_content.present? %>
       </td>
       <% if page_content.nil? %>
       <td class="actions">
