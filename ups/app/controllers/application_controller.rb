@@ -3,8 +3,6 @@ class ApplicationController < ActionController::Base
   
   include SessionHelper
   
-  before_filter :set_current_user
-  
   helper_method :select_by_language_id, :current_user
   
   def http_404

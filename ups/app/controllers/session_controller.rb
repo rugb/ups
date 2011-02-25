@@ -15,23 +15,23 @@ class SessionController < ApplicationController
     @fb3_openid = 'https://openid.tzi.de/'
   end
   
-  # Die start-Action initialisiert die Anfrage, dabei werden auch die angeforderten Attribute 
-  # angegeben, welche in diesem Fall mittels Attribute Exchange angefordert werden. 
   def start    
     open_id_identifier = params[:openid_identifier] if params[:openid_identifier].present?
     open_id_identifier = params[:openid_fb3][:value] if params[:openid_fb3].present?
     
-    open_id_authentication(open_id_identifier)
+    #if open_id_identifier.nil?
+    #  redirect_to session_login_path
+    #  return
+    #end
+    
+    open_id_authentication open_id_identifier
   end
   
   def logout
     sign_out
     
-#     self.current_user.forget_me if logged_in?
-#     cookies.delete :auth_token
-#     reset_session
-     flash[:notice] = "You have been logged out."
-     redirect_back_or(root_path)
+     flash[:success] = "You have been logged out."
+     redirect_to root_path
   end
   
   def show
@@ -39,7 +39,7 @@ class SessionController < ApplicationController
   end
   
   def successful_login
-    sign_in(@current_user)
+    sign_in @current_user
     set_current_user
     
     flash[:success] = "logged in"
@@ -52,17 +52,7 @@ class SessionController < ApplicationController
   end
   
   private
-  
-  # Die Daten der OpenID-Transaktionen werden in diesem Fall im Dateisystem abgelegt.
-  # Sollte dies nicht erwünscht sein, kann auch ein anderer Store-Mechanismus angegeben
-  # werden - näheres dazu findet sich in der Dokumentation des ruby-openid Gems unter:
-  # http://www.openidenabled.com/ruby-openid/
-  def consumer
-    dir = Pathname.new(RAILS_ROOT).join('db').join('cstore')
-    store = OpenID::Store::Filesystem.new(dir)
-    @openid_consumer ||= OpenID::Consumer.new(session, @store)
-  end
-  
+   
   def open_id_authentication(openid_url)
     authenticate_with_open_id(openid_url, :required => [ :nickname, :email ], :optional => :fullname) do |result, identity_url, registration|      
       if result.successful? && @current_user = User.find_or_initialize_by_openid(identity_url)

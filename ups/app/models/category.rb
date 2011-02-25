@@ -13,7 +13,7 @@ class Category < ActiveRecord::Base
   before_validation :check_category_names
   before_destroy :deletable?
   
-  #def initialize(options)
+  #def initialize(options = {})
   #super()
   
   #lang = Language.find_by_any(options[:language])

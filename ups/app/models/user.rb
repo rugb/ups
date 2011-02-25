@@ -53,7 +53,11 @@ class User < ActiveRecord::Base
   private
   
     def make_salt
-      secure_hash("#{Time.now.utc}--#{secure_hash(openid)}")
+      if openid.present?
+	secure_hash("#{Time.now.utc}--#{secure_hash(openid)}")
+      else
+	nil
+      end
     end
     
     def secure_hash(string)
