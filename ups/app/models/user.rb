@@ -31,12 +31,30 @@ class User < ActiveRecord::Base
   def initialize(options = {})
     options[:role_id] = Role.find_by_int_name(:guest).id if options[:role_id].nil?
     
-    
     super(options)
+    
+    self.salt = make_salt if new_record?
   end
   
   def role_symbols
     [role.to_sym]
   end
+  
+  
+  def self.authenticate_with_salt(id, cookie_salt)
+    puts "===================", cookie_salt
+    user = find_by_id(id)
+    (user && user.salt == cookie_salt) ? user : nil
+  end
+  
+  private
+  
+    def make_salt
+      secure_hash("#{Time.now.utc}--#{secure_hash(openid)}")
+    end
+    
+    def secure_hash(string)
+      Digest::SHA2.hexdigest(string)
+    end
 
 end
