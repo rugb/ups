@@ -12,7 +12,7 @@ class PageContentController < ApplicationController
     @edit_page.save if @edit_page.changed?
     if @page_content.save
       flash[:success] = "page content created."
-      redirect_to edit_page_content_page_path(@page.id, @language.id)
+      redirect_to edit_page_content_page_path(@edit_page.id, @language.id)
     else
       flash[:error] = "page content creation failed."
       render :action => :new
