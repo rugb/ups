@@ -20,7 +20,6 @@ class PageContent < ActiveRecord::Base
   
   def update_excerpt
     self.excerpt = make_excerpt(text) if excerpt.blank?
-    p "update_excerpt", self, excerpt.blank?
   end
   
   private
@@ -29,7 +28,7 @@ class PageContent < ActiveRecord::Base
   end
   
   def make_excerpt(text)
-   (text.split(".")[0]+".")[0..255]
+   (text.split(".")[0]+".")[0..255] unless text.blank?
   end
   
 end
