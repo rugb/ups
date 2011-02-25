@@ -1,5 +1,6 @@
 class CategoriesController < ApplicationController
   def new
+    @title = "new category"
     @edit_category = Category.new
     Language.all.map do |language|
       @edit_category.category_names.build(:language_id => language.id)

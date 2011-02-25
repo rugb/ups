@@ -7,6 +7,10 @@ module PagesHelper
     select_by_language_id(page.page_contents).excerpt
   end
   
+  def page_text(page)
+    select_by_language_id(page.page_contents).text
+  end
+  
   def make_page_path(page)
     if page.forced_url.nil?
       if(page.int_title.nil?)
@@ -32,7 +36,7 @@ module PagesHelper
     make_page_position_tree(nil, page)
   end
   
-  def make_page_title(page)
+  def make_page_int_title(page)
     page_content = select_by_language_id(page.page_contents)
     if page_content.nil?
       page.int_title or "new"
@@ -51,16 +55,16 @@ module PagesHelper
       options << radio_button_tag(:position_select, "_1") + " first"
     else
       pages = parent.children
-      options << radio_button_tag(:position_select, parent.id.to_s+"_1") + " under " + make_page_title(parent)
+      options << radio_button_tag(:position_select, parent.id.to_s+"_1") + " under " + make_page_int_title(parent)
     end
     
     pages.each do |page|
       if page.position.present?
         if page == me 
-          options << radio_button_tag(:position_select, page.position_select, true) + " " + make_page_title(page)
+          options << radio_button_tag(:position_select, page.position_select, true) + " " + make_page_int_title(page)
         else
-          options << " " + make_page_title(page) + make_page_position_tree(page, me)
-          options << radio_button_tag(:position_select, page.parent_id.to_s + "_" + (page.position + 1).to_s) + " after " + make_page_title(page)
+          options << " " + make_page_int_title(page) + make_page_position_tree(page, me)
+          options << radio_button_tag(:position_select, page.parent_id.to_s + "_" + (page.position + 1).to_s) + " after " + make_page_int_title(page)
         end
       end
     end

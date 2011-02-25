@@ -14,18 +14,21 @@
       <%= render 'layouts/menu' %>
     </nav>
     <section id="content">
+      <% if make_page_title.present? %>
+      <h1><%= make_page_title %></h1>
+      <% end %>
       <% flash.each do |key, value| %>
       <div class="flash <%= key %>">
         <%= value %>
       </div>
       <% end %>
       <%= yield %>
-	  <%= debug(params) if Rails.env.development? %>
+      <%= debug(params) if Rails.env.development? %>
     </section>
     <footer>
-        <%= render 'layouts/categories' %>
-        <%= render 'layouts/tags' %>
-        <%= render 'layouts/languages' %>
+      <%= render 'layouts/categories' %>
+      <%= render 'layouts/tags' %>
+      <%= render 'layouts/languages' %>
     </footer>
   </body>
 </html>
