@@ -1,22 +1,9 @@
 Ups::Application.routes.draw do
-  get "news/index"
-
-  get "news/show"
-
-  get "news/new"
-
-  get "news/create"
-
-  get "news/edit"
-
-  get "news/update"
-
-  get "news/destroy"
-
   match "/category/:id/(:name)" => "categories#show", :as => :show_category, :via => :get
   match "/category/:id/(:name)" => "categories#update", :as => :show_category, :via => :put
   match "/page/:id/(:int_title)(/:language_short)" => "pages#show", :as => :show_page, :via => :get
   
+  resources :news
   resources :categories do
     member do
       delete 'delete' => "categories#destroy"

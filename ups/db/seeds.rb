@@ -33,10 +33,12 @@ if Page.all.empty? || PageContent.all.empty?
     
   Conf.ensure(:id => 2, :name => :default_page, :value => 1)
   
-  page = Page.ensure(:id => 2, :int_title => :edit_pages, :page_type => :page, :enabled => true, :forced_url => "/pages", :position => 20)
-  page.page_contents.build(:id => 3, :language_id => 1, :title => "Pageadmin").save
-  page = Page.ensure(:id => 3, :int_title => :edit_categories, :page_type => :page, :enabled => true, :forced_url => "/categories", :position => 30)
-  page.page_contents.build(:id => 4, :language_id => 1, :title => "Categoryadmin").save
+  page = Page.ensure(:id => 2, :int_title => :edit_pages, :page_type => :page, :enabled => true, :forced_url => "/news", :position => 100)
+  page.page_contents.build(:id => 3, :language_id => 1, :title => "Blog").save
+  page = Page.ensure(:id => 3, :int_title => :edit_pages, :page_type => :page, :enabled => true, :forced_url => "/pages", :position => 100)
+  page.page_contents.build(:id => 4, :language_id => 1, :title => "Pageadmin").save
+  page = Page.ensure(:id => 4, :int_title => :edit_categories, :page_type => :page, :enabled => true, :forced_url => "/categories", :position => 110)
+  page.page_contents.build(:id => 5, :language_id => 1, :title => "Categoryadmin").save
 end
 
 Role.all.each { |r| r.destroy }
