@@ -18,10 +18,6 @@ module SessionHelper
 
   def signed_in?
     si = @current_user.present? && @current_user.role.int_name != :guest
-
-    puts "current_user: '#{@current_user}' => #{si}"
-
-    si
   end
 
   def permission_denied

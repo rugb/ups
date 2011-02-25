@@ -1,21 +1,36 @@
 class PagesController < ApplicationController
+  #before_filter :current_show_page
+  
+  #filter_access_to :home, :index, :show, :new, :edit, :destroy, :update, :activate, :deactivate, :attribute_check => true
+  filter_access_to :show, :attribute_check => true
+
+  filter_access_to :all
+
+  #filter_access_to :all
+
+  include PagesHelper
+  
   def index
     @pages = Page.find :all, :conditions => { :parent_id => nil }
   end
   
   def show
     @page = Page.find_by_id(params[:id])
-    
-    http_404 and return if(@page.nil? || !@page.visible?)
-    
-    redirect_to show_page_path(@page.id, @page.int_title) if (params[:int_title] != @page.int_title)
-    
-    redirect_to @page.forced_url if @page.forced_url.present?
+
+    if (!has_role_with_hierarchy?(@page.role.int_name))
+      permission_denied
+    else
+      http_404 and return if(@page.nil? || !@page.visible?)
+
+      redirect_to show_page_path(@page.id, @page.int_title) if (params[:int_title] != @page.int_title)
+
+      redirect_to @page.forced_url if @page.forced_url.present?
+    end
   end
   
   def new
     @title = "create new page"
-    @edit_page = Page.create!(:page_type => :page, :enabled => false, :role_id => Role.find_by_int_name(:guest).id)
+    @edit_page = Page.create!(:page_type => :page, :enabled => false, :role => :guest)
     flash[:success] = "page created."
     redirect_to edit_page_path(@edit_page)
   end
@@ -85,7 +100,7 @@ class PagesController < ApplicationController
     if default_page.nil?
       redirect_to setup_path
     else
-      redirect_to view_context.make_page_path(default_page), :flash => flash
+      redirect_to make_page_path(default_page), :flash => flash
     end
   end
   
@@ -94,4 +109,9 @@ class PagesController < ApplicationController
   
   def setup
   end
+
+  private
+    def current_show_page
+      @page ||= Page.find_by_id(params[:id]) if params[:id].present?
+    end
 end

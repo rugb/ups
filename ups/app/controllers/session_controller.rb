@@ -7,7 +7,7 @@ require 'openid/extensions/ax'      # Attribute Exchange Funktionalitäten
 
 
 class SessionController < ApplicationController
-  filter_access_to :login, :show
+  filter_access_to :login, :show, :start, :logout
 
   skip_before_filter :verify_authenticity_token
 

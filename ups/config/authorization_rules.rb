@@ -4,20 +4,41 @@ authorization do
     has_permission_on :authorization_usages, :to => :read
     
     has_permission_on :session, :to => :login
+    has_permission_on :session, :to => :start
+
+    has_permission_on :pages do #, :to => :show
+      to :show
+      if_attribute :role => { :int_name => is  { :guest } }
+    end
+    
+    has_permission_on :pages, :to => :home
   end
   
   role :user do
     includes :guest
+
+    has_permission_on :pages do #, :to => :show
+      to :show
+      if_attribute :role => { :int_name => is  { :user } }
+    end
     
     has_permission_on :session, :to => :show
+    has_permission_on :session, :to => :logout
   end
 
   role :member do
     includes :user
+
+    has_permission_on :pages do #, :to => :show
+      to :show
+      if_attribute :role => { :int_name => is  { :member } }
+    end
   end
 
   role :admin do
     includes :member
+
+    has_omnipotence
   end
   
 #   role :user do
