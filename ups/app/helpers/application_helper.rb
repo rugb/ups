@@ -20,7 +20,7 @@ module ApplicationHelper
   end
   
   def inline_categories_for(page)
-    page.categories.sort { |a, b|
+    raw page.categories.sort { |a, b|
       select_by_language_id(a.category_names).name <=> select_by_language_id(b.category_names).name
     }.map { |cat| link_to category_name(cat), category_path(cat) }.join(", ")
   end
