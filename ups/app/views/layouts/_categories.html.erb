@@ -1,5 +1,6 @@
 <div class="list categories">
   <% if @page.present? && @page.categories.any? %>
   <h2>categories:</h2>
+  <%= list_categories_for(@page) %>
   <% end %>
 </div>

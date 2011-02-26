@@ -1,5 +1,22 @@
-<%= render 'sidebar' %>
 <%= form_for @edit_post, :url => news_index_path, :html => {:method => :post} do |f| %>
+<section class="sidebar right">
+  <% if Category.first.present? %>
+  <section class="categories">
+    <h3>categories:</h3>
+    <ul>
+      <% f.fields_for :page_categories do |cat_f| %>
+      <li>
+        <%= cat_f.check_box :checked %><%= category_name(cat_f.object.category) %>
+        <%= cat_f.hidden_field :category_id %>
+      </li>
+      <% end %>
+    </ul>
+  </section>
+  <section class="tags">
+    <h3>tags:</h3>
+  </section>
+  <% end %>
+</section>
 <fieldset>
   <% if @edit_post.errors.any? %>
   <div id="error_explanation">
