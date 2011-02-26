@@ -22,6 +22,7 @@ class NewsController < ApplicationController
     if @edit_post.save
       @edit_post.reload
       @edit_post.parent = Page.find(:first, :conditions => {:forced_url => "/news"})
+      @edit_post.user = @current_user
       @edit_post.enabled = true
       @edit_post.save
       p "post", @edit_post
