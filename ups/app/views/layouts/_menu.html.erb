@@ -1,8 +1,18 @@
 <ul>
-  <% (Page.find :all, :conditions => { :enabled => true, :parent_id => nil }).each do |page| %>
+  <% (Page.find :all, :conditions => { :enabled => true, :parent_id => nil, :page_type => :page }).each do |page| %>
   <li>
-  	<%= link_to select_by_language_id(page.page_contents).title, make_page_path(page) if page.visible? && page.position.present? && has_role_with_hierarchy?(page.role.int_name) %>
+    <%= link_to page_title(page), make_page_path(page) if page.visible? && page.position.present? && has_role_with_hierarchy?(page.role.int_name) %>
+    <% if page.children.any? %>
+    <ul>
+      <% page.children.each do |child| %>
+      <li>
+        <%= link_to page_title(child), make_page_path(page) if child.visible? && child.position.present? && has_role_with_hierarchy?(child.role.int_name) %>
+      </li>
+      <% end %>
+    </ul>
+    <% end %>
   </li>
   <% end %>
 </ul>
-<div class="clear"></div>
+<div class="clear">
+</div>

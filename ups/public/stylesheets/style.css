@@ -93,6 +93,21 @@ header {
     float: left;
 }
 
+#menu li ul {
+	-moz-border-radius: 0 0 0 2px;
+	background: #09f;
+	border: 1px solid #049;
+	border-top: 0 none;
+	display: none;
+	margin: 5px 0 0 -5px;
+	padding: 0 5px 5px 5px;
+	position: absolute;
+}
+
+#menu li:hover ul {
+	display: block;
+}
+
 #menu a {
     color: #fff;
     font-weight: bold;

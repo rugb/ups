@@ -89,6 +89,6 @@ class Page < ActiveRecord::Base
   end
   
   def deactivatable?
-    enabled && forced_url.nil? && self != Conf.get_default_page
+    enabled && (role != Role.find_by_int_name(:admin)) && self != Conf.get_default_page
   end
 end
