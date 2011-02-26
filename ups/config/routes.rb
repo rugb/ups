@@ -24,7 +24,9 @@ Ups::Application.routes.draw do
   
   match "/page/:id/(:int_title)(/:language_short)" => "pages#show", :as => :show_page, :via => :get
   
-  resources :news
+  resources :news do
+    get 'rss', :on => :collection
+  end
   resources :categories do
     member do
       delete 'delete' => "categories#destroy"

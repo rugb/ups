@@ -6,7 +6,7 @@ class NewsController < ApplicationController
   filter_access_to :all
   
   def index
-    @news = Page.find(:all, :conditions => {:page_type => :news})
+    @news = Page.find(:all, :order => "created_at DESC", :conditions => {:page_type => :news})
   end
   
   def new
@@ -48,11 +48,17 @@ class NewsController < ApplicationController
   
   def destroy
   end
-
+  
+  def rss
+    @news = Page.find(:all, :order => "created_at DESC", :conditions => {:page_type => :news}, :limit => 10)
+    render :layout => false
+    response.headers["Content-Type"] = "application/xml; charset=utf-8"
+  end
+  
   private
-
-    def load_news
-      @edit_news = Page.find(params[:id]) if params[:id].present?
-    end
+  
+  def load_news
+    @edit_news = Page.find(params[:id]) if params[:id].present?
+  end
   
 end
