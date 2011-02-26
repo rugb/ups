@@ -52,7 +52,9 @@ class NewsController < ApplicationController
   end
   
   def destroy
-    Page.find(params[:id]).destroy
+    @edit_news = Page.find(params[:id])
+    @edit_news.destroy
+    
     flash[:success] = "post deleted."
     redirect_to news_index_path
   end
