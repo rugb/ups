@@ -7,9 +7,11 @@ authorization do
       if_attribute :role => { :int_name => is  { :guest } }
     end
 
-    has_permission_on :news, :to => [ :show, :index ]
+    has_permission_on :news, :to => [ :index, :show ]
     
     has_permission_on :pages, :to => :home
+
+    has_permission_on :categories, :to => [ :index, :show ]
 
     has_permission_on :authorization_rules, :to => :read
     has_permission_on :authorization_usages, :to => :read
