@@ -12,8 +12,12 @@
 #
 
 class Link < ActiveRecord::Base
+  attr_accessible :title, :href, :category_id
+  
   has_many :link_categories
   has_many :categories, :through => :link_categories
+  accepts_nested_attributes_for :link_categories, :reject_if => proc { |attrs| attrs['checked'] == "0" }
+  
   
   validates :title, :presence => true, :length => { :maximum => 255 }
   validates :href, :presence => true, :length => { :maximum => 255 }, :format => /^(http|https|ftp):\/\//

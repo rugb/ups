@@ -55,14 +55,18 @@ if Page.all.empty? || PageContent.all.empty?
   page = Page.ensure(:id => 5, :parent_id => 7, :int_title => :config, :page_type => :page, :enabled => true, :forced_url => "/config", :position => 130, :role_id => admin.id)
   page.page_contents.build(:id => 6, :language_id => 1, :title => "Settings").save
   page.page_contents.build(:id => 7, :language_id => 2, :title => "Einstellungen").save
-  
+
   page = Page.ensure(:id => 6, :parent_id => 7, :int_title => :edit_users, :page_type => :page, :enabled => true, :forced_url => "/users", :position => 120, :role_id => admin.id)
   page.page_contents.build(:id => 8, :language_id => 1, :title => "User").save
   page.page_contents.build(:id => 9, :language_id => 2, :title => "Benutzer").save
   
   page = Page.ensure(:id => 7, :int_title => :admin, :page_type => :page, :enabled =>  true, :position => 140, :role_id => admin.id)
   page.page_contents.build(:id => 10, :language_id => 1, :title => "Administration").save
-  page.page_contents.build(:id => 11, :language_id => 2, :title => "Verwaltung").save 
+  page.page_contents.build(:id => 11, :language_id => 2, :title => "Verwaltung").save
+
+  page = Page.ensure(:id => 8, :parent_id => 7, :int_title => :edit_links, :page_type => :page, :enabled => true, :forced_url => "/links", :position => 125, :role_id => admin.id)
+  page.page_contents.build(:id => 14, :language_id => 1, :title => "Linksmanagment").save
+  page.page_contents.build(:id => 15, :language_id => 2, :title => "Linksverwaltung").save
 end
 
 category = Category.ensure(:id => 1)

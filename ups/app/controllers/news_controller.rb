@@ -34,8 +34,6 @@ class NewsController < ApplicationController
       @edit_post.user = @current_user
       @edit_post.enabled = true
       @edit_post.save
-      p "post", @edit_post
-      p "errors", @edit_post.errors
       flash[:success] = "post created."
       redirect_to edit_news_path @edit_post
     else

@@ -11,6 +11,8 @@
 #
 
 class LinkCategory < ActiveRecord::Base
+  attr_accessor :checked
+  
   belongs_to :category
   belongs_to :link
 end
