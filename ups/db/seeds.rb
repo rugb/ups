@@ -46,11 +46,11 @@ if Page.all.empty? || PageContent.all.empty?
   
   page = Page.ensure(:id => 3, :parent_id => 7, :int_title => :edit_pages, :page_type => :page, :enabled => true, :forced_url => "/pages", :position => 100, :role_id => admin.id)
   page.page_contents.build(:id => 4, :language_id => 1, :title => "Pages").save
-  page.page_contents.build(:id => 13, :language_id => 1, :title => "Seiten").save
+  page.page_contents.build(:id => 13, :language_id => 2, :title => "Seiten").save
   
   page = Page.ensure(:id => 4, :parent_id => 7, :int_title => :edit_categories, :page_type => :page, :enabled => true, :forced_url => "/categories", :position => 110, :role_id => admin.id)
   page.page_contents.build(:id => 5, :language_id => 1, :title => "Categories").save
-  page.page_contents.build(:id => 12, :language_id => 1, :title => "Kategorien").save
+  page.page_contents.build(:id => 12, :language_id => 2, :title => "Kategorien").save
   
   page = Page.ensure(:id => 5, :parent_id => 7, :int_title => :config, :page_type => :page, :enabled => true, :forced_url => "/config", :position => 130, :role_id => admin.id)
   page.page_contents.build(:id => 6, :language_id => 1, :title => "Settings").save
