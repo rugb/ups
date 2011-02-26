@@ -58,6 +58,7 @@ class PagesController < ApplicationController
     end
     
     if @edit_page.save and @edit_page.update_attributes(params[:page])
+      recalc_page_positions_for_page(@edit_page)
       flash[:success] = "page updated."
       redirect_to edit_page_path(@edit_page)
     else
@@ -111,7 +112,11 @@ class PagesController < ApplicationController
     @page ||= Page.find_by_id(params[:id]) if params[:id].present?
   end
   
-  def recalc_page_positions_for_parent(parent)
-    pages = Page.find(:all, :conditions => {:parent_id => ((parent and parent.id) or nil)})
+  def recalc_page_positions_for_page(page)
+    pages = Page.find(:all, :conditions => {:parent_id => ((page.parent and page.parent_id) or nil)})
+    p "pages", pages.size
+    pages.each_with_index do |page, i|
+     (page.position = (i+1) * 10) and page.save if page.position.present?
+    end
   end
 end
