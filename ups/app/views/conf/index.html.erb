@@ -12,6 +12,10 @@
     </label>
     <%= select_tag :default_page, options_from_collection_for_select(Page.where("role_id = " + Role.find_by_int_name(:guest).id.to_s), :id, :int_title, Conf.get_default_page.id) %>
   </div>
+  <div class="field">
+  	<label>page name:</label>
+    <%= text_field_tag :web_name, Conf.get_web_name %>
+  </div>
   <div class="actions">
     <%= submit_tag "Save changes", :class => "continue" %>
   </div>

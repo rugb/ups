@@ -33,8 +33,6 @@ Role.ensure(:id => 2, :name => "User", :int_name => :user)
 Role.ensure(:id => 3, :name => "Member", :int_name => :member)
 admin = Role.ensure(:id => 4, :name => "Administrator", :int_name => :admin)
 
-Conf.set_web_name("university project system")
-
 if Page.all.empty? || PageContent.all.empty?
   page = Page.ensure(:id => 1, :int_title => :home, :page_type => :page, :enabled => true, :position => 10, :role_id => guest.id)
   page.page_contents.build(:id => 1, :language_id => 1, :title => "Homepage", :text => "This is the default homepage.").save
@@ -65,3 +63,5 @@ category.category_names.build(:id => 1, :language_id => 2, :name => "Allgemein")
 category.category_names.build(:id => 2, :language_id => 1, :name => "general").save
 
 User.ensure(:id => 0, :role_id => guest.id)
+
+Conf.set_web_name("university project system")
