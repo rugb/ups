@@ -5,6 +5,8 @@ class User < ActiveRecord::Base
   has_many :comments
   
   belongs_to :role
+
+  before_destroy :remove_user_from_all
   
   
   email_regex = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
@@ -64,4 +66,8 @@ class User < ActiveRecord::Base
       Digest::SHA2.hexdigest(string)
     end
 
+    def remove_user_from_all
+      Page.find_by_user_id(id).update_all :user_id => nil
+      Comment.find_by_user_id(id).update_all :user_id => nil, :name => fullname, :email => email
+    end
 end
