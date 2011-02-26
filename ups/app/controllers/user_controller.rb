@@ -1,5 +1,5 @@
 class UserController < ApplicationController
-   before_filter :load_user, :except => [ :index ]
+   before_filter :load_user, :except => [ :index, :new ]
   
   filter_access_to :update, :create, :new
   filter_access_to :edit, :attribute_check => true
@@ -11,10 +11,11 @@ class UserController < ApplicationController
   end
 
   def show
-    #@user = User.find(params[:id])
   end
 
   def new
+    @title = "new user"
+    @user = User.new(:role_id => Role.find_by_int_name(:member).id)
   end
 
   def create
