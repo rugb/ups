@@ -1,3 +1,15 @@
+# == Schema Information
+# Schema version: 20110225155059
+#
+# Table name: confs
+#
+#  id         :integer         not null, primary key
+#  name       :string(255)
+#  value      :string(255)
+#  created_at :datetime
+#  updated_at :datetime
+#
+
 class Conf < ActiveRecord::Base
   attr_accessible :name, :value
   

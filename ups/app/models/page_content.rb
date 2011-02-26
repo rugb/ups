@@ -1,3 +1,18 @@
+# == Schema Information
+# Schema version: 20110225155059
+#
+# Table name: page_contents
+#
+#  id          :integer         not null, primary key
+#  title       :string(255)
+#  text        :text
+#  excerpt     :text
+#  page_id     :integer
+#  language_id :integer
+#  created_at  :datetime
+#  updated_at  :datetime
+#
+
 class PageContent < ActiveRecord::Base
   attr_accessible :title, :text, :excerpt, :language_id
   

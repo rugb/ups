@@ -1,3 +1,13 @@
+# == Schema Information
+# Schema version: 20110225155059
+#
+# Table name: categories
+#
+#  id         :integer         not null, primary key
+#  created_at :datetime
+#  updated_at :datetime
+#
+
 class Category < ActiveRecord::Base
   has_many :category_names, :dependent => :destroy
   accepts_nested_attributes_for :category_names

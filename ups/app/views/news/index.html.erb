@@ -5,5 +5,14 @@
   <p>
     <%= page_excerpt(news) %>
   </p>
+  <p class="footer">
+    <% if news.user.present? %>
+    <span>author: <%= link_to news.user.name, news.user %></span>
+    <% end %>
+    <span>from: <%= news.updated_at %></span>
+    <% if news.categories.any? %>
+    <span><%= inline_categories_for(news) %></span>
+    <% end %>
+  </p>
 </section>
 <% end %>
