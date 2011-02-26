@@ -5,6 +5,11 @@ class NewsController < ApplicationController
   
   filter_access_to :all
   
+  def show
+    @news = Page.find(params[:id])
+    @title = view_context.page_title(@news)
+  end
+  
   def index
     @news = Page.find(:all, :order => "created_at DESC", :conditions => {:page_type => :news})
   end
@@ -45,6 +50,11 @@ class NewsController < ApplicationController
   end
   
   def destroy
+    @edit_news = Page.find(params[:id])
+    @edit_news.destroy
+    
+    flash[:success] = "post deleted."
+    redirect_to news_index_path
   end
   
   def rss

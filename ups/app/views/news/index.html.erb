@@ -1,7 +1,7 @@
 <%= render 'sidebar' %>
 <% @news.each do |news| %>
 <section class="news">
-  <h2><%= link_to page_title(news), news %></h2>
+  <h2><%= link_to page_title(news), news_path(news) %></h2>
   <p>
     <%= page_excerpt(news) %>
   </p>
