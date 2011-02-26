@@ -67,7 +67,7 @@ class User < ActiveRecord::Base
     end
 
     def remove_user_from_all
-      Page.find_by_user_id(id).update_all :user_id => nil
-      Comment.find_by_user_id(id).update_all :user_id => nil, :name => fullname, :email => email
+      Page.update_all({:user_id => nil}, {:user_id => id})
+      Comment.update_all({:user_id => nil, :name => fullname, :email => email}, {:user_id => id})
     end
 end
