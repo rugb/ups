@@ -1,6 +1,6 @@
 module ApplicationHelper
   def make_title
-   (make_page_title or "ups") + " - university project system"
+   ((make_page_title and make_page_title + " - ") or "") + Conf.get_web_name
   end
   
   def make_page_title
