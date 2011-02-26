@@ -33,8 +33,6 @@ guest = Role.ensure(:name => "Guest", :int_name => :guest)
 Role.ensure(:name => "User", :int_name => :user)
 Role.ensure(:name => "Member", :int_name => :member)
 
-Conf.set_web_name("university project system")
-
 if Page.all.empty? || PageContent.all.empty?
   page = Page.ensure(:id => 1, :int_title => :home, :page_type => :page,
     :enabled => true, :position => 10, :role_id => guest.id)
@@ -69,3 +67,5 @@ category.category_names.build(:id => 1, :language_id => 2, :name => "Allgemein")
 category.category_names.build(:id => 2, :language_id => 1, :name => "general").save
 
 User.ensure(:id => 0, :role_id => guest.id)
+
+Conf.set_web_name("university project system")

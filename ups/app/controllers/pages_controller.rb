@@ -110,4 +110,8 @@ class PagesController < ApplicationController
   def current_show_page
     @page ||= Page.find_by_id(params[:id]) if params[:id].present?
   end
+  
+  def recalc_page_positions_for_parent(parent)
+    pages = Page.find(:all, :conditions => {:parent_id => ((parent and parent.id) or nil)})
+  end
 end
