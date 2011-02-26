@@ -1,6 +1,7 @@
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
 
+# from http://railspikes.com/tags/fixtures
 # extend with helper method for ensuring / updating seed objects
 class ActiveRecord::Base
   # given a hash of attributes including the ID, look up the record by ID. 
