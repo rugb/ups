@@ -1,4 +1,4 @@
-class PageContentController < ApplicationController
+class PageContentsController < ApplicationController
   before_filter :load_page
 
   filter_access_to :all

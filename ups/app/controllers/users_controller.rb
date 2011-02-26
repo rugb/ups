@@ -1,4 +1,4 @@
-class UserController < ApplicationController
+class UsersController < ApplicationController
    before_filter :load_user, :except => [ :index, :new ]
   
   filter_access_to :update, :create, :new
@@ -27,9 +27,9 @@ class UserController < ApplicationController
     if @user.update_attributes(params[:user])
       flash[:success] = "user updated"
       if has_role?(:admin)
-        redirect_to user_index_path
+        redirect_to users_index_path
       else
-        redirect_to user_path @user
+        redirect_to users_path @user
       end
     else
       flash[:error] = "user update failed"

@@ -1,4 +1,4 @@
-module PageContentHelper
+module PageContentsHelper
   def page_content_path(page_content)
     update_page_content_page_path(@edit_page.id, @language.id)
   end

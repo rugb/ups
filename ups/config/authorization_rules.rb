@@ -4,7 +4,7 @@ authorization do
     has_permission_on :session, :to => :start
 
     has_permission_on :pages do #, :to => :show
-      to :show
+      to :show, :credits, :setup
       if_attribute :role => { :int_name => is  { :guest } }
     end
     
@@ -19,12 +19,12 @@ authorization do
       if_attribute :role => { :int_name => is  { :user } }
     end
 
-    has_permission_on :user do
+    has_permission_on :users do
       to :edit, :update
       if_attribute :id => is { user.id } 
     end
 
-    has_permission_on :user, :to => :show
+    has_permission_on :users, :to => :show
     
     has_permission_on :session, :to => :show
     has_permission_on :session, :to => :logout

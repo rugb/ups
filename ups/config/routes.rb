@@ -1,5 +1,5 @@
 Ups::Application.routes.draw do
-  resources :user
+  resources :users
   
 #   get "user/index"
 #   get "user/show"
@@ -35,11 +35,11 @@ Ups::Application.routes.draw do
       get 'activate'
       get 'deactivate'
       
-      match 'new_content/:language_id' => "page_content#new", :via => :get, :as => :new_page_content
-      match 'create_content/:language_id' => "page_content#create", :via => :post, :as => :create_page_content
-      match 'edit_content/:language_id' => "page_content#edit", :via => :get, :as => :edit_page_content
-      match 'update_content/:language_id' => "page_content#update", :via => :put, :as => :update_page_content
-      match 'destroy_content/:language_id' => "page_content#destroy", :via => :delete, :as => :destroy_page_content
+      match 'new_content/:language_id' => "page_contents#new", :via => :get, :as => :new_page_content
+      match 'create_content/:language_id' => "page_contents#create", :via => :post, :as => :create_page_content
+      match 'edit_content/:language_id' => "page_contents#edit", :via => :get, :as => :edit_page_content
+      match 'update_content/:language_id' => "page_contents#update", :via => :put, :as => :update_page_content
+      match 'destroy_content/:language_id' => "page_contents#destroy", :via => :delete, :as => :destroy_page_content
     end
   end
   
