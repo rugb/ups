@@ -1,2 +1,27 @@
-<h1>User#show</h1>
-<p>Find me in app/views/user/show.html.erb</p>
+<% if has_role?(:admin) || @current_user == @user %>
+  <div>
+    <%= @user.openid %>
+  </div>
+<% end %>
+
+<div>
+<%= @user.name %>
+</div>
+
+<div>
+<%= @user.fullname %>
+</div>
+
+<% if has_role_with_hierarchy?(:admin) || (has_role?(:member) && @user.role == @current_user.role) || @current_user == @user %>
+  <div>
+    <%= @user.email %>
+  </div>
+<% end %>
+
+<div>
+<%= @user.role %>
+</div>
+
+<% if @current_user == @user || has_role?(:admin)%>
+<%= link_to "edit", edit_user_path(@user) %>
+<% end %>

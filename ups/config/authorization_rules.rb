@@ -1,8 +1,5 @@
 authorization do
   role :guest do
-    has_permission_on :authorization_rules, :to => :read
-    has_permission_on :authorization_usages, :to => :read
-    
     has_permission_on :session, :to => :login
     has_permission_on :session, :to => :start
 
@@ -21,6 +18,13 @@ authorization do
       to :show
       if_attribute :role => { :int_name => is  { :user } }
     end
+
+    has_permission_on :user do
+      to :edit, :update
+      if_attribute :id => is { user.id } 
+    end
+
+    has_permission_on :user, :to => :show
     
     has_permission_on :session, :to => :show
     has_permission_on :session, :to => :logout

@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-  attr_accessible :openid, :email, :name, :role_id
+  attr_accessible :openid, :email, :name, :role_id, :fullname
   
   has_many :pages
   has_many :comments
