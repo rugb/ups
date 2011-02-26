@@ -1,8 +1,8 @@
 <ul>
-  <% (Page.find :all, :conditions => { :enabled => true, :parent_id => nil, :page_type => :page }).each do |page| %>
+  <% (Page.find :all, :conditions => {:enabled => true, :parent_id => nil, :page_type => :page}).each do |page| %>
   <li>
     <%= link_to page_title(page), make_page_path(page) if page.visible? && page.position.present? && has_role_with_hierarchy?(page.role.int_name) %>
-    <% if page.children.any? %>
+    <% if page.children.find(:all, :conditions => {:page_type => :page}).any? %>
     <ul>
       <% page.children.each do |child| %>
       <li>
