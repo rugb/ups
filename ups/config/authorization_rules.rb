@@ -7,7 +7,7 @@ authorization do
       if_attribute :role => { :int_name => is  { :guest } }
     end
 
-    has_permission_on :news, :to => [ :index, :show ]
+    has_permission_on :news, :to => [ :index, :show, :rss ]
     
     has_permission_on :pages, :to => :home
 

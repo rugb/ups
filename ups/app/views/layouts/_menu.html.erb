@@ -6,7 +6,7 @@
     <ul>
       <% page.children.each do |child| %>
       <li>
-        <%= link_to page_title(child), make_page_path(page) if child.visible? && child.position.present? && has_role_with_hierarchy?(child.role.int_name) %>
+        <%= link_to page_title(child), make_page_path(child) if child.visible? && child.position.present? && has_role_with_hierarchy?(child.role.int_name) %>
       </li>
       <% end %>
     </ul>
