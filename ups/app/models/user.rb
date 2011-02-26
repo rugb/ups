@@ -48,6 +48,7 @@ class User < ActiveRecord::Base
   
   def initialize(options = {})
     options[:role_id] = Role.find_by_int_name(:guest).id if options[:role_id].nil?
+    options[:openid].strip! if options[:openid].present?
     
     super(options)
     

@@ -69,12 +69,12 @@ class SessionController < ApplicationController
         if @current_user.new_record?
 	  role = User.all.count == 1 ? Role.find_by_int_name(:admin) : Role.find_by_int_name(:user)
 	  @current_user.role = role
-          @current_user.name = registration['nickname']
-          @current_user.email = registration['email']
-	  @current_user.fullname = registration['fullname']
-	  
-          @current_user.save(false)
         end
+        @current_user.name = registration['nickname']
+        @current_user.email = registration['email']
+        @current_user.fullname = registration['fullname'] if registration['fullname'].present?
+
+        @current_user.save
 	
         successful_login
       else

@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-   before_filter :load_user, :except => [ :index, :new ]
+   before_filter :load_user, :except => [ :index, :new, :create ]
   
   filter_access_to :update, :create, :new
   filter_access_to :edit, :attribute_check => true
@@ -20,6 +20,15 @@ class UsersController < ApplicationController
   end
 
   def create
+    @user = User.new(params[:user])
+
+    if @user.save
+      flash[:success] = "user created"
+      redirect_to users_path
+    else
+      flash[:error] = "user not created"
+      render 'new'
+    end
   end
 
   def update
