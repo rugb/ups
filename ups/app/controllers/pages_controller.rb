@@ -18,7 +18,8 @@ class PagesController < ApplicationController
       
       redirect_to show_page_path(@page.id, @page.int_title) if (params[:int_title] != @page.int_title)
       
-      cookies.permanent.signed[:user_language] = params[:language_short] if params[:language_short].present?
+      #cookies.permanent.signed[:user_language] = params[:language_short] if params[:language_short].present?
+      set_session_language params[:language_short] if params[:language_short].present?
       
       redirect_to @page.forced_url if @page.forced_url.present?
     end

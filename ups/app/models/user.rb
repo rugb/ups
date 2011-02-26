@@ -1,26 +1,28 @@
 # == Schema Information
-# Schema version: 20110225155059
+# Schema version: 20110226172940
 #
 # Table name: users
 #
-#  id         :integer         not null, primary key
-#  openid     :string(255)
-#  email      :string(255)
-#  name       :string(255)
-#  role_id    :integer
-#  created_at :datetime
-#  updated_at :datetime
-#  fullname   :string(255)
-#  salt       :string(255)
+#  id          :integer         not null, primary key
+#  openid      :string(255)
+#  email       :string(255)
+#  name        :string(255)
+#  role_id     :integer
+#  created_at  :datetime
+#  updated_at  :datetime
+#  fullname    :string(255)
+#  salt        :string(255)
+#  language_id :integer
 #
 
 class User < ActiveRecord::Base
-  attr_accessible :openid, :email, :name, :role_id, :fullname
+  attr_accessible :openid, :email, :name, :role_id, :fullname, :language_id
   
   has_many :pages
   has_many :comments
   
   belongs_to :role
+  belongs_to :language
 
   before_destroy :remove_user_from_all
   
