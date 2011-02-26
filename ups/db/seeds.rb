@@ -28,40 +28,36 @@ Conf.ensure(:id => 1, :name => :default_language, :value => "en")
 
 Role.all.each { |r| r.destroy }
 
-admin = Role.ensure(:name => "Administrator", :int_name => :admin)
-guest = Role.ensure(:name => "Guest", :int_name => :guest)
-Role.ensure(:name => "User", :int_name => :user)
-Role.ensure(:name => "Member", :int_name => :member)
+guest = Role.ensure(:id => 1, :name => "Guest", :int_name => :guest)
+Role.ensure(:id => 2, :name => "User", :int_name => :user)
+Role.ensure(:id => 3, :name => "Member", :int_name => :member)
+admin = Role.ensure(:id => 4, :name => "Administrator", :int_name => :admin)
 
 Conf.set_web_name("university project system")
 
 if Page.all.empty? || PageContent.all.empty?
-  page = Page.ensure(:id => 1, :int_title => :home, :page_type => :page,
-    :enabled => true, :position => 10, :role_id => guest.id)
+  page = Page.ensure(:id => 1, :int_title => :home, :page_type => :page, :enabled => true, :position => 10, :role_id => guest.id)
   page.page_contents.build(:id => 1, :language_id => 1, :title => "Homepage", :text => "This is the default homepage.").save
   page.page_contents.build(:id => 2, :language_id => 2, :title => "Startseite", :text => "Dies ist die Default-Startseite.").save
   
   Conf.ensure(:id => 2, :name => :default_page, :value => 1)
   
-  page = Page.ensure(:id => 2, :int_title => :edit_pages, :page_type => :page,
-    :enabled => true, :forced_url => "/news", :position => 100, :role_id =>
-  guest.id)
+  page = Page.ensure(:id => 2, :int_title => :edit_pages, :page_type => :page, :enabled => true, :forced_url => "/news", :position => 100, :role_id => guest.id)
   page.page_contents.build(:id => 3, :language_id => 1, :title => "Blog").save
   
-  page = Page.ensure(:id => 3, :int_title => :edit_pages, :page_type => :page,
-    :enabled => true, :forced_url => "/pages", :position => 100, :role_id =>
-  admin.id)
-  page.page_contents.build(:id => 4, :language_id => 1, :title =>
-    "Pageadmin").save
+  page = Page.ensure(:id => 3, :int_title => :edit_pages, :page_type => :page, :enabled => true, :forced_url => "/pages", :position => 100, :role_id => admin.id)
+  page.page_contents.build(:id => 4, :language_id => 1, :title => "Pageadmin").save
   
-  page = Page.ensure(:id => 4, :int_title => :edit_categories, :page_type =>
-    :page, :enabled => true, :forced_url => "/categories", :position => 110,
-    :role_id => admin.id)
+  page = Page.ensure(:id => 4, :int_title => :edit_categories, :page_type => :page, :enabled => true, :forced_url => "/categories", :position => 110, :role_id => admin.id)
   page.page_contents.build(:id => 5, :language_id => 1, :title => "Categoryadmin").save
   
   page = Page.ensure(:id => 5, :int_title => :config, :page_type => :page, :enabled => true, :forced_url => "/config", :position => 120, :role_id => admin.id)
   page.page_contents.build(:id => 6, :language_id => 1, :title => "Settings").save
   page.page_contents.build(:id => 7, :language_id => 2, :title => "Einstellungen").save
+
+  page = Page.ensure(:id => 6, :int_title => :edit_users, :page_type => :page, :enabled => true, :forced_url => "/user", :position => 130, :role_id => admin.id)
+  page.page_contents.build(:id => 8, :language_id => 1, :title => "Usermanagement").save
+  page.page_contents.build(:id => 8, :language_id => 2, :title => "Benutzerverwaltung").save
 end
 
 category = Category.ensure(:id => 1)
