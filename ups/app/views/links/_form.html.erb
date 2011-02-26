@@ -1,0 +1,47 @@
+<%= form_for(@link) do |f| %>
+<section class="sidebar right">
+  <% if Category.first.present? %>
+    <section class="categories">
+      <h3>categories:</h3>
+      <ul>
+        <% f.fields_for :link_categories do |cat_f| %>
+          <li>
+            <%= cat_f.check_box :checked %><%= category_name(cat_f.object.category) %>
+            <%= cat_f.hidden_field :category_id %>
+          </li>
+        <% end %>
+      </ul>
+    </section>
+  <% end %>
+</section>
+<fieldset>
+<% if @link.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(@link.errors.count, "error") %>
+      prohibited this user from being saved:</h2>
+    <ul>
+      <% @link.errors.full_messages.each do |msg| %>
+      <li>
+        <%= msg %>
+      </li>
+      <% end %>
+    </ul>
+  </div>
+  <% end %>
+  <div class="field">
+    <label>
+      title:
+    </label>
+      <%= f.text_field :title %>
+  </div>
+  <div class="field">
+    <label>
+      target:
+    </label>
+    <%= f.text_field :href %>
+  </div>
+  <div class="actions">
+    <%= f.submit :class => "continue" %>
+  </div>
+</fieldset>
+<% end %>

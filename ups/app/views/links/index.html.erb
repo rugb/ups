@@ -1,2 +1,43 @@
-<h1>Links#index</h1>
-<p>Find me in app/views/links/index.html.erb</p>
+<table>
+  <thead>
+    <tr>
+      <th>
+        title
+      </th>
+      <th>
+        uri
+      </th>
+      <th>
+        category
+      </th>
+      <th>
+      </th>
+      <th>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+<% @links.each do |link| %>
+    <tr>
+      <td>
+        <%= link.title %>
+      </td>
+      <td>
+        <%= link.href %>
+      </td>
+      <td>
+        <%= inline_categories_for link %>
+      </td>
+      <td class="actions">
+          <%= link_to "edit", edit_link_path(link), :class => "edit" %>
+      </td>
+      <td class="actions">
+          <%= link_to "delete", link, :confirm => "Are you sure?", :method => :delete, :class => "delete",  %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+<p class="actions">
+<%= link_to "create link", new_link_path, :class => "new"%>
+</p>

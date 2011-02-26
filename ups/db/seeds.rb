@@ -56,7 +56,11 @@ if Page.all.empty? || PageContent.all.empty?
 
   page = Page.ensure(:id => 6, :int_title => :edit_users, :page_type => :page, :enabled => true, :forced_url => "/users", :position => 130, :role_id => admin.id)
   page.page_contents.build(:id => 8, :language_id => 1, :title => "Usermanagement").save
-  page.page_contents.build(:id => 8, :language_id => 2, :title => "Benutzerverwaltung").save
+  page.page_contents.build(:id => 9, :language_id => 2, :title => "Benutzerverwaltung").save
+
+  page = Page.ensure(:id => 7, :int_title => :edit_links, :page_type => :page, :enabled => true, :forced_url => "/links", :position => 140, :role_id => admin.id)
+  page.page_contents.build(:id => 10, :language_id => 1, :title => "Linksmanagment").save
+  page.page_contents.build(:id => 11, :language_id => 2, :title => "Linksverwaltung").save
 end
 
 category = Category.ensure(:id => 1)
