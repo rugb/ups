@@ -27,9 +27,9 @@ class UsersController < ApplicationController
     if @user.update_attributes(params[:user])
       flash[:success] = "user updated"
       if has_role?(:admin)
-        redirect_to users_index_path
+        redirect_to users_path
       else
-        redirect_to users_path @user
+        redirect_to user_path @user
       end
     else
       flash[:error] = "user update failed"

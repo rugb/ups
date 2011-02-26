@@ -53,7 +53,7 @@ if Page.all.empty? || PageContent.all.empty?
   page.page_contents.build(:id => 6, :language_id => 1, :title => "Settings").save
   page.page_contents.build(:id => 7, :language_id => 2, :title => "Einstellungen").save
 
-  page = Page.ensure(:id => 6, :int_title => :edit_users, :page_type => :page, :enabled => true, :forced_url => "/user", :position => 130, :role_id => admin.id)
+  page = Page.ensure(:id => 6, :int_title => :edit_users, :page_type => :page, :enabled => true, :forced_url => "/users", :position => 130, :role_id => admin.id)
   page.page_contents.build(:id => 8, :language_id => 1, :title => "Usermanagement").save
   page.page_contents.build(:id => 8, :language_id => 2, :title => "Benutzerverwaltung").save
 end

@@ -9,6 +9,9 @@ authorization do
     end
     
     has_permission_on :pages, :to => :home
+
+    has_permission_on :authorization_rules, :to => :read
+    has_permission_on :authorization_usages, :to => :read
   end
   
   role :user do
@@ -38,7 +41,7 @@ authorization do
       if_attribute :role => { :int_name => is  { :member } }
     end
   end
-
+  
   role :admin do
     includes :member
 
