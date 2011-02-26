@@ -12,7 +12,7 @@
 #
 
 class Link < ActiveRecord::Base
-  attr_accessible :title, :href, :category_id
+  attr_accessible :title, :href, :category_id, :link_categories_attributes
   
   has_many :link_categories
   has_many :categories, :through => :link_categories

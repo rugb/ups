@@ -11,8 +11,10 @@
 #
 
 class LinkCategory < ActiveRecord::Base
-  attr_accessor :checked
+  attr_accessor :checked, :category_attributes
   
   belongs_to :category
   belongs_to :link
+
+  accepts_nested_attributes_for :category
 end
