@@ -17,9 +17,13 @@
     <label>
       OpenID:
     </label>
-    <span>
-      <%= @user.openid  %>
-    </span>
+    <% if @user.new_record? %>
+      <%= f.text_field :openid %>
+    <% else %>
+      <span>
+        <%= @user.openid  %>
+      </span>
+    <% end %>
   </div>
   <div class="field">
     <label>
