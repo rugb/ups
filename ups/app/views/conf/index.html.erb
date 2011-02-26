@@ -1,0 +1,19 @@
+<%= form_tag config_path, :method => :put do %>
+<fieldset>
+  <div class="field">
+    <label>
+      system language:
+    </label>
+    <%= select_tag :default_language, options_from_collection_for_select(Language.all, :short, :name, Conf.get_default_language.short) %>
+  </div>
+  <div class="field">
+    <label>
+      home page:
+    </label>
+    <%= select_tag :default_page, options_from_collection_for_select(Page.where("role_id = " + Role.find_by_int_name(:guest).id.to_s), :id, :int_title, Conf.get_default_page.id) %>
+  </div>
+  <div class="actions">
+    <%= submit_tag "Save changes", :class => "continue" %>
+  </div>
+</fieldset>
+<% end %>
