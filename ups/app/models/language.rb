@@ -1,3 +1,15 @@
+# == Schema Information
+# Schema version: 20110225155059
+#
+# Table name: languages
+#
+#  id         :integer         not null, primary key
+#  short      :string(255)
+#  name       :string(255)
+#  created_at :datetime
+#  updated_at :datetime
+#
+
 class Language < ActiveRecord::Base
   attr_accessible :short, :name
   
