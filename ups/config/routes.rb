@@ -1,4 +1,14 @@
 Ups::Application.routes.draw do
+  resources :user
+  
+#   get "user/index"
+#   get "user/show"
+#   get "user/new"
+#   get "user/create"
+#   get "user/update"
+#   get "user/edit"
+#   get "user/destroy"
+
   match "/category/:id/(:name)" => "categories#show", :as => :show_category,
     :via => :get
 
@@ -32,14 +42,6 @@ Ups::Application.routes.draw do
       match 'destroy_content/:language_id' => "page_content#destroy", :via => :delete, :as => :destroy_page_content
     end
   end
-  
-  
-  
-#   map.with_options :controller => 'session' do |openid|
-#    openid.openid_start 'openid/start', :action => 'start'
-#    openid.openid_complete 'openid/complete', :action => 'complete'
-#   end
-
 
   match "/credits" => "pages#credits"
   match "/setup" => "pages#setup"
