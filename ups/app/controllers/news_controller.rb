@@ -1,4 +1,6 @@
 class NewsController < ApplicationController
+  filter_access_to :all
+  
   def index
     @news = Page.find(:all, :conditions => {:page_type => :news})
   end

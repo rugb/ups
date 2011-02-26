@@ -46,7 +46,7 @@ module PagesHelper
   end
 
   def roles_options
-    Role.all.collect { |r| [ r.to_s, r.id ] }
+    Role.all.collect { |r| [ r.to_s.pluralize, r.id ] }
   end
   
   private

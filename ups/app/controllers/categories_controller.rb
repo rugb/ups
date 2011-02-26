@@ -1,4 +1,6 @@
 class CategoriesController < ApplicationController
+  filter_access_to :all
+  
   def new
     @title = "new category"
     @edit_category = Category.new

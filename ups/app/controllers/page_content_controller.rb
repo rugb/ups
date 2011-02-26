@@ -1,5 +1,7 @@
 class PageContentController < ApplicationController
   before_filter :load_page
+
+  filter_access_to :all
   
   def new
     @page_content = @edit_page.page_contents.build
