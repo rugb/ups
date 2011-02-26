@@ -20,8 +20,12 @@ class NewsController < ApplicationController
     @edit_post = Page.new(params[:page].merge(:page_type => :news, :enabled => false, :role => Role.find_by_int_name(:guest), :user => @current_user))
     
     if @edit_post.save
+      @edit_post.reload
       @edit_post.parent = Page.find(:first, :conditions => {:forced_url => "/news"})
       @edit_post.enabled = true
+      @edit_post.save
+      p "post", @edit_post
+      p "errors", @edit_post.errors
       flash[:success] = "post created."
       redirect_to edit_news_path @edit_post
     else
