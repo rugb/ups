@@ -4,12 +4,21 @@ class Conf < ActiveRecord::Base
   validates :name, :presence => true, :length => 1..50
   validates_length_of :value, :in => 0..255, :allow_nil => true
   
+  def self.get_web_name
+    get(:web_name).to_s
+  end
+  
+  def self.set_web_name(name)
+    return false if name.blank?
+    set(:web_name, name)
+  end
+  
   def self.get_default_language
     Language.find_by_short(get(:default_language))
   end
   
   def self.set_default_language(lang)
-    raise "lang should not be nil" if lang.nil?
+    return false if lang.nil?
     lang.save if lang.changed?
     set(:default_language, lang.short)
   end
@@ -19,7 +28,7 @@ class Conf < ActiveRecord::Base
   end
   
   def self.set_default_page(page)
-    raise "page should not be nil" if page.nil?
+    return false if page.nil?
     page.save if page.changed?
     set(:default_page, page.id)
   end

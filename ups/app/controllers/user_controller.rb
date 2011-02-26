@@ -1,7 +1,7 @@
 class UserController < ApplicationController
   
-  
   def index
+    @users = User.where "id > 0"
   end
 
   def show

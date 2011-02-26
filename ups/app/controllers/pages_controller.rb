@@ -1,8 +1,7 @@
 class PagesController < ApplicationController
   #before_filter :current_show_page
-
   filter_access_to :all
-
+  
   include PagesHelper
   
   def index
@@ -11,14 +10,16 @@ class PagesController < ApplicationController
   
   def show
     @page = Page.find_by_id(params[:id])
-
+    
     if (!has_role_with_hierarchy?(@page.role.int_name))
       permission_denied
     else
       http_404 and return if(@page.nil? || !@page.visible?)
-
+      
       redirect_to show_page_path(@page.id, @page.int_title) if (params[:int_title] != @page.int_title)
-
+      
+      cookies.permanent.signed[:user_language] = params[:language_short] if params[:language_short].present?
+      
       redirect_to @page.forced_url if @page.forced_url.present?
     end
   end
@@ -104,9 +105,9 @@ class PagesController < ApplicationController
   
   def setup
   end
-
+  
   private
-    def current_show_page
-      @page ||= Page.find_by_id(params[:id]) if params[:id].present?
-    end
+  def current_show_page
+    @page ||= Page.find_by_id(params[:id]) if params[:id].present?
+  end
 end

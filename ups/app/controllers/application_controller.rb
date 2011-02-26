@@ -35,7 +35,6 @@ class ApplicationController < ActionController::Base
     wanted_languages << Language.find_by_short(params[:language_short])
     
     # session/user
-    cookies.permanent.signed[:user_language] = params[:language_short] if params[:language_short].present?
     wanted_languages << Language.find_by_short(cookies.signed[:user_language]) if cookies.signed[:user_language].present?
     
     # wanted by browser
