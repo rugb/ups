@@ -75,6 +75,8 @@ class SessionController < ApplicationController
         @current_user.fullname = registration['fullname'] if registration['fullname'].present?
 
         @current_user.save
+
+        set_session_language @current_user.language.short if @current_user.language.present?
 	
         successful_login
       else

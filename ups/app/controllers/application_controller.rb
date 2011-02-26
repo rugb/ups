@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
   include SessionHelper
+  
   helper_method :select_by_language_id, :current_user
   
   before_filter :current_user
@@ -35,7 +36,8 @@ class ApplicationController < ActionController::Base
     wanted_languages << Language.find_by_short(params[:language_short])
     
     # session/user
-    wanted_languages << Language.find_by_short(cookies.signed[:user_language]) if cookies.signed[:user_language].present?
+    #wanted_languages << Language.find_by_short(cookies.signed[:user_language]) if cookies.signed[:user_language].present?
+    wanted_languages << Language.find_by_short(get_session_language) if get_session_language.present?
     
     # wanted by browser
     wanted_languages |= accepted_languages.map do |lang|

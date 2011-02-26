@@ -2,25 +2,20 @@ authorization do
   role :guest do
     has_permission_on :session, :to => [ :start, :login ]
 
-    has_permission_on :pages do #, :to => :show
+    has_permission_on :pages do
       to :show, :credits, :setup
       if_attribute :role => { :int_name => is  { :guest } }
     end
 
     has_permission_on :news, :to => [ :index, :show, :rss ]
-    
     has_permission_on :pages, :to => :home
-
     has_permission_on :categories, :to => [ :index, :show ]
-
-    has_permission_on :authorization_rules, :to => :read
-    has_permission_on :authorization_usages, :to => :read
   end
   
   role :user do
     includes :guest
 
-    has_permission_on :pages do #, :to => :show
+    has_permission_on :pages do
       to :show
       if_attribute :role => { :int_name => is  { :user } }
     end
@@ -32,14 +27,13 @@ authorization do
 
     has_permission_on :users, :to => :show
     
-    has_permission_on :session, :to => :show
-    has_permission_on :session, :to => :logout
+    has_permission_on :session, :to => [ :show, :logout ]
   end
 
   role :member do
     includes :user
 
-    has_permission_on :pages do #, :to => :show
+    has_permission_on :pages do
       to :show
       if_attribute :role => { :int_name => is  { :member } }
     end
@@ -56,6 +50,9 @@ authorization do
     includes :member
 
     has_omnipotence
+
+#     has_permission_on :authorization_rules, :to => :read
+#     has_permission_on :authorization_usages, :to => :read
   end
   
 #   role :user do

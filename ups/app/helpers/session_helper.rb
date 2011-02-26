@@ -9,6 +9,14 @@ module SessionHelper
     @current_user = nil
   end
 
+  def set_session_language(lang)
+    cookies.permanent.signed[:user_language] = lang
+  end
+
+  def get_session_language
+    cookies.signed[:user_language]
+  end
+
   def current_user
     @current_user ||= user_from_remember_token
     @current_user = User.find_by_role_id(Role.find_by_int_name(:guest).id) if @current_user.nil?

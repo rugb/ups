@@ -16,12 +16,13 @@
 #
 
 class User < ActiveRecord::Base
-  attr_accessible :openid, :email, :name, :role_id, :fullname
+  attr_accessible :openid, :email, :name, :role_id, :fullname, :language_id
   
   has_many :pages
   has_many :comments
   
   belongs_to :role
+  belongs_to :language
 
   before_destroy :remove_user_from_all
   

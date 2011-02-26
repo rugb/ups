@@ -51,6 +51,12 @@
     <%= f.select :role_id, role_options %>
   </div>
   <% end %>
+  <div class="field">
+    <label>
+      language:
+    </label>
+    <%= f.select :language_id, language_options, :include_blank => true %>
+  </div>
   <div class="actions">
     <%= f.submit :class => "continue" %>
   </div>
