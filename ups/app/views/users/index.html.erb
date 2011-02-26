@@ -18,6 +18,8 @@
       </th>
       <th>
       </th>
+      <th>
+      </th>
     </tr>
   </thead>
   <tbody>
@@ -38,8 +40,11 @@
       <td>
         <%= user.role %>
       </td>
-      <td>
-          <%= link_to "edit user", edit_user_path(user), :class => "edit" %>
+      <td class="actions">
+          <%= link_to "edit", edit_user_path(user), :class => "edit" %>
+      </td>
+      <td class="actions">
+          <%= link_to "delete", user, :confirm => "Are you sure?", :method => :delete, :class => "delete",  %>
       </td>
     </tr>
 <% end %>

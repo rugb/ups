@@ -11,6 +11,7 @@ class UsersController < ApplicationController
   end
 
   def show
+    http_404 if @user.nil?
   end
 
   def new
@@ -43,12 +44,16 @@ class UsersController < ApplicationController
   end
 
   def destroy
+    @user.destroy
+    
+    redirect_to users_path
   end
 
   private
 
      def load_user
        @user = User.find(params[:id])
-     end
 
+       @user = nil if @user.id == 0
+     end
 end

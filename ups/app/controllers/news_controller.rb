@@ -1,4 +1,8 @@
 class NewsController < ApplicationController
+  before_filter :load_news
+  
+  filter_access_to :edit, :update, :attribute_check => true, :model => Page
+  
   filter_access_to :all
   
   def index
@@ -44,5 +48,11 @@ class NewsController < ApplicationController
   
   def destroy
   end
+
+  private
+
+    def load_news
+      @edit_news = Page.find(params[:id]) if params[:id].present?
+    end
   
 end

@@ -1,12 +1,13 @@
 authorization do
   role :guest do
-    has_permission_on :session, :to => :login
-    has_permission_on :session, :to => :start
+    has_permission_on :session, :to => [ :start, :login ]
 
     has_permission_on :pages do #, :to => :show
       to :show, :credits, :setup
       if_attribute :role => { :int_name => is  { :guest } }
     end
+
+    has_permission_on :news, :to => [ :show, :index ]
     
     has_permission_on :pages, :to => :home
 
@@ -40,6 +41,13 @@ authorization do
       to :show
       if_attribute :role => { :int_name => is  { :member } }
     end
+
+    has_permission_on :news do
+      to :edit, :update
+      if_attribute :user_id => is { user.id }
+    end
+
+    has_permission_on :news, :to => [ :new, :create ]
   end
   
   role :admin do
