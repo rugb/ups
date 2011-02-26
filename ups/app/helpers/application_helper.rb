@@ -13,6 +13,12 @@ module ApplicationHelper
     }.map { |cat| link_to category_name(cat), category_path(cat) })
   end
   
+  def list_categories_for(page)
+    make_html_list(page.categories.sort { |a, b|
+      select_by_language_id(a.category_names).name <=> select_by_language_id(b.category_names).name
+    }.map { |cat| link_to category_name(cat), category_path(cat) })
+  end
+  
   def make_html_list(array)
     return "" if array.empty?
     raw "<ul>" + array.map { |e| "<li>" + e + "</li>" }.join + "</ul>"

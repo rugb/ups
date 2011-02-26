@@ -11,12 +11,17 @@ class NewsController < ApplicationController
     @edit_post.role = Role.find_by_int_name(:guest)
     @edit_post.user = @current_user
     @edit_post.page_contents.build
+    Category.all.each do |cat|
+      @edit_post.page_categories.build(:category_id => cat.id)
+    end
   end
   
   def create
     @edit_post = Page.new(params[:page].merge(:page_type => :news, :enabled => false, :role => Role.find_by_int_name(:guest), :user => @current_user))
     
     if @edit_post.save
+      @edit_post.parent = Page.find(:first, :conditions => {:forced_url => "/news"})
+      @edit_post.enabled = true
       flash[:success] = "post created."
       redirect_to edit_news_path @edit_post
     else
