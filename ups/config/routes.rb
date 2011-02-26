@@ -1,4 +1,18 @@
 Ups::Application.routes.draw do
+  get "links/new"
+
+  get "links/create"
+
+  get "links/update"
+
+  get "links/destroy"
+
+  get "links/index"
+
+  get "links/show"
+
+  get "links/edit"
+
   resources :users
   
 #   get "user/index"
