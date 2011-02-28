@@ -44,63 +44,63 @@ describe Conf do
   end
   
   describe "default language" do
-    it "should have a get_default_language method" do
-      Conf.should respond_to(:get_default_language)
+    it "should have a default_language method" do
+      Conf.should respond_to(:default_language)
     end
     
     it "should not return nil" do
-      Conf.get_default_language.should_not == nil
+      Conf.default_language.should_not == nil
     end
     
-    it "should have a set_default_language method" do
-      Conf.should respond_to(:set_default_language)
+    it "should have a default_language= method" do
+      Conf.should respond_to(:default_language=)
     end
     
     it "should reject nil" do
-      expect { Conf.set_default_language(nil) }.to raise_error
+      expect { Conf.default_language = nil  }.to raise_error
     end
     
     it "should store the right language" do
-      default_lang = Conf.get_default_language
+      default_lang = Conf.default_language
       lang = Language.new(:short => "xx", :name => "Kaesoaili")
-      Conf.set_default_language lang
-      Conf.get_default_language.should == lang
+      Conf.default_language= lang
+      Conf.default_language.should == lang
       
-      Conf.set_default_language default_lang
-      Conf.get_default_language.should == default_lang
+      Conf.default_language= default_lang
+      Conf.default_language.should == default_lang
     end
   end
   
   describe "default page" do
-    it "should have a get_default_page method" do
-      Conf.should respond_to(:get_default_page)
+    it "should have a default_page method" do
+      Conf.should respond_to(:default_page)
     end
     
     it "should not return nil" do
-      Conf.get_default_page.should_not == nil
+      Conf.default_page.should_not == nil
     end
     
-    it "should have a set_default_page method" do
-      Conf.should respond_to(:set_default_page)
+    it "should have a default_page= method" do
+      Conf.should respond_to(:default_page=)
     end
     
     it "should reject nil" do
-      expect { Conf.set_default_page(nil) }.to raise_error
+      expect { Conf.default_page = nil }.to raise_error
     end
     
     it "should store the right page" do
-      default_page = Conf.get_default_page
+      default_page = Conf.default_page
       page = Page.new(:page_type => :page, :enabled => true, :int_title => "test")
-      Conf.set_default_page page
-      Conf.get_default_page.should == page
+      Conf.default_page = page
+      Conf.default_page.should == page
       
-      Conf.set_default_page default_page
-      Conf.get_default_page.should == default_page
+      Conf.default_page = default_page
+      Conf.default_page.should == default_page
     end
     
     it "should reject disabled pages" do
       page = Page.new(:page_type => :page, :enabled => false)
-      expect { Conf.set_default_page(page) }.to raise_error
+      expect { Conf.default_page = page }.to raise_error
     end
   end
 end

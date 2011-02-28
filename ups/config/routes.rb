@@ -3,8 +3,7 @@ Ups::Application.routes.draw do
   resources :links
   resources :file_uploads
   
-  match "/category/:id/(:name)" => "categories#show", :as => :show_category,
-    :via => :get
+  match "/category/:id/(:name)" => "categories#show", :as => :show_category, :via => :get
   
   get "session/login"
   get "session/start"

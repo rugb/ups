@@ -27,7 +27,7 @@ class PageContent < ActiveRecord::Base
   before_save :update_excerpt
   
   def update_int_title
-    if(page.int_title.blank? || Conf.get_default_language == language)
+    if(page.int_title.blank? || Conf.default_language == language)
       page.int_title = make_short_title(title)
       page.save if page.changed?
     end

@@ -16,30 +16,30 @@ class Conf < ActiveRecord::Base
   validates :name, :presence => true, :length => 1..50
   validates_length_of :value, :in => 0..255, :allow_nil => true
   
-  def self.get_web_name
+  def self.web_name
     get(:web_name).to_s
   end
   
-  def self.set_web_name(name)
+  def self.web_name=(name)
     return false if name.blank?
     set(:web_name, name)
   end
   
-  def self.get_default_language
+  def self.default_language
     Language.find_by_short(get(:default_language))
   end
   
-  def self.set_default_language(lang)
+  def self.default_language=(lang)
     return false if lang.nil?
     lang.save if lang.changed?
     set(:default_language, lang.short)
   end
   
-  def self.get_default_page
+  def self.default_page
     Page.find_by_id(get(:default_page))
   end
   
-  def self.set_default_page(page)
+  def self.default_page=(page)
     return false if page.nil?
     page.save if page.changed?
     set(:default_page, page.id)

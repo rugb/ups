@@ -85,4 +85,4 @@ category.category_names.build(:id => 2, :language_id => 1, :name => "general").s
 
 User.ensure(:id => 0, :role_id => guest.id)
 
-Conf.set_web_name("university project system")
+Conf.web_name = "university project system" 

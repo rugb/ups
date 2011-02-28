@@ -1,10 +1,15 @@
 module ApplicationHelper
+  
+  # generates title für <title> tag
   def make_title
-   ((make_page_title and make_page_title + " - ") or "") + Conf.get_web_name
+    title = make_page_title + " - " if make_page_title.present?
+    title.to_s + Conf.web_name
   end
   
+  # finds page title that might be good for actual page
   def make_page_title
-   (@title or (@page and page_title(@page)))
+    return @title if @title.present?
+    return page_title(@page) if @page.present?
   end
   
   def list_categories

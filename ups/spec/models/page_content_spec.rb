@@ -87,7 +87,7 @@ describe PageContent do
   
   describe "validate changing int_title" do
     before(:each) do	
-      @lang_default = Conf.get_default_language
+      @lang_default = Conf.default_language
       @lang_non_default = Language.create!(:short => "fo", :name => "foobar")
       
       @page_content_1 = @page.page_contents.build(@attr.merge(:language_id => @lang_default.id))
