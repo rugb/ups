@@ -5,6 +5,8 @@ gem 'sqlite3'
 gem 'declarative_authorization'
 gem 'ruby-openid'
 gem 'rack-openid'
+gem 'carrierwave'
+gem 'googlecalendar'
 
 group :development do
   gem 'rspec-rails'
