@@ -52,7 +52,9 @@
     </tbody>
   </table>
   <% end %>
-  <p class="actions">
-    <%= link_to "upload file", new_file_upload_with_page_path(edit_page.id), :class => "new" %>
-  </p>
+  <% if edit_page.present? %>
+    <p class="actions">
+      <%= link_to "upload file", new_file_upload_with_page_path(edit_page.id), :class => "new" %>
+    </p>
+  <% end %>
 </fieldset>
