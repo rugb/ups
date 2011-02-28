@@ -1,5 +1,6 @@
 <%= form_for @file_upload, :html => {:multipart => true} do |f| %>
 <%= f.hidden_field :file_cache %>
+<%= f.hidden_field :page_id %>
 <fieldset>
   <%= render 'errors/form', :object => @file_upload %>
   <div class="field">
