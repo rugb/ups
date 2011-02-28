@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110226172940) do
+ActiveRecord::Schema.define(:version => 20110228092341) do
 
   create_table "categories", :force => true do |t|
     t.datetime "created_at"
@@ -38,6 +38,15 @@ ActiveRecord::Schema.define(:version => 20110226172940) do
   create_table "confs", :force => true do |t|
     t.string   "name"
     t.string   "value"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "file_uploads", :force => true do |t|
+    t.integer  "page_id"
+    t.string   "filename"
+    t.string   "file"
+    t.integer  "count"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

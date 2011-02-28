@@ -1,6 +1,7 @@
 Ups::Application.routes.draw do
   resources :users
   resources :links
+  resources :file_uploads
 
   match "/category/:id/(:name)" => "categories#show", :as => :show_category,
     :via => :get
