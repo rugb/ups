@@ -12,7 +12,7 @@
   <body>
     <header>
       <h1><%= link_to Conf.get_web_name, root_path %></h1>
-      <nav><%= render 'layouts/user_menu' %><%= link_to "credits", credits_path %></nav>
+      <nav class="actions"><%= render 'layouts/user_menu' %><%= link_to "credits", credits_path, :class => "credits" %></nav>
     </header>
     <nav id="menu">
       <%= render 'layouts/menu' %>

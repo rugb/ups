@@ -31,6 +31,22 @@
     background-image: url('/images/icons/page_delete.png');
 }
 
-.action .download {
-	background-image: url('/images/icons/attach.png');
+.actions .download {
+    background-image: url('/images/icons/attach.png');
+}
+
+.actions .user {
+    background-image: url('/images/icons/user_gray.png');
+}
+
+.actions .login {
+    background-image: url('/images/icons/door.png');
+}
+
+.actions .logout {
+    background-image: url('/images/icons/door_in.png');
+}
+
+.actions .credits {
+    background-image: url('/images/icons/lightbulb.png');
 }

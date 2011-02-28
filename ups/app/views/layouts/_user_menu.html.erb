@@ -1,4 +1,4 @@
-<%= link_to_unless signed_in?, "login", session_login_path do %>
-      <%= link_to "profile", user_path(@current_user) %>
-      <%= link_to "logout", session_logout_path %>
+<%= link_to_unless signed_in?, "login", session_login_path, :class => "login" do %>
+      <%= link_to "profile", user_path(@current_user), :class => "user" %>
+      <%= link_to "logout", session_logout_path, :class => "logout" %>
 <% end %>

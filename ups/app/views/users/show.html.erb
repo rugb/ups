@@ -1,27 +1,36 @@
-<% if has_role?(:admin) || @current_user == @user %>
-  <div>
-    <%= @user.openid %>
+<h1><%= @user.fullname %>
+  <small>
+    (<%= @user.name %>)
+  </small>
+</h1>
+<% if @current_user == @user || has_role?(:admin) %>
+<p class="actions">
+  <%= link_to "edit", edit_user_path(@user), :class => "edit" %>
+</p>
+<% end %>
+<fieldset>
+  <div class="field">
+    <label>
+      Rights:
+    </label>
+    <span><%= @user.role %></span>
   </div>
-<% end %>
-
-<div>
-<%= @user.name %>
-</div>
-
-<div>
-<%= @user.fullname %>
-</div>
-
-<% if has_role_with_hierarchy?(:admin) || (has_role?(:member) && @user.role == @current_user.role) || @current_user == @user %>
-  <div>
-    <%= @user.email %>
+  <% if has_role?(:admin) || @current_user == @user %>
+  <div class="field">
+    <label>
+      OpenID:
+    </label>
+    <span><%= link_to @user.openid, @user.openid %></span>
   </div>
-<% end %>
-
-<div>
-<%= @user.role %>
-</div>
-
-<% if @current_user == @user || has_role?(:admin)%>
-<%= link_to "edit", edit_user_path(@user) %>
-<% end %>
+  <% end %>
+  <div class="field">
+    <label>
+      E-Mail:
+    </label>
+    <% if has_role_with_hierarchy?(:admin) || (has_role?(:member) && @user.role == @current_user.role) || @current_user == @user %>
+    <%= link_to @user.email, "mailto:" + @user.email %>
+    <% else %>
+    <i>(hidden)</i>
+    <% end %>
+  </div>
+</fieldset>
