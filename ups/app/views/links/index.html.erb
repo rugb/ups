@@ -1,3 +1,4 @@
+<% if @links.present? %>
 <table>
   <thead>
     <tr>
@@ -38,6 +39,7 @@
 <% end %>
   </tbody>
 </table>
+<% end %>
 <p class="actions">
 <%= link_to "create link", new_link_path, :class => "new"%>
 </p>
