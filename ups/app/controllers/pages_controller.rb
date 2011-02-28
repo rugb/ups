@@ -9,16 +9,14 @@ class PagesController < ApplicationController
   end
   
   def show
-    @page = Page.find_by_id(params[:id])
+    @page = Page.find_by_id params[:id] 
     
-    if (!has_role_with_hierarchy?(@page.role.int_name))
+    if !has_role_with_hierarchy?(@page.role.int_name)
       permission_denied
     else
       http_404 and return if(@page.nil? || !@page.visible?)
       
       redirect_to show_page_path(@page.id, @page.int_title) if (params[:int_title] != @page.int_title)
-      
-      #cookies.permanent.signed[:user_language] = params[:language_short] if params[:language_short].present?
       set_session_language params[:language_short] if params[:language_short].present?
       
       redirect_to @page.forced_url if @page.forced_url.present?
@@ -42,7 +40,7 @@ class PagesController < ApplicationController
       @edit_page.parent = nil
       @edit_page.position = nil
     else
-      @edit_page.parent = Page.find_by_id(position_select[0])
+      @edit_page.parent = Page.find_by_id position_select[0]
       @edit_page.position = position_select[1] == "" ? nil : position_select[1].to_i
     end
     
@@ -51,7 +49,7 @@ class PagesController < ApplicationController
       redirect_to edit_page_path @edit_page
     else
       @edit_page.extend
-      flash[:error] = "page creation failed."
+      flash.now[:error] = "page creation failed."
       render :action => :new
     end
     
@@ -59,7 +57,7 @@ class PagesController < ApplicationController
   
   def edit
     @title = "edit page"
-    @edit_page = Page.find_by_id(params[:id])
+    @edit_page = Page.find_by_id params[:id]
     @edit_page.extend
   end
   
@@ -80,37 +78,37 @@ class PagesController < ApplicationController
       @edit_page.parent = nil
       @edit_page.position = nil
     else
-      @edit_page.parent = Page.find_by_id(position_select[0])
+      @edit_page.parent = Page.find_by_id position_select[0]
       @edit_page.position = position_select[1] == "" ? nil : position_select[1].to_i
     end
     
-    if @edit_page.update_attributes(params[:page])
-      recalc_page_positions_for_page(@edit_page)
-      flash[:success] = "post updated."
+    if @edit_page.update_attributes params[:page]
+      recalc_page_positions_for_page @edit_page
+      flash.now[:success] = "post updated."
     else
-      flash[:error] = "post update failed."
+      flash.now[:error] = "post update failed."
     end
     @edit_page.extend
     render :action => :edit
   end
   
   def activate
-    @edit_page = Page.find(params[:id])
+    @edit_page = Page.find params[:id]
     @edit_page.enabled = true
-    if(@edit_page.save)
+    if @edit_page.save
       flash[:success] = "activated."
-      redirect_to pages_path
     else
       flash[:error] = "this page cannot be activated."
-      redirect_to pages_path
     end
+
+    redirect_to pages_path
   end
   
   def deactivate
-    @edit_page = Page.find(params[:id])
+    @edit_page = Page.find params[:id]
     @edit_page.enabled = false
     @edit_page.save
-    if(@edit_page.save)
+    if @edit_page.save
       flash[:success]="deactivated."
       redirect_to pages_path
     else

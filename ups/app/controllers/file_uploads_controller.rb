@@ -12,7 +12,7 @@ class FileUploadsController < ApplicationController
       flash[:success] = "file uploaded"
       redirect_to file_uploads_path
     else
-      flash[:error] = "file not upload"
+      flash.now[:error] = "file not upload"
       render 'new'
     end
   end

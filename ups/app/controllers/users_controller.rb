@@ -20,19 +20,19 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new(params[:user])
+    @user = User.new params[:user]
 
     if @user.save
       flash[:success] = "user created"
       redirect_to users_path
     else
-      flash[:error] = "user not created"
+      flash.now[:error] = "user not created"
       render 'new'
     end
   end
 
   def update
-    @user = User.find(params[:id])
+    @user = User.find params[:id]
     
     if @user.update_attributes(params[:user])
       set_session_language @user.language.short if @user.language.present?
@@ -44,26 +44,26 @@ class UsersController < ApplicationController
         redirect_to user_path @user
       end
     else
-      flash[:error] = "user update failed"
+      flash.now[:error] = "user update failed"
       render :action => :edit
     end
   end
 
   def edit
     @title = "edit user"
-    @user = User.find(params[:id])
+    @user = User.find params[:id]
   end
 
   def destroy
     @user.destroy
-    
+
     redirect_to users_path
   end
 
   private
 
      def load_user
-       @user = User.find(params[:id])
+       @user = User.find params[:id] if params[:id].present?
 
        @user = nil if @user.id == 0
      end

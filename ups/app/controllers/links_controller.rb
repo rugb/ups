@@ -16,7 +16,7 @@ class LinksController < ApplicationController
       flash[:success] = "link created"
       redirect_to links_path
     else
-      flash[:error] = "link not created"
+      flash.now[:error] = "link not created"
       render 'new'
     end
   end
