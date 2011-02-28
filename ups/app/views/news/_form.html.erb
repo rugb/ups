@@ -63,53 +63,7 @@
     <% end %>
   </fieldset>
   <fieldset>
-    <% if @edit_post.file_uploads.present? %>
-      <table>
-        <thead>
-          <tr>
-            <th>
-              Filename
-            </th>
-            <th>
-              Filesize
-            </th>
-            <th>
-              Counter
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @edit_post.file_uploads.each do |file_upload| %>
-            <tr>
-              <td>
-                <%= link_to file_upload.filename, download_file_path(file_upload) %>
-              </td>
-              <td>
-                <%= number_to_human_size(file_upload.file.size) %>
-              </td>
-              <td>
-                <%= file_upload.count %>
-              </td>
-              <td class="action">
-                <%= link_to "download", download_file_path(file_upload), :class => "download" %>
-              </td>
-              <td class="actions">
-                <%= link_to "edit", file_upload, :class => "edit" %>
-              </td>
-              <td class="actions">
-                <%= link_to "delete", file_upload, :confirm => "Are you sure?", :method => :delete, :class => "delete",  %>
-              </td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
-    <% end %>
+    <%= render 'shared/file_upload_index', :file_uploads => @edit_post.file_uploads %>
     <p class="actions">
       <%= link_to "upload file", new_file_upload_with_page_path(@edit_post.id), :class => "new"%>
     </p>
