@@ -1,85 +1,85 @@
 <%= form_for(@edit_page) do |f| %>
-<section class="sidebar right">
-  <section class="categories">
-    <h3>position:</h3>
-    <%= possible_page_position_options(@edit_page) %>
+  <section class="sidebar right">
+    <section class="categories">
+      <h3>position:</h3>
+      <%= possible_page_position_options(@edit_page) %>
+    </section>
   </section>
-</section>
-<fieldset>
-  <%= render 'errors/form', :object => @edit_page %>
-  <div class="field actions">
-    <label>
-      title:
-    </label>
-    <span><%= page_title @edit_page %>
-      <i>(<%= (@edit_page.int_title or "new") %>)</i></span>
-    <span><%= link_to "activate", activate_page_path(@edit_page), :class => "enable" if @edit_page.activatable? %>
-    </span>
-    <span><%= link_to "deactivate", deactivate_page_path(@edit_page), :class => "disable" if @edit_page.deactivatable? %>
-    </span>
-  </div>
-  <div class="field">
-    <label>
-      visible after:
-    </label>
-    <%= f.datetime_select :start_at, :order => [:day, :month, :year], :date_seperator => ".", :time_seperator => ":" %>
-  </div>
-  <div class="field">
-    <label>
-      visible for:
-    </label>
-    <%= f.select :role_id, roles_options %>
-  </div>
-  <fieldset id="content_tabs">
-    <ul>
-      <% @edit_page.page_contents.each do |content| %>
-      <li>
-        <%= link_to content.language.name, "#content_tab_"+content.language.short %>
-      </li>
-      <% end %>
-    </ul>
-    <% f.fields_for :page_contents do |content_fields| %>
-    <%= content_fields.hidden_field :language_id %>
-    <div id="<%= "content_tab_"  + content_fields.object.language.short %>">
-      <div class="field">
-        <label>
-          in language:
-        </label>
-        <%= content_fields.object.language.name %>
-      </div>
-      <div class="field">
-        <label>
-          title:
-        </label>
-        <%= content_fields.text_field :title %>
-      </div>
-      <div class="field">
-        <label>
-          text (kramdown):
-        </label>
-        <%= content_fields.text_area :text, :class => "kramdown" %>
-      </div>
-      <div class="field">
-        <label>
-          excerpt:
-        </label>
-        <%= content_fields.text_area :excerpt, :rows => 3 %>
-      </div>
-    </div>
-    <% end %>
-  </fieldset>
-  <% if @edit_page.id.present? %>
   <fieldset>
-    <%= render 'shared/file_upload_index', :file_uploads => @edit_page.file_uploads %>
-    <p class="actions">
-      <%= link_to "upload file", new_file_upload_with_page_path(@edit_page.id), :class => "new" %>
-    </p>
+    <%= render 'errors/form', :object => @edit_page %>
+    <div class="field actions">
+      <label>
+        title:
+      </label>
+      <span><%= page_title @edit_page %>
+        <i>(<%= (@edit_page.int_title or "new") %>)</i></span>
+      <span><%= link_to "activate", activate_page_path(@edit_page), :class => "enable" if @edit_page.activatable? %>
+      </span>
+      <span><%= link_to "deactivate", deactivate_page_path(@edit_page), :class => "disable" if @edit_page.deactivatable? %>
+      </span>
+    </div>
+    <div class="field">
+      <label>
+        visible after:
+      </label>
+      <%= f.datetime_select :start_at, :order => [:day, :month, :year], :date_seperator => ".", :time_seperator => ":" %>
+    </div>
+    <div class="field">
+      <label>
+        visible for:
+      </label>
+      <%= f.select :role_id, roles_options %>
+    </div>
+    <fieldset id="content_tabs">
+      <ul>
+        <% @edit_page.page_contents.each do |content| %>
+        <li>
+          <%= link_to content.language.name, "#content_tab_"+content.language.short %>
+        </li>
+        <% end %>
+      </ul>
+      <% f.fields_for :page_contents do |content_fields| %>
+      <%= content_fields.hidden_field :language_id %>
+      <div id="<%= "content_tab_"  + content_fields.object.language.short %>">
+        <div class="field">
+          <label>
+            in language:
+          </label>
+          <%= content_fields.object.language.name %>
+        </div>
+        <div class="field">
+          <label>
+            title:
+          </label>
+          <%= content_fields.text_field :title %>
+        </div>
+        <div class="field">
+          <label>
+            text (kramdown):
+          </label>
+          <%= content_fields.text_area :text, :class => "kramdown" %>
+        </div>
+        <div class="field">
+          <label>
+            excerpt:
+          </label>
+          <%= content_fields.text_area :excerpt, :rows => 3 %>
+        </div>
+      </div>
+      <% end %>
+    </fieldset>
+    <% if @edit_page.id.present? %>
+    <fieldset>
+      <%= render 'shared/file_upload_index', :file_uploads => @edit_page.file_uploads %>
+      <p class="actions">
+        <%= link_to "upload file", new_file_upload_with_page_path(@edit_page.id), :class => "new" %>
+      </p>
+    </fieldset>
+    <% end %>
+    <div class="actions">
+      <%= f.submit :class => "continue" %>
+    </div>
   </fieldset>
-  <% end %>
-  <div class="actions">
-    <%= f.submit :class => "continue" %>
-  </div>
-</fieldset>
 <% end %>
 <script type="text/javascript">
   $(function(){
