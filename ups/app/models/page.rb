@@ -20,7 +20,7 @@
 require 'date'
 
 class Page < ActiveRecord::Base
-  attr_accessible :parent_id, :page_type, :enabled, :position, :int_title, :forced_url, :start_at, :role_id, :user_id, :role, :user, :page_contents_attributes, :page_categories_attributes, :file_uploads
+  attr_accessible :parent_id, :page_type, :enabled, :position, :int_title, :forced_url, :start_at, :role_id, :role, :user, :user_id, :page_contents_attributes, :page_categories_attributes, :file_uploads
   
   belongs_to :parent, :class_name => "Page", :foreign_key => "parent_id"
   has_many :children, :class_name => "Page", :foreign_key => "parent_id", :dependent => :destroy
@@ -35,10 +35,10 @@ class Page < ActiveRecord::Base
   has_many :categories, :through => :page_categories
   accepts_nested_attributes_for :page_categories, :reject_if => proc { |attrs| attrs['checked'] == "0" }
   
-  has_many :comments
+  has_many :comments, :dependent => :destroy
   belongs_to :user
   belongs_to :role
-
+  
   has_many :file_uploads
   
   default_scope :order => "pages.position"
@@ -56,6 +56,12 @@ class Page < ActiveRecord::Base
   validates :int_title, :uniqueness => true,  :format => /^[a-z0-9_]{0,255}$/, :allow_nil => true
   validates_numericality_of :role_id, :presence => true, :greater_than => 0
   
+  before_validation :destroy_relevant
+  
+  def extend
+    extend_page_contents(self)
+    extend_page_categories(self)
+  end
   
   def to_s
     self.int_title
@@ -106,10 +112,44 @@ class Page < ActiveRecord::Base
   end
   
   def activatable?
-    !enabled && page_contents.any?
+    !enabled && page_contents.any? && !changed?
   end
   
   def deactivatable?
     enabled && (role != Role.find_by_int_name(:admin)) && self != Conf.get_default_page
+  end
+  
+  private
+  
+  def extend_page_contents(page)
+    Language.all.each do |lang|
+      found = false
+      page.page_contents.each do |page_content|
+        found ||= lang == page_content.language
+      end
+      page.page_contents.build(:language_id => lang.id) unless found
+    end
+  end
+  
+  def extend_page_categories(page)
+    page.page_categories.each do |page_category|
+      page_category.checked = "1"
+    end
+    Category.all.each do |cat|
+      found = false
+      page.page_categories.each do |page_category|
+        found ||= cat == page_category.category
+      end
+      page_category = page.page_categories.build(:category_id => cat.id) unless found
+    end
+  end
+  
+  def destroy_relevant
+    self.page_contents = self.page_contents.find_all do |page_content|
+      page_content.valid?
+    end
+    page_categories.each do |page_category|
+      page_category.destroy if page_category.checked == "0"
+    end
   end
 end

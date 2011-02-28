@@ -6,8 +6,7 @@ class NewsController < ApplicationController
   filter_access_to :all
   
   def show
-    @news = Page.find(params[:id])
-    @title = view_context.page_title(@news)
+    @page = Page.find(params[:id])
   end
   
   def index
@@ -16,19 +15,16 @@ class NewsController < ApplicationController
   
   def new
     @title = "create new post"
-    @edit_post = Page.new(:page_type => :news, :enabled => false)
-    @edit_post.role = Role.find_by_int_name(:guest)
+    @edit_post = Page.new(:page_type => :news, :enabled => false, :role => Role.find_by_int_name(:guest))
+    @edit_post.extend
     @edit_post.user = @current_user
-    @edit_post.page_contents.build
-    Category.all.each do |cat|
-      @edit_post.page_categories.build(:category_id => cat.id)
-    end
   end
   
   def create
-    @edit_post = Page.new(params[:page].merge(:page_type => :news, :enabled => false, :role => Role.find_by_int_name(:guest), :user => @current_user))
+    @title = "create new post"
+    @edit_post = Page.new(params[:page].merge(:page_type => :news, :enabled => false, :role => Role.find_by_int_name(:guest)))
     
-    if @edit_post.save
+    if @edit_post.page_contents.any? &&  @edit_post.save
       @edit_post.reload
       @edit_post.parent = Page.find(:first, :conditions => {:forced_url => "/news"})
       @edit_post.user = @current_user
@@ -37,6 +33,7 @@ class NewsController < ApplicationController
       flash[:success] = "post created."
       redirect_to edit_news_path @edit_post
     else
+      @edit_post.extend
       flash[:error] = "post creation failed."
       render :action => :new
     end
@@ -44,14 +41,26 @@ class NewsController < ApplicationController
   
   def edit
     @title = "edit post"
+    @edit_post = Page.find params[:id] 
+    @edit_post.extend
   end
   
   def update
+    @title = "edit post"
+    @edit_post = Page.find params[:id]
+    
+    if @edit_post.update_attributes(params[:page])
+      flash[:success] = "post updated."
+    else
+      flash[:error] = "post update failed."
+    end
+    @edit_post.extend
+    render :action => :edit
   end
   
   def destroy
-    @edit_news = Page.find(params[:id])
-    @edit_news.destroy
+    @edit_post = Page.find(params[:id])
+    @edit_post.destroy
     
     flash[:success] = "post deleted."
     redirect_to news_index_path
@@ -68,5 +77,4 @@ class NewsController < ApplicationController
   def load_news
     @edit_news = Page.find(params[:id]) if params[:id].present?
   end
-  
 end

@@ -1,17 +1,28 @@
-<%= form_for(@edit_page) do |f| %>
 <section class="sidebar right">
+  <% if Category.first.present? %>
   <section class="categories">
-    <h3>position:</h3>
-    <%= possible_page_position_options(@edit_page) %>
+    <h3>categories:</h3>
+    <ul>
+      <% f.fields_for :page_categories do |cat_f| %>
+      <li>
+        <%= cat_f.check_box :checked %><%= category_name(cat_f.object.category) %>
+        <%= cat_f.hidden_field :category_id %>
+      </li>
+      <% end %>
+    </ul>
   </section>
+  <section class="tags">
+    <h3>tags:</h3>
+  </section>
+  <% end %>
 </section>
 <fieldset>
-  <% if @edit_page.errors.any? %>
+  <% if @edit_post.errors.any? %>
   <div id="error_explanation">
-    <h2><%= pluralize(@edit_page.errors.count, "error") %>
+    <h2><%= pluralize(@edit_post.errors.count, "error") %>
       prohibited this page from being saved:</h2>
     <ul>
-      <% @edit_page.errors.full_messages.each do |msg| %>
+      <% @edit_post.errors.full_messages.each do |msg| %>
       <li>
         <%= msg %>
       </li>
@@ -19,32 +30,15 @@
     </ul>
   </div>
   <% end %>
-  <div class="field actions">
-    <label>
-      title:
-    </label>
-    <span><%= page_title @edit_page %>
-      <i>(<%= (@edit_page.int_title or "new") %>)</i></span>
-    <span><%= link_to "activate", activate_page_path(@edit_page), :class => "enable" if @edit_page.activatable? %>
-    </span>
-    <span><%= link_to "deactivate", deactivate_page_path(@edit_page), :class => "disable" if @edit_page.deactivatable? %>
-    </span>
-  </div>
   <div class="field">
     <label>
       visible after:
     </label>
     <%= f.datetime_select :start_at, :order => [:day, :month, :year], :date_seperator => ".", :time_seperator => ":" %>
   </div>
-  <div class="field">
-    <label>
-      visible for:
-    </label>
-    <%= f.select :role_id, roles_options %>
-  </div>
   <fieldset id="content_tabs">
     <ul>
-      <% @edit_page.page_contents.each do |content| %>
+      <% @edit_post.page_contents.each do |content| %>
       <li>
         <%= link_to content.language.name, "#content_tab_"+content.language.short %>
       </li>
@@ -53,7 +47,7 @@
     <% f.fields_for :page_contents do |content_fields| %>
     <%= content_fields.hidden_field :language_id %>
     <div id="<%= "content_tab_"  + content_fields.object.language.short %>">
-      <div class="field actions">
+      <div class="field">
         <label>
           in language:
         </label>
@@ -84,7 +78,6 @@
     <%= f.submit :class => "continue" %>
   </div>
 </fieldset>
-<% end %>
 <script type="text/javascript">
   $(function(){
       $("#content_tabs").tabs();

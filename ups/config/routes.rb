@@ -2,7 +2,7 @@ Ups::Application.routes.draw do
   resources :users
   resources :links
   resources :file_uploads
-
+  
   match "/category/:id/(:name)" => "categories#show", :as => :show_category,
     :via => :get
   
@@ -20,6 +20,7 @@ Ups::Application.routes.draw do
   
   match "/blog/:id/(:int_title)(/:language_short)" => "news#show", :as => :show_news, :via => :get
   match "/blog/:id/(:int_title)(/:language_short)" => "news#destroy", :as => :show_news, :via => :delete
+  match "/blog/:id/(:int_title)(/:language_short)" => "news#update", :as => :show_news, :via => :put
   resources :news do
     get 'rss', :on => :collection
   end
@@ -32,12 +33,6 @@ Ups::Application.routes.draw do
     member do
       get 'activate'
       get 'deactivate'
-      
-      match 'new_content/:language_id' => "page_contents#new", :via => :get, :as => :new_page_content
-      match 'create_content/:language_id' => "page_contents#create", :via => :post, :as => :create_page_content
-      match 'edit_content/:language_id' => "page_contents#edit", :via => :get, :as => :edit_page_content
-      match 'update_content/:language_id' => "page_contents#update", :via => :put, :as => :update_page_content
-      match 'destroy_content/:language_id' => "page_contents#destroy", :via => :delete, :as => :destroy_page_content
     end
   end
   

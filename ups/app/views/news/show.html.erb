@@ -1,23 +1,23 @@
 <%= render 'sidebar' %>
 <section class="news">
-  <% if @current_user == @news.user || has_role_with_hierarchy?(:admin) %>
+  <% if @current_user == @page.user || has_role_with_hierarchy?(:admin) %>
   <p class="actions">
-    <%= link_to "edit", edit_news_path(@news), :class => "edit" %>
-    <%= link_to "delete", news_path(@news), :confirm => "Are you sure?", :method => :delete, :class => "delete" %>
+    <%= link_to "edit", edit_news_path(@page), :class => "edit" %>
+    <%= link_to "delete", news_path(@page), :confirm => "Are you sure?", :method => :delete, :class => "delete" %>
   </p>
   <% end %>
   <p>
-    <%= page_text(@news) %>
+    <%= page_text(@page) %>
   </p>
   <p class="footer">
-    <% if @news.user.present? %>
-    <span>author: <%= link_to @news.user.name, @news.user %></span>
+    <% if @page.user.present? %>
+    <span>author: <%= link_to @page.user.name, @page.user %></span>
     <% else %>
     <span><i>(author deleted)</i></span>
     <% end %>
-    <span>from: <%= @news.updated_at %></span>
-    <% if @news.categories.any? %>
-    <span>categories: <%= inline_categories_for(@news) %></span>
+    <span>from: <%= @page.updated_at %></span>
+    <% if @page.categories.any? %>
+    <span>categories: <%= inline_categories_for(@page) %></span>
     <% end %>
   </p>
 </section>
