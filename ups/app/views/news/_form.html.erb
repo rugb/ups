@@ -39,12 +39,7 @@
     <%= render 'shared/text_form', :f => f, :edit_page => @edit_post %>
   </fieldset>
   <% if @edit_post.id.present? %>
-  <fieldset>
-    <%= render 'shared/file_upload_index', :file_uploads => @edit_post.file_uploads %>
-    <p class="actions">
-      <%= link_to "upload file", new_file_upload_with_page_path(@edit_post.id), :class => "new" %>
-    </p>
-  </fieldset>
+    <%= render 'shared/file_upload_index', :file_uploads => @edit_post.file_uploads, :edit_page => @edit_post %>
   <% end %>
   <div class="actions">
     <%= f.submit :class => "continue" %>
