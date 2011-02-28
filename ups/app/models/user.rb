@@ -16,7 +16,7 @@
 #
 
 class User < ActiveRecord::Base
-  attr_accessible :openid, :email, :name, :role_id, :fullname, :language_id
+  attr_accessible :openid, :email, :name, :fullname, :language_id
   
   has_many :pages
   has_many :comments
@@ -49,10 +49,11 @@ class User < ActiveRecord::Base
   end
   
   def initialize(options = {})
-    options[:role_id] = Role.find_by_int_name(:guest).id if options[:role_id].nil?
     options[:openid].strip! if options[:openid].present?
     
     super(options)
+    
+    self.role_id = Role.find_by_int_name(:guest).id
     
     self.salt = make_salt if new_record?
   end

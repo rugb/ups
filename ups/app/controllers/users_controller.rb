@@ -34,11 +34,15 @@ class UsersController < ApplicationController
   def update
     @user = User.find params[:id]
     
+    if has_role? :admin
+      @user.role_id = params[:user][:role_id]
+    end
+    
     if @user.update_attributes(params[:user])
       set_session_language @user.language.short if @user.language.present?
       
       flash[:success] = "user updated"
-      if has_role?(:admin)
+      if has_role? :admin 
         redirect_to users_path
       else
         redirect_to user_path @user

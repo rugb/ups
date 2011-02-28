@@ -83,6 +83,6 @@ category = Category.new
 category.category_names.build(:id => 1, :language_id => 2, :name => "Allgemein").save
 category.category_names.build(:id => 2, :language_id => 1, :name => "general").save
 
-User.ensure(:id => 0, :role_id => guest.id)
+User.ensure(:id => 0)
 
 Conf.web_name = "university project system" 
