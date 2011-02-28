@@ -1,4 +1,11 @@
 module PagesHelper
+  def visible_children_pages(page)
+    Page.find(:all, :conditions => {:enabled => true, :parent_id => (page and page.id), :page_type => :page}).find_all do |child|
+      child.visible? && child.position.present? && has_role_with_hierarchy?(child.role.int_name)
+    end
+  end
+  
+  # thats for the index table of page management
   def make_treecell_style(depth)
     raw('style="background-position: ' + (-48 + 16 * depth).to_s + 'px 0; padding-left: ' + (5 + 16 * depth).to_s + 'px;"')
   end
