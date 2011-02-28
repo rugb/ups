@@ -11,7 +11,11 @@ class FileUpload < ActiveRecord::Base
      self.count = 0
 
      if file.present?
-       self.filename = file.filename if options[:filename].blank?
+       if options[:filename].blank?
+         self.filename = file.filename
+       else
+         self.file.filename = options[:filename]
+       end
        self.size = file.size if self.size.nil?
      end
    end

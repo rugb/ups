@@ -49,5 +49,5 @@ Ups::Application.routes.draw do
   
   root :to => "pages#home"
   
-  #match "*a" => "application#http_404"
+  match "*a" => "application#http_404"
 end

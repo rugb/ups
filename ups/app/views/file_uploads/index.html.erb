@@ -18,22 +18,28 @@
       </th>
       <th>
       </th>
+      <th>
+      </th>
     </tr>
   </thead>
   <tbody>
   <% @file_uploads.each do |file_upload| %>
+  <% file_upload.file.process! %>
     <tr>
       <td>
         <%= link_to file_upload.filename, file_upload.file.url %>
       </td>
       <td>
-        <%= file_upload.file.size %>
+        <%= number_to_human_size(file_upload.file.size) %>
       </td>
       <td>
-        <%= file_upload.page %>
+        <%= page_title file_upload.page %>
       </td>
       <td>
         <%= file_upload.count %>
+      </td>
+      <td class="action">
+        <%= link_to "download", file_upload, :class => "download" %>
       </td>
       <td class="actions">
           <%= link_to "edit", edit_file_upload_path(file_upload), :class => "edit" %>

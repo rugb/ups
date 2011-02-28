@@ -11,7 +11,10 @@ authorization do
     has_permission_on :pages, :to => :home
     has_permission_on :categories, :to => [ :index, :show ]
 
-    has_permission_on :file_uploads, :to => [ :show ]
+    has_permission_on :file_uploads do
+      to :show
+      if_attribute :page => { :role => { :int_name => is { :guest } } }
+    end
   end
   
   role :user do
@@ -30,6 +33,11 @@ authorization do
     has_permission_on :users, :to => :show
     
     has_permission_on :session, :to => [ :show, :logout ]
+
+    has_permission_on :file_uploads do
+      to :show
+      if_attribute :page => { :role => { :int_name => is { :user } } }
+    end
   end
 
   role :member do
@@ -38,6 +46,11 @@ authorization do
     has_permission_on :pages do
       to :show
       if_attribute :role => { :int_name => is  { :member } }
+    end
+
+    has_permission_on :file_uploads do 
+      to :show
+      if_attribute :page => { :role => { :int_name => is { :member } } }
     end
 
     has_permission_on :news do
