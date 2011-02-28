@@ -12,7 +12,7 @@ authorization do
 
     has_permission_on :news, :to => [ :index, :show, :rss ]
     has_permission_on :pages, :to => :home
-    has_permission_on :categories, :to => [ :index, :show ]
+    has_permission_on :categories, :to => [ :show ]
   end
   
   role :user do
