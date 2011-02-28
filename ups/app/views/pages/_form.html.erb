@@ -1,7 +1,9 @@
 <%= form_for(@edit_page) do |f| %>
 <section class="sidebar right">
   <section class="categories">
-    <h3>position:</h3>
+    <h3>
+      position:
+    </h3>
     <%= possible_page_position_options(@edit_page) %>
   </section>
 </section>
@@ -11,11 +13,17 @@
     <label>
       title:
     </label>
-    <span><%= page_title @edit_page %>
-      <i>(<%= (@edit_page.int_title or "new") %>)</i></span>
-    <span><%= link_to "activate", activate_page_path(@edit_page), :class => "enable" if @edit_page.activatable? %>
+    <span>
+      <%= page_title @edit_page %>
+      <i>
+        (<%= (@edit_page.int_title or "new") %>)
+      </i>
     </span>
-    <span><%= link_to "deactivate", deactivate_page_path(@edit_page), :class => "disable" if @edit_page.deactivatable? %>
+    <span>
+      <%= link_to "activate", activate_page_path(@edit_page), :class => "enable" if @edit_page.activatable? %>
+    </span>
+    <span>
+      <%= link_to "deactivate", deactivate_page_path(@edit_page), :class => "disable" if @edit_page.deactivatable? %>
     </span>
   </div>
   <div class="field">
@@ -53,6 +61,7 @@
         </label>
         <%= content_fields.text_field :title %>
       </div>
+      <% if @edit_page.forced_url.nil? %>
       <div class="field">
         <label>
           text (kramdown):
@@ -65,6 +74,7 @@
         </label>
         <%= content_fields.text_area :excerpt, :rows => 3 %>
       </div>
+      <% end %>
     </div>
     <% end %>
   </fieldset>
