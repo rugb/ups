@@ -1,4 +1,18 @@
 Ups::Application.routes.draw do
+  get "file_uploads/new"
+
+  get "file_uploads/create"
+
+  get "file_uploads/update"
+
+  get "file_uploads/edit"
+
+  get "file_uploads/destroy"
+
+  get "file_uploads/index"
+
+  get "file_uploads/show"
+
   resources :users
   resources :links
 
