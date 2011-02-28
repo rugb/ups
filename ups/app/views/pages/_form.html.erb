@@ -78,7 +78,7 @@
     </div>
     <% end %>
   </fieldset>
-  <% if @edit_page.id.present? %>
+  <% if @edit_page.id.present? && @edit_page.forced_url.nil? %>
   <fieldset>
     <%= render 'shared/file_upload_index', :file_uploads => @edit_page.file_uploads %>
     <p class="actions">
