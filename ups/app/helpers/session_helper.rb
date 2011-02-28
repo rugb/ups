@@ -35,7 +35,7 @@ module SessionHelper
       render 'errors/permission_denied'
     else
       store_location
-      redirect_to session_login_path, :notice => "Please sign in to access this page."
+      redirect_to login_session_index_path, :notice => "Please sign in to access this page."
     end
   end
 

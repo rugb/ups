@@ -11,7 +11,7 @@ class UsersController < ApplicationController
   end
 
   def show
-    http_404 if @user.nil?
+    http_404 if (@user ||= @current_user).nil?
   end
 
   def new
@@ -69,6 +69,6 @@ class UsersController < ApplicationController
      def load_user
        @user = User.find params[:id] if params[:id].present?
 
-       @user = nil if @user.id == 0
+       @user = nil if @user.present? && @user.id == 0
      end
 end

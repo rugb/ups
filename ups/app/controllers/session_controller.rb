@@ -33,7 +33,7 @@ class SessionController < ApplicationController
     sign_out
     
     flash[:success] = "You have been logged out."
-    redirect_back_or session_login_path
+    redirect_back_or login_session_index_path
   end
   
   def show
@@ -49,13 +49,13 @@ class SessionController < ApplicationController
   
   def failed_login(error)
      flash[:error] = error
-     redirect_to session_login_path
+     redirect_to login_session_index_path
   end
   
   def permission_denied
     if has_role? :guest
       store_location
-      redirect_to session_login_path, :flash => { :error => "Please sign in to access this page." }
+      redirect_to login_session_index_path, :flash => { :error => "Please sign in to access this page." }
     else
       http_404
     end
