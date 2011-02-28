@@ -1,1 +1,72 @@
-<%= render 'sidebar' %>
+<%= form_for @edit_post do |f| %>
+<section class="sidebar right">
+  <% if Category.first.present? %>
+  <section class="categories">
+    <h3>categories:</h3>
+    <ul>
+      <% f.fields_for :page_categories do |cat_f| %>
+      <li>
+        <%= cat_f.check_box :checked %><%= category_name(cat_f.object.category) %>
+        <%= cat_f.hidden_field :category_id %>
+      </li>
+      <% end %>
+    </ul>
+  </section>
+  <section class="tags">
+    <h3>tags:</h3>
+  </section>
+  <% end %>
+</section>
+<fieldset>
+  <% if @edit_post.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(@edit_post.errors.count, "error") %>
+      prohibited this page from being saved:</h2>
+    <ul>
+      <% @edit_post.errors.full_messages.each do |msg| %>
+      <li>
+        <%= msg %>
+      </li>
+      <% end %>
+    </ul>
+  </div>
+  <% end %>
+  <div class="field">
+    <label>
+      visible after:
+    </label>
+    <%= f.datetime_select :start_at, :order => [:day, :month, :year], :date_seperator => ".", :time_seperator => ":" %>
+  </div>
+  <% f.fields_for :page_contents do |content_fields| %>
+  <fieldset>
+    <div class="field">
+      <label>
+        in language:
+      </label>
+      <%= content_fields.object.language.name %>
+    </div>
+    <div class="field">
+      <label>
+        title:
+      </label>
+      <%= content_fields.text_field :title %>
+    </div>
+    <div class="field">
+      <label>
+        text:
+      </label>
+      <%= content_fields.text_area :text %>
+    </div>
+    <div class="field">
+      <label>
+        excerpt:
+      </label>
+      <%= content_fields.text_area :excerpt, :rows => 3 %>
+    </div>
+  </fieldset>
+  <% end %>
+  <div class="actions">
+    <%= f.submit :class => "continue" %>
+  </div>
+</fieldset>
+<% end %>

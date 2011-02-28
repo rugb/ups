@@ -19,7 +19,7 @@ class NewsController < ApplicationController
     @edit_post = Page.new(:page_type => :news, :enabled => false)
     @edit_post.role = Role.find_by_int_name(:guest)
     @edit_post.user = @current_user
-    @edit_post.page_contents.build
+    @edit_post.page_contents.build(:language_id => wanted_languages.first.id)
     Category.all.each do |cat|
       @edit_post.page_categories.build(:category_id => cat.id)
     end
@@ -44,14 +44,23 @@ class NewsController < ApplicationController
   
   def edit
     @title = "edit post"
+    @edit_post = Page.find params[:id] 
+    Language.all.each do |lang|
+      found = false
+      @edit_post.page_contents.each do |page_content|
+        found ||= lang == page_content.language
+      end
+      @edit_post.page_contents.build(:language_id => lang.id) unless found
+    end
   end
   
   def update
+    @edit_post = Page.find params[:id]
   end
   
   def destroy
-    @edit_news = Page.find(params[:id])
-    @edit_news.destroy
+    @edit_post = Page.find(params[:id])
+    @edit_post.destroy
     
     flash[:success] = "post deleted."
     redirect_to news_index_path
