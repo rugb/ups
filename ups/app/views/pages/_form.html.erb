@@ -41,7 +41,7 @@
     <% f.fields_for :page_contents do |content_fields| %>
     <%= content_fields.hidden_field :language_id %>
     <div id="<%= "content_tab_"  + content_fields.object.language.short %>">
-      <div class="field actions">
+      <div class="field">
         <label>
           in language:
         </label>
