@@ -3,6 +3,7 @@ class FileUploadsController < ApplicationController
   
   def new
     @file_upload = FileUpload.new
+    @file_upload.page_id = params[:page_id]
   end
 
   def create
@@ -10,7 +11,7 @@ class FileUploadsController < ApplicationController
 
     if @file_upload.save
       flash[:success] = "file uploaded"
-      redirect_to file_uploads_path
+      redirect_to edit_news_path(@file_upload.page)
     else
       flash.now[:error] = "file not upload"
       render 'new'
@@ -21,12 +22,18 @@ class FileUploadsController < ApplicationController
   end
 
   def edit
+    @file_upload = FileUpload.find(params[:id]) if (params[:id])
   end
 
   def destroy
+    @file_upload = FileUpload.find(params[:id]) if (params[:id])
     @file_upload.destroy
 
-    redirect_to file_uploads_path
+    if @file_upload.page.present? 
+      redirect_to edit_news_path(@file_upload.page)
+    else
+      redirect_to file_uploads_path
+    end
   end
 
   def index
@@ -34,7 +41,8 @@ class FileUploadsController < ApplicationController
   end
 
   def show
-    http_404 and return  if @file_upload.page.enabled == false
+    @file_upload = FileUpload.find(params[:id]) if (params[:id])
+    http_404 and return  if @file_upload.page.present? && @file_upload.page.enabled == false
 
     #response.headers['Pragma'] = ' '
     #response.headers['Cache-Control'] = ' '
@@ -44,14 +52,10 @@ class FileUploadsController < ApplicationController
     response.headers['Content-Length'] = "#{@file_upload.file.size}"
     response.headers['Content-Transfer-Encoding'] = 'binary'
     response.headers['Content-Description'] = 'File Transfer'
+
+    @file_upload.count += 1
+    @file_upload.save!
     
     render "show"
   end
-
-  private
-
-    def load_file_upload
-      @file_upload = FileUpload.find(params[:id]) if (params[:id])
-    end
-
 end
