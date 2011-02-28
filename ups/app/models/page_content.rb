@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20110225155059
+# Schema version: 20110228183544
 #
 # Table name: page_contents
 #
@@ -11,6 +11,7 @@
 #  language_id :integer
 #  created_at  :datetime
 #  updated_at  :datetime
+#  html        :text
 #
 
 require 'kramdown'
@@ -26,8 +27,8 @@ class PageContent < ActiveRecord::Base
   belongs_to :language
   
   before_save :update_int_title
-  before_save :update_excerpt
   before_save :update_html
+  before_save :update_excerpt
   
   private
   def make_short_title(title)
@@ -35,7 +36,7 @@ class PageContent < ActiveRecord::Base
   end
   
   def make_excerpt(text)
-    text[0..255] if text.present?
+    html.gsub(%r{</?[^>]+?>}, '')[0..255] if html.present?
   end
   
   def update_int_title
