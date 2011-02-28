@@ -18,6 +18,10 @@ class Category < ActiveRecord::Base
   has_many :link_categories
   has_many :links, :through => :link_categories
   
+  validate do |category|
+    category.errors.add :category, "should have a name" if category.category_names.empty?
+  end
+  
   before_validation :check_category_names
   before_destroy :deletable?
   

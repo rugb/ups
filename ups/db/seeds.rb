@@ -79,7 +79,7 @@ if Page.all.empty? || PageContent.all.empty?
   page.page_contents.build(:id => pcID, :language_id => 2, :title => "Einstellungen").save
 end
 
-category = Category.ensure(:id => 1)
+category = Category.new
 category.category_names.build(:id => 1, :language_id => 2, :name => "Allgemein").save
 category.category_names.build(:id => 2, :language_id => 1, :name => "general").save
 
