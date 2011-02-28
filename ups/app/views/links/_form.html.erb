@@ -15,19 +15,7 @@
   <% end %>
 </section>
 <fieldset>
-<% if @link.errors.any? %>
-  <div id="error_explanation">
-    <h2><%= pluralize(@link.errors.count, "error") %>
-      prohibited this user from being saved:</h2>
-    <ul>
-      <% @link.errors.full_messages.each do |msg| %>
-      <li>
-        <%= msg %>
-      </li>
-      <% end %>
-    </ul>
-  </div>
-  <% end %>
+  <%= render 'errors/form', :object => @link %>
   <div class="field">
     <label>
       title:
