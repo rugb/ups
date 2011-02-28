@@ -78,6 +78,14 @@
     </div>
     <% end %>
   </fieldset>
+  <% if @edit_page.id.present? %>
+  <fieldset>
+    <%= render 'shared/file_upload_index', :file_uploads => @edit_page.file_uploads %>
+    <p class="actions">
+      <%= link_to "upload file", new_file_upload_with_page_path(@edit_page.id), :class => "new" %>
+    </p>
+  </fieldset>
+  <% end %>
   <div class="actions">
     <%= f.submit :class => "continue" %>
   </div>
