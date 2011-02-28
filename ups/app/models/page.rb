@@ -26,7 +26,7 @@ class Page < ActiveRecord::Base
   has_many :children, :class_name => "Page", :foreign_key => "parent_id", :dependent => :destroy
   
   has_many :page_contents, :dependent => :destroy
-  accepts_nested_attributes_for :page_contents, :reject_if => proc { |attrs| attrs['title'].empty? && attrs['text'].empty? && attrs['excerpt'].empty? }
+  accepts_nested_attributes_for :page_contents
   
   has_many :page_tags, :dependent => :destroy
   has_many :tags, :through => :page_tags
@@ -35,7 +35,7 @@ class Page < ActiveRecord::Base
   has_many :categories, :through => :page_categories
   accepts_nested_attributes_for :page_categories, :reject_if => proc { |attrs| attrs['checked'] == "0" }
   
-  has_many :comments
+  has_many :comments, :dependent => :destroy
   belongs_to :user
   belongs_to :role
   
@@ -55,6 +55,8 @@ class Page < ActiveRecord::Base
   validates_inclusion_of :enabled, :in => [true, false]
   validates :int_title, :uniqueness => true,  :format => /^[a-z0-9_]{0,255}$/, :allow_nil => true
   validates_numericality_of :role_id, :presence => true, :greater_than => 0
+  
+  before_validation :destroy_relevant
   
   def extend
     extend_page_contents(self)
@@ -110,7 +112,7 @@ class Page < ActiveRecord::Base
   end
   
   def activatable?
-    !enabled && page_contents.any?
+    !enabled && page_contents.any? && !changed?
   end
   
   def deactivatable?
@@ -132,7 +134,6 @@ class Page < ActiveRecord::Base
   def extend_page_categories(page)
     page.page_categories.each do |page_category|
       page_category.checked = "1"
-      page_category.destroy
     end
     Category.all.each do |cat|
       found = false
@@ -140,6 +141,15 @@ class Page < ActiveRecord::Base
         found ||= cat == page_category.category
       end
       page_category = page.page_categories.build(:category_id => cat.id) unless found
+    end
+  end
+  
+  def destroy_relevant
+    self.page_contents = self.page_contents.find_all do |page_content|
+      page_content.valid?
+    end
+    page_categories.each do |page_category|
+      page_category.destroy if page_category.checked == "0"
     end
   end
 end

@@ -1,6 +1,10 @@
 <%= form_for(@edit_page) do |f| %>
-<%= hidden_field :edit_page, :enabled %>
-<%= hidden_field :edit_page, :page_type %>
+<section class="sidebar right">
+  <section class="categories">
+    <h3>position:</h3>
+    <%= possible_page_position_options(@edit_page) %>
+  </section>
+</section>
 <fieldset>
   <% if @edit_page.errors.any? %>
   <div id="error_explanation">
@@ -19,7 +23,7 @@
     <label>
       title:
     </label>
-    <span><%= @edit_page_content.title unless @edit_page_content.nil? %>
+    <span><%= page_title @edit_page %>
       <i>(<%= (@edit_page.int_title or "new") %>)</i></span>
     <span><%= link_to "activate", activate_page_path(@edit_page), :class => "enable" if @edit_page.activatable? %>
     </span>
@@ -36,16 +40,53 @@
     <label>
       visible for:
     </label>
-        <%= f.select :role_id, roles_options %>
+    <%= f.select :role_id, roles_options %>
   </div>
-  <div class="field">
-    <label>
-      position:
-    </label>
-    <%= possible_page_position_options(@edit_page) %>
-  </div>
+  <fieldset id="content_tabs">
+    <ul>
+      <% @edit_page.page_contents.each do |content| %>
+      <li>
+        <%= link_to content.language.name, "#content_tab_"+content.language.short %>
+      </li>
+      <% end %>
+    </ul>
+    <% f.fields_for :page_contents do |content_fields| %>
+    <%= content_fields.hidden_field :language_id %>
+    <div id="<%= "content_tab_"  + content_fields.object.language.short %>">
+      <div class="field actions">
+        <label>
+          in language:
+        </label>
+        <%= content_fields.object.language.name %>
+      </div>
+      <div class="field">
+        <label>
+          title:
+        </label>
+        <%= content_fields.text_field :title %>
+      </div>
+      <div class="field">
+        <label>
+          text:
+        </label>
+        <%= content_fields.text_area :text %>
+      </div>
+      <div class="field">
+        <label>
+          excerpt:
+        </label>
+        <%= content_fields.text_area :excerpt, :rows => 3 %>
+      </div>
+    </div>
+    <% end %>
+  </fieldset>
   <div class="actions">
     <%= f.submit :class => "continue" %>
   </div>
 </fieldset>
 <% end %>
+<script type="text/javascript">
+  $(function(){
+      $("#content_tabs").tabs();
+  })
+</script>

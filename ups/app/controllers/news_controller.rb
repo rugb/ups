@@ -6,8 +6,7 @@ class NewsController < ApplicationController
   filter_access_to :all
   
   def show
-    @news = Page.find(params[:id])
-    @title = view_context.page_title(@news)
+    @page = Page.find(params[:id])
   end
   
   def index

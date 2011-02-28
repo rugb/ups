@@ -43,7 +43,7 @@ class PageContent < ActiveRecord::Base
   end
   
   def make_excerpt(text)
-   text[0..255]
+   text[0..255] if text.present?
   end
   
 end

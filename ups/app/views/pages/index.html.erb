@@ -9,7 +9,7 @@
   </td>
   <td class="actions">
     <% page.page_contents.sort_by { |page_content| page_content.language.name }.each do |page_content| %>
-    <%= link_to page_content.language.name, edit_page_content_page_path(page.id, page_content.language.id), :class => "edit" %>
+    <%= link_to page_content.language.name, edit_page_path(page.id), :class => "edit" %>
     <% end %>
   </td>
   <td class="actions">
