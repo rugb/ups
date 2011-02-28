@@ -26,7 +26,7 @@ class Page < ActiveRecord::Base
   has_many :children, :class_name => "Page", :foreign_key => "parent_id", :dependent => :destroy
   
   has_many :page_contents, :dependent => :destroy
-  accepts_nested_attributes_for :page_contents
+  accepts_nested_attributes_for :page_contents, :reject_if => proc { |attrs| attrs['title'].empty? && attrs['text'].empty? && attrs['excerpt'].empty? }
   
   has_many :page_tags, :dependent => :destroy
   has_many :tags, :through => :page_tags
@@ -47,6 +47,8 @@ class Page < ActiveRecord::Base
     
     # page cannot be enabled without int_title
     record.errors.add :enabled, "connot be true if page has no internal title" if record.enabled && (record.int_title.nil? || record.int_title == "")
+
+    record.errors.add :page, "should have at least some content" if record.page_contents.empty?
   end
   validates_numericality_of :position, :only_integer => true, :greater_than => 0, :allow_nil => true
   validates_inclusion_of :page_type, :in => [:news, :page]

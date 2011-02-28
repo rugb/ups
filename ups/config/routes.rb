@@ -19,6 +19,7 @@ Ups::Application.routes.draw do
   
   match "/blog/:id/(:int_title)(/:language_short)" => "news#show", :as => :show_news, :via => :get
   match "/blog/:id/(:int_title)(/:language_short)" => "news#destroy", :as => :show_news, :via => :delete
+  match "/blog/:id/(:int_title)(/:language_short)" => "news#update", :as => :show_news, :via => :put
   resources :news do
     get 'rss', :on => :collection
   end

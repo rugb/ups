@@ -11,7 +11,8 @@
 #
 
 class PageCategory < ActiveRecord::Base
-  attr_accessor :checked, :category_attributes
+  attr_accessor :checked
+  attr_accessible :category_attributes
   
   belongs_to :category
   belongs_to :page

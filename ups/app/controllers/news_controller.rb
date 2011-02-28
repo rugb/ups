@@ -20,9 +20,7 @@ class NewsController < ApplicationController
     @edit_post.role = Role.find_by_int_name(:guest)
     @edit_post.user = @current_user
     @edit_post.page_contents.build(:language_id => wanted_languages.first.id)
-    Category.all.each do |cat|
-      @edit_post.page_categories.build(:category_id => cat.id)
-    end
+    extend_page_categories(@edit_post)
   end
   
   def create
@@ -45,17 +43,19 @@ class NewsController < ApplicationController
   def edit
     @title = "edit post"
     @edit_post = Page.find params[:id] 
-    Language.all.each do |lang|
-      found = false
-      @edit_post.page_contents.each do |page_content|
-        found ||= lang == page_content.language
-      end
-      @edit_post.page_contents.build(:language_id => lang.id) unless found
-    end
+    extend_page_contents(@edit_post)
   end
   
   def update
     @edit_post = Page.find params[:id]
+    
+    if @edit_post.update_attributes(params[:page])
+      flash[:success] = "post updated."
+    else
+      flash[:error] = "post update failed."
+    end
+    extend_page_contents(@edit_post)
+    render :action => :edit
   end
   
   def destroy
@@ -73,6 +73,28 @@ class NewsController < ApplicationController
   end
   
   private
+  
+  def extend_page_contents(page)
+    Language.all.each do |lang|
+      found = false
+      page.page_contents.each do |page_content|
+        found ||= lang == page_content.language
+      end
+      page.page_contents.build(:language_id => lang.id) unless found
+    end
+  end
+  
+  def extend_page_categories(page)
+    Category.all.each do |cat|
+      found = false
+      page.page_categories.each do |page_category|
+        found ||= cat == page_category.category
+        page_category.checked = "1"
+      end
+      page_category = page.page_categories.build
+      page_category.category = cat
+    end
+  end
   
   def load_news
     @edit_news = Page.find(params[:id]) if params[:id].present?
