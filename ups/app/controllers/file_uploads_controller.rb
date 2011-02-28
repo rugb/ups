@@ -1,8 +1,4 @@
 class FileUploadsController < ApplicationController
-  before_filter :load_file_upload
-
-  filter_access_to :show, :check_attributes => true
-  
   filter_access_to :all
   
   def new
