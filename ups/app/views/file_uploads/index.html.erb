@@ -1,2 +1,51 @@
-<h1>FileUploads#index</h1>
-<p>Find me in app/views/file_uploads/index.html.erb</p>
+<% if @file_uploads.present? %>
+<table>
+  <thead>
+    <tr>
+      <th>
+        Filename
+      </th>
+      <th>
+        Filesize
+      </th>
+      <th>
+        Page
+      </th>
+      <th>
+        Counter
+      </th>
+      <th>
+      </th>
+      <th>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+  <% @file_uploads.each do |file_upload| %>
+    <tr>
+      <td>
+        <%= link_to file_upload.filename, file_upload.file.url %>
+      </td>
+      <td>
+        <%= file_upload.file.size %>
+      </td>
+      <td>
+        <%= file_upload.page %>
+      </td>
+      <td>
+        <%= file_upload.count %>
+      </td>
+      <td class="actions">
+          <%= link_to "edit", edit_file_upload_path(file_upload), :class => "edit" %>
+      </td>
+      <td class="actions">
+          <%= link_to "delete", file_upload, :confirm => "Are you sure?", :method => :delete, :class => "delete",  %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>  
+</table>
+<% end %>
+<p class="actions">
+<%= link_to "upload file", new_file_upload_path, :class => "new"%>
+</p>
