@@ -7,6 +7,10 @@ fieldset fieldset {
 	margin: 10px;
 }
 
+fieldset table {
+	margin: 10px;
+}
+
 fieldset .field, fieldset .actions {
     margin: 10px;
 }

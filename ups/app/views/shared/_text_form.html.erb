@@ -13,17 +13,19 @@
       </label>
       <%= content_fields.text_field :title %>
     </div>
-    <div class="field">
-      <label>
-        text (kramdown):
-      </label>
-      <%= content_fields.text_area :text, :class => "kramdown" %>
-    </div>
-    <div class="field">
-      <label>
-        excerpt:
-      </label>
-      <%= content_fields.text_area :excerpt, :rows => 3 %>
-    </div>
+    <% if edit_page.forced_url.nil? %>
+      <div class="field">
+        <label>
+          text (kramdown):
+        </label>
+        <%= content_fields.text_area :text, :class => "kramdown" %>
+      </div>
+      <div class="field">
+        <label>
+          excerpt:
+        </label>
+        <%= content_fields.text_area :excerpt, :rows => 3 %>
+      </div>
+    <% end %>
   </div>
 <% end %>
