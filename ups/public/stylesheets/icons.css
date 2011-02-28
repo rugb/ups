@@ -30,3 +30,7 @@
 .actions .disable {
     background-image: url('/images/icons/page_delete.png');
 }
+
+.action .download {
+	background-image: url('/images/icons/attach.png');
+}
