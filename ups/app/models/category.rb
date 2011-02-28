@@ -9,6 +9,8 @@
 #
 
 class Category < ActiveRecord::Base
+  attr_accessible :category_names_attributes
+  
   has_many :category_names, :dependent => :destroy
   accepts_nested_attributes_for :category_names
   
@@ -26,7 +28,13 @@ class Category < ActiveRecord::Base
   before_destroy :deletable?
   
   def extend
-    
+    Language.all.each do |lang|
+      found = false
+      category_names.each do |category_name|
+        found ||= lang == category_name.language
+      end
+      category_names.build(:language_id => lang.id) unless found
+    end
   end
   
   def deletable?
@@ -43,6 +51,6 @@ class Category < ActiveRecord::Base
   
   private
   def check_category_names
-    category_names.reject! { |cn| !cn.valid? }
+    self.category_names = category_names.reject { |cn| !cn.valid? }
   end
 end

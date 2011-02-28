@@ -4,9 +4,7 @@ class CategoriesController < ApplicationController
   def new
     @title = "new category"
     @edit_category = Category.new
-    Language.all.map do |language|
-      @edit_category.category_names.build(:language_id => language.id)
-    end
+    @edit_category.extend
   end
   
   def create
@@ -16,6 +14,7 @@ class CategoriesController < ApplicationController
       flash[:success] = "category created."
       redirect_to categories_path
     else
+      @edit_category.extend
       flash[:error] = "category creation failed."
       render :action => :new
     end
@@ -23,14 +22,7 @@ class CategoriesController < ApplicationController
   
   def edit
     @edit_category = Category.find(params[:id])
-    Language.all.map do |language|
-      given = false
-      @edit_category.category_names.each do |category_name|
-        given = true if category_name.language == language
-      end
-      @edit_category.category_names.build(:language_id => language.id) unless given
-    end
-    @edit_category.category_names.sort! { |a, b| a.language_id <=> b.language_id }
+    @edit_category.extend
   end
   
   def update   
@@ -40,6 +32,7 @@ class CategoriesController < ApplicationController
       flash[:success] = "category updated."
       redirect_to categories_path
     else
+      @edit_category.extend
       flash[:error] = "category creation failed."
       render :action => :new
     end
