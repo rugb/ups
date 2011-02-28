@@ -9,6 +9,7 @@
   <p>
     <%= page_text(@page) %>
   </p>
+  <%= render 'shared/download_links', :object => @page %>
   <p class="footer">
     <% if @page.user.present? %>
     <span>author: <%= link_to @page.user.name, @page.user %></span>

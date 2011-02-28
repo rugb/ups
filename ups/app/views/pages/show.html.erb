@@ -1,7 +1,3 @@
 <%= raw page_text(@page) %>
 
-<% @page.file_uploads.each do |file_upload| %>
-  <div class="actions">
-    <%= link_to file_upload.filename, download_file_path(file_upload), :class => "download" %>, Downloads: <%= file_upload.count %>
-  </div>
-<% end %>
+<%= render 'shared/download_links', :object => @page %>
