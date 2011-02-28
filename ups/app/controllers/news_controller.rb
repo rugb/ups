@@ -34,7 +34,7 @@ class NewsController < ApplicationController
       redirect_to edit_news_path @edit_post
     else
       @edit_post.extend
-      flash[:error] = "post creation failed."
+      flash.now[:error] = "post creation failed."
       render :action => :new
     end
   end
@@ -50,9 +50,9 @@ class NewsController < ApplicationController
     @edit_post = Page.find params[:id]
     
     if @edit_post.update_attributes(params[:page])
-      flash[:success] = "post updated."
+      flash.now[:success] = "post updated."
     else
-      flash[:error] = "post update failed."
+      flash.now[:error] = "post update failed."
     end
     @edit_post.extend
     render :action => :edit
