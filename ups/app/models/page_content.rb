@@ -43,7 +43,7 @@ class PageContent < ActiveRecord::Base
   end
   
   def make_excerpt(text)
-   (text.split(".")[0]+".")[0..255] unless text.blank?
+   text[0..255]
   end
   
 end

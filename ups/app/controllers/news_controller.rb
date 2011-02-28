@@ -16,17 +16,16 @@ class NewsController < ApplicationController
   
   def new
     @title = "create new post"
-    @edit_post = Page.new(:page_type => :news, :enabled => false)
-    @edit_post.role = Role.find_by_int_name(:guest)
+    @edit_post = Page.new(:page_type => :news, :enabled => false, :role => Role.find_by_int_name(:guest))
+    @edit_post.extend
     @edit_post.user = @current_user
-    @edit_post.page_contents.build(:language_id => wanted_languages.first.id)
-    extend_page_categories(@edit_post)
   end
   
   def create
-    @edit_post = Page.new(params[:page].merge(:page_type => :news, :enabled => false, :role => Role.find_by_int_name(:guest), :user => @current_user))
+    @title = "create new post"
+    @edit_post = Page.new(params[:page].merge(:page_type => :news, :enabled => false, :role => Role.find_by_int_name(:guest)))
     
-    if @edit_post.save
+    if @edit_post.page_contents.any? &&  @edit_post.save
       @edit_post.reload
       @edit_post.parent = Page.find(:first, :conditions => {:forced_url => "/news"})
       @edit_post.user = @current_user
@@ -35,6 +34,7 @@ class NewsController < ApplicationController
       flash[:success] = "post created."
       redirect_to edit_news_path @edit_post
     else
+      @edit_post.extend
       flash[:error] = "post creation failed."
       render :action => :new
     end
@@ -43,10 +43,11 @@ class NewsController < ApplicationController
   def edit
     @title = "edit post"
     @edit_post = Page.find params[:id] 
-    extend_page_contents(@edit_post)
+    @edit_post.extend
   end
   
   def update
+    @title = "edit post"
     @edit_post = Page.find params[:id]
     
     if @edit_post.update_attributes(params[:page])
@@ -54,7 +55,7 @@ class NewsController < ApplicationController
     else
       flash[:error] = "post update failed."
     end
-    extend_page_contents(@edit_post)
+    @edit_post.extend
     render :action => :edit
   end
   
@@ -74,30 +75,7 @@ class NewsController < ApplicationController
   
   private
   
-  def extend_page_contents(page)
-    Language.all.each do |lang|
-      found = false
-      page.page_contents.each do |page_content|
-        found ||= lang == page_content.language
-      end
-      page.page_contents.build(:language_id => lang.id) unless found
-    end
-  end
-  
-  def extend_page_categories(page)
-    Category.all.each do |cat|
-      found = false
-      page.page_categories.each do |page_category|
-        found ||= cat == page_category.category
-        page_category.checked = "1"
-      end
-      page_category = page.page_categories.build
-      page_category.category = cat
-    end
-  end
-  
   def load_news
     @edit_news = Page.find(params[:id]) if params[:id].present?
   end
-  
 end

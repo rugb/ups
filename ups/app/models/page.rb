@@ -20,7 +20,7 @@
 require 'date'
 
 class Page < ActiveRecord::Base
-  attr_accessible :parent_id, :page_type, :enabled, :position, :int_title, :forced_url, :start_at, :role_id, :user_id, :role, :user, :page_contents_attributes, :page_categories_attributes, :file_uploads
+  attr_accessible :parent_id, :page_type, :enabled, :position, :int_title, :forced_url, :start_at, :role_id, :role, :user, :user_id, :page_contents_attributes, :page_categories_attributes, :file_uploads
   
   belongs_to :parent, :class_name => "Page", :foreign_key => "parent_id"
   has_many :children, :class_name => "Page", :foreign_key => "parent_id", :dependent => :destroy
@@ -38,7 +38,7 @@ class Page < ActiveRecord::Base
   has_many :comments
   belongs_to :user
   belongs_to :role
-
+  
   has_many :file_uploads
   
   default_scope :order => "pages.position"
@@ -49,8 +49,6 @@ class Page < ActiveRecord::Base
     
     # page cannot be enabled without int_title
     record.errors.add :enabled, "connot be true if page has no internal title" if record.enabled && (record.int_title.nil? || record.int_title == "")
-
-    record.errors.add :page, "should have at least some content" if record.page_contents.empty?
   end
   validates_numericality_of :position, :only_integer => true, :greater_than => 0, :allow_nil => true
   validates_inclusion_of :page_type, :in => [:news, :page]
@@ -58,6 +56,10 @@ class Page < ActiveRecord::Base
   validates :int_title, :uniqueness => true,  :format => /^[a-z0-9_]{0,255}$/, :allow_nil => true
   validates_numericality_of :role_id, :presence => true, :greater_than => 0
   
+  def extend
+    extend_page_contents(self)
+    extend_page_categories(self)
+  end
   
   def to_s
     self.int_title
@@ -113,5 +115,31 @@ class Page < ActiveRecord::Base
   
   def deactivatable?
     enabled && (role != Role.find_by_int_name(:admin)) && self != Conf.get_default_page
+  end
+  
+  private
+  
+  def extend_page_contents(page)
+    Language.all.each do |lang|
+      found = false
+      page.page_contents.each do |page_content|
+        found ||= lang == page_content.language
+      end
+      page.page_contents.build(:language_id => lang.id) unless found
+    end
+  end
+  
+  def extend_page_categories(page)
+    page.page_categories.each do |page_category|
+      page_category.checked = "1"
+      page_category.destroy
+    end
+    Category.all.each do |cat|
+      found = false
+      page.page_categories.each do |page_category|
+        found ||= cat == page_category.category
+      end
+      page_category = page.page_categories.build(:category_id => cat.id) unless found
+    end
   end
 end

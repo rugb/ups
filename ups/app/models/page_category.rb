@@ -12,7 +12,7 @@
 
 class PageCategory < ActiveRecord::Base
   attr_accessor :checked
-  attr_accessible :category_attributes
+  attr_accessible :category_attributes, :category_id
   
   belongs_to :category
   belongs_to :page
