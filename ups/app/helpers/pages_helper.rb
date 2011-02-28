@@ -19,7 +19,7 @@ module PagesHelper
   end
   
   def page_text(page)
-    select_by_language_id(page.page_contents).text
+    select_by_language_id(page.page_contents).html
   end
   
   def make_page_path(page)

@@ -1,22 +1,24 @@
 source 'http://rubygems.org'
 
 gem 'rails', '3.0.4'
-gem 'sqlite3'
-gem 'declarative_authorization'
-gem 'ruby-openid'
-gem 'rack-openid'
+
 gem 'carrierwave'
+gem 'declarative_authorization'
 gem 'googlecalendar'
+gem 'kramdown'
+gem 'rack-openid'
+gem 'ruby-openid'
+gem 'sqlite3'
 
 group :development do
-  gem 'rspec-rails'
   gem 'annotate-models'
+  gem 'rspec-rails'
   gem 'ruby_parser'
 end
 
 group :test do
   gem 'rspec'
-  gem 'spork'
   gem 'simplecov'
+  gem 'spork'
 end
 

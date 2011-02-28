@@ -9,7 +9,7 @@ class PagesController < ApplicationController
   end
   
   def show
-    @page = Page.find_by_id params[:id] 
+    @page = Page.find_by_id params[:id]
     
     if !has_role_with_hierarchy?(@page.role.int_name)
       permission_denied
@@ -100,7 +100,7 @@ class PagesController < ApplicationController
     else
       flash[:error] = "this page cannot be activated."
     end
-
+    
     redirect_to pages_path
   end
   

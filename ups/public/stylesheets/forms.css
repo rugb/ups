@@ -33,6 +33,11 @@ fieldset .field ul li {
     padding: 5px;
 }
 
+fieldset .field textarea.kramdown {
+	font-family: monospace;
+	width: 70%;
+}
+
 .flash {
     -moz-border-radius: 2px;
     border: 1px solid #aaa;

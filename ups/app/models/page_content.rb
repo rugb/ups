@@ -13,6 +13,8 @@
 #  updated_at  :datetime
 #
 
+require 'kramdown'
+
 class PageContent < ActiveRecord::Base
   attr_accessible :title, :text, :excerpt, :language_id
   
@@ -25,6 +27,16 @@ class PageContent < ActiveRecord::Base
   
   before_save :update_int_title
   before_save :update_excerpt
+  before_save :update_html
+  
+  private
+  def make_short_title(title)
+    title.tr(" ", "_").downcase.tr("^a-z0-9_", "")
+  end
+  
+  def make_excerpt(text)
+    text[0..255] if text.present?
+  end
   
   def update_int_title
     if(page.int_title.blank? || Conf.default_language == language)
@@ -37,13 +49,7 @@ class PageContent < ActiveRecord::Base
     self.excerpt = make_excerpt(text) if excerpt.blank?
   end
   
-  private
-  def make_short_title(title)
-    title.tr(" ", "_").downcase.tr("^a-z0-9_", "")
+  def update_html
+    self.html = Kramdown::Document.new(text).to_html if text.present?
   end
-  
-  def make_excerpt(text)
-   text[0..255] if text.present?
-  end
-  
 end
