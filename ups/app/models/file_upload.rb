@@ -1,3 +1,18 @@
+# == Schema Information
+# Schema version: 20110228112338
+#
+# Table name: file_uploads
+#
+#  id         :integer         not null, primary key
+#  page_id    :integer
+#  filename   :string(255)
+#  file       :string(255)
+#  count      :integer
+#  created_at :datetime
+#  updated_at :datetime
+#  size       :integer
+#
+
 class FileUpload < ActiveRecord::Base
   attr_accessible :page_id, :filename, :file, :count, :size
 

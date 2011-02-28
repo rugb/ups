@@ -25,6 +25,10 @@ class Category < ActiveRecord::Base
   before_validation :check_category_names
   before_destroy :deletable?
   
+  def extend
+    
+  end
+  
   def deletable?
     pages.empty? && links.empty?
   end
