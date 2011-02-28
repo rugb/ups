@@ -1,0 +1,33 @@
+<%= form_for @file_upload, :html => {:multipart => true} do |f| %>
+<%= f.hidden_field :file_cache %>
+<fieldset>
+<% if @file_upload.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(@file_upload.errors.count, "error") %>
+      prohibited this user from being saved:</h2>
+    <ul>
+      <% @file_upload.errors.full_messages.each do |msg| %>
+      <li>
+        <%= msg %>
+      </li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+<div class="field">
+  <label>
+    file:
+  </label>
+  <%= f.file_field :file %>
+</div>
+<div class="field">
+  <label>
+    filename (optional):
+  </label>
+  <%= f.text_field :filename %>
+</div>
+<div class="actions">
+  <%= f.submit :class => "continue" %>
+</div>
+</fieldset>
+<% end %>

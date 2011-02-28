@@ -10,6 +10,8 @@ authorization do
     has_permission_on :news, :to => [ :index, :show, :rss ]
     has_permission_on :pages, :to => :home
     has_permission_on :categories, :to => [ :index, :show ]
+
+    has_permission_on :file_uploads, :to => [ :show ]
   end
   
   role :user do
@@ -44,6 +46,8 @@ authorization do
     end
 
     has_permission_on :news, :to => [ :new, :create ]
+
+    has_permission_on :file_uploads, :to => [ :new, :create, :edit, :update, :destroy ]
   end
   
   role :admin do
