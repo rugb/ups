@@ -1,18 +1,6 @@
 <%= form_for(@edit_category) do |f| %>
 <fieldset>
-  <% if @edit_category.errors.any? %>
-  <div id="error_explanation">
-    <h2><%= pluralize(@edit_category.errors.count, "error") %>
-      prohibited this page from being saved:</h2>
-    <ul>
-      <% @edit_category.errors.full_messages.each do |msg| %>
-      <li>
-        <%= msg %>
-      </li>
-      <% end %>
-    </ul>
-  </div>
-  <% end %>
+  <%= render 'errors/form', :object => @edit_category %>
   <% f.fields_for :category_names do |name_fields| %>
   <%= name_fields.hidden_field :language_id %>
   <div class="field">

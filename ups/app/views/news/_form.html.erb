@@ -17,19 +17,7 @@
   <% end %>
 </section>
 <fieldset>
-  <% if @edit_post.errors.any? %>
-  <div id="error_explanation">
-    <h2><%= pluralize(@edit_post.errors.count, "error") %>
-      prohibited this page from being saved:</h2>
-    <ul>
-      <% @edit_post.errors.full_messages.each do |msg| %>
-      <li>
-        <%= msg %>
-      </li>
-      <% end %>
-    </ul>
-  </div>
-  <% end %>
+  <%= render 'errors/form', :object => @edit_post %>
   <div class="field">
     <label>
       visible after:
