@@ -10,7 +10,7 @@ body {
     color: #fff;
     font-family: 'Ubuntu', sans-serif;
     font-size: 12px;
-	padding-bottom: 20px;
+    padding-bottom: 20px;
 }
 
 h2, h3, h4, h5 {
@@ -94,26 +94,26 @@ header {
 }
 
 #menu li ul {
-	-moz-border-radius: 0 0 0 2px;
-	background: #09f;
-	border: 1px solid #049;
-	border-top: 0 none;
-	display: none;
-	margin: 5px 0 0 -5px;
-	padding: 0 5px 5px 5px;
-	position: absolute;
+    -moz-border-radius: 0 0 0 2px;
+    background: #09f;
+    border: 1px solid #049;
+    border-top: 0 none;
+    display: none;
+    margin: 5px 0 0 -5px;
+    padding: 0 5px 5px 5px;
+    position: absolute;
 }
 
 #menu li ul li {
-	float: none;
+    float: none;
 }
 
 #menu li ul li a {
-	display: block;
+    display: block;
 }
 
 #menu li:hover ul {
-	display: block;
+    display: block;
 }
 
 #menu a {
@@ -183,30 +183,34 @@ header nav {
 
 .sidebar.right {
     float: right;
-	margin-left: 20px;
+    margin-left: 20px;
 }
 
 .sidebar h3 {
-	font-size: inherit;
-	margin: 10px 2px 2px 2px;
+    font-size: inherit;
+    margin: 10px 2px 2px 2px;
 }
 
 .sidebar section {
-	margin: 10px;
+    margin: 10px;
 }
 
 .news {
-	margin-right: 220px;
+    margin-right: 220px;
 }
 
 .news .footer {
-	background: none;
-	font-size: 10px;
-	margin: 10px 0;
-	padding: 0;
+    background: none;
+    font-size: 10px;
+    margin: 10px 0;
+    padding: 0;
 }
 
 .news .footer span {
-	background: #f0f0f0;
-	padding: 5px 5px 5px 5px;
+    background: #f0f0f0;
+    padding: 5px 5px 5px 5px;
+}
+
+.treecell {
+    background: url('/images/page_tree_prefix.png') -48px 0 no-repeat;
 }

@@ -20,13 +20,15 @@
       </th>
       <th>
       </th>
+      <th>
+      </th>
     </tr>
   </thead>
   <tbody>
-<% @users.each do |user| %>
+    <% @users.each do |user| %>
     <tr>
       <td>
-        <%= user.openid %>
+        <%= link_to user.openid, user.openid %>
       </td>
       <td>
         <%= user.name %>
@@ -35,26 +37,29 @@
         <%= user.fullname %>
       </td>
       <td>
-        <%= user.email %>
+        <%= link_to user.email, "mailto:" + user.email %>
       </td>
       <td>
         <%= user.role %>
       </td>
       <td class="actions">
-          <%= link_to "edit", edit_user_path(user), :class => "edit" %>
+        <%= link_to "show", user_path(user), :class => "continue" %>
+      </td>
+      <td class="actions">
+        <%= link_to "edit", edit_user_path(user), :class => "edit" %>
       </td>
       <% if @current_user != user %>
       <td class="actions">
-          <%= link_to "delete", user, :confirm => "Are you sure?", :method => :delete, :class => "delete",  %>
+        <%= link_to "delete", user, :confirm => "Are you sure?", :method => :delete, :class => "delete", %>
       </td>
       <% else %>
       <td>
       </td>
       <% end %>
     </tr>
-<% end %>
+    <% end %>
   </tbody>
 </table>
 <p class="actions">
-<%= link_to "create user", new_user_path, :class => "new"%>
+  <%= link_to "create user", new_user_path, :class => "new" %>
 </p>

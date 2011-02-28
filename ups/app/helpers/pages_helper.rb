@@ -1,4 +1,8 @@
 module PagesHelper
+  def make_treecell_style(depth)
+    raw('style="background-position: ' + (-48 + 16 * depth).to_s + 'px 0; padding-left: ' + (5 + 16 * depth).to_s + 'px;"')
+  end
+  
   def page_title(page)
     select_by_language_id(page.page_contents).title
   end
@@ -44,7 +48,7 @@ module PagesHelper
       page_content.title
     end
   end
-
+  
   def roles_options
     Role.all.collect { |r| [ r.to_s.pluralize, r.id ] }
   end
