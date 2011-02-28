@@ -9,15 +9,11 @@ Ups::Application.routes.draw do
   match "/file_uploads/:id" => "file_uploads#update", :as => :file_upload, :via => :put
   match "/file_uploads/:id" => "file_uploads#destroy", :as => :file_upload, :via => :delete
   match "/file_uploads" => "file_uploads#index", :as => :file_uploads, :via => :get
-  
-  
-  #resources :file_uploads
-  
-  match "/category/:id/(:name)" => "categories#show", :as => :show_category,
-    :via => :get
 
-  
-  
+
+  match "/category/:id/(:name)" => "categories#show", :as => :show_category, :via => :get
+
+
   get "session/login"
   get "session/start"
   get "session/complete"

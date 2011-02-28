@@ -108,7 +108,7 @@ class Page < ActiveRecord::Base
   end
   
   def deletable?
-    !visible? && self != Conf.get_default_page && forced_url.nil?
+    !visible? && self != Conf.default_page && forced_url.nil?
   end
   
   def activatable?
@@ -116,7 +116,7 @@ class Page < ActiveRecord::Base
   end
   
   def deactivatable?
-    enabled && (role != Role.find_by_int_name(:admin)) && self != Conf.get_default_page
+    enabled && (role != Role.find_by_int_name(:admin)) && self != Conf.default_page
   end
   
   private

@@ -118,7 +118,7 @@ class PagesController < ApplicationController
   end
   
   def home
-    default_page = Conf.get_default_page
+    default_page = Conf.default_page
     if default_page.nil?
       redirect_to setup_path
     else

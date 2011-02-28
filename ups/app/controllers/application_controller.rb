@@ -29,6 +29,7 @@ class ApplicationController < ActionController::Base
     elements.first
   end
   
+  # returns a prioritised array of Languages wich should be used to render the page content
   def wanted_languages
     wanted_languages = []
     
@@ -45,16 +46,15 @@ class ApplicationController < ActionController::Base
     end
     
     # default language
-    wanted_languages << Conf.get_default_language
+    wanted_languages << Conf.default_language
     
     # cleanup
     wanted_languages.delete_if{ |lang| lang.nil? }
   end
   
-  ##
+  # by http://mashing-it-up.blogspot.com/2008/10/parsing-accept-language-in-rails.html
   # Returns the languages accepted by the visitors, sorted by quality
   # (order of preference).
-  ##
   def accepted_languages
     # no language accepted
     return [] if request.env["HTTP_ACCEPT_LANGUAGE"].nil?

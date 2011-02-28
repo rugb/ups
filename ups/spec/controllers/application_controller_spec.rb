@@ -18,7 +18,7 @@ describe ApplicationController do
     end
     
     it "should include default language" do
-      controller.wanted_languages.should include(Conf.get_default_language)
+      controller.wanted_languages.should include(Conf.default_language)
     end
     
     it "should include existing accepted languages" do
