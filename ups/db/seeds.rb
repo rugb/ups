@@ -41,7 +41,7 @@ def pcID
 end
 
 if Page.all.empty? || PageContent.all.empty?
-  page = Page.ensure(:id => pID, :int_title => :home, :page_type => :page, :enabled => true, :position => pID * 10, :role_id => guest.id)
+  page = Page.ensure(:id => 1, :int_title => :home, :page_type => :page, :enabled => true, :position => 10, :role_id => guest.id)
   page.page_contents.build(:id => pcID, :language_id => 1, :title => "Homepage", :text => "This is the default homepage.").save
   page.page_contents.build(:id => pcID, :language_id => 2, :title => "Startseite", :text => "Dies ist die Default-Startseite.").save
   
