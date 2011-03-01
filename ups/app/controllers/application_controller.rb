@@ -25,6 +25,9 @@ class ApplicationController < ActionController::Base
   end
   
   def cache_html!(page)
+    page.file_uploads.each do |file_upload|
+      file_upload.update_attribute :visible, true
+    end
     page.page_contents.map do |page_content|
       update_html(page_content)
     end
@@ -140,6 +143,7 @@ class ApplicationController < ActionController::Base
       
       css_class = "intfile"
       if file.present?
+        file.update_attribute :visible, false
         title = file.filename if title.nil?
         link = download_file_path file
       else
@@ -163,6 +167,7 @@ class ApplicationController < ActionController::Base
       
       css_class = "intimg"
       if file.present?
+        file.update_attribute :visible, false
         title = file.filename if title.nil?
         link = download_file_path file
       else

@@ -1,5 +1,14 @@
-<% (object.file_uploads.find_all { |f| f.visible } ).each do |file_upload| %>
-  <div class="actions">
-    <%= link_to file_upload.filename, download_file_path(file_upload), :class => "download" %>, Downloads: <%= file_upload.count %>
-  </div>
+<% if (object.file_uploads.find_all { |f| f.visible }).any? %>
+<div class="actions">
+  <h4>
+    attachments:
+  </h4>
+  <ul>
+    <% (object.file_uploads.find_all { |f| f.visible }).each do |file_upload| %>
+    <li>
+      <%= link_to file_upload.filename, download_file_path(file_upload), :class => "download" %>, Downloads: <%= file_upload.count %>
+    </li>
+    <% end %>
+  </ul>
+</div>
 <% end %>
