@@ -1,4 +1,18 @@
 Ups::Application.routes.draw do
+  get "events/new"
+
+  get "events/create"
+
+  get "events/edit"
+
+  get "events/update"
+
+  get "events/destroy"
+
+  get "events/index"
+
+  get "events/show"
+
   resources :users
   resources :links
   resource :user, :only => :show, :as => :current_user
