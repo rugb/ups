@@ -82,9 +82,13 @@ if Page.all.empty? || PageContent.all.empty?
   page.page_contents.build(:id => pcID, :language_id => 1, :title => "Settings").save
   page.page_contents.build(:id => pcID, :language_id => 2, :title => "Einstellungen").save
 
-  page = Page.ensure(:id => pID, :int_title => :votes, :page_type => :page, :enabled => true, :forced_url => "/votes", :position => pID * 10, :role_id => member.id)
-  page.page_contents.build(:id => pcID, :language_id => 1, :title => "Events").save
-  page.page_contents.build(:id => pcID, :language_id => 2, :title => "Termine").save
+  vote = Page.ensure(:id => pID, :int_title => :votes, :page_type => :page, :enabled => true, :forced_url => "/events", :position => pID * 10, :role_id => member.id)
+  vote.page_contents.build(:id => pcID, :language_id => 1, :title => "Events").save
+  vote.page_contents.build(:id => pcID, :language_id => 2, :title => "Termine").save
+
+  page = Page.ensure(:id => pID, :parent_id => vote.id, :int_title => :new_votes, :page_type => :page, :enabled => true, :forced_url => "/events/new", :position => pID * 10, :role_id => member.id)
+  page.page_contents.build(:id => pcID, :language_id => 1, :title => "new Events").save
+  page.page_contents.build(:id => pcID, :language_id => 2, :title => "neuer Termine").save
 
   page = Page.ensure(:id => pID, :int_title => :calendar, :page_type => :page, :enabled => false, :forced_url => "/calendar", :position => pID * 10, :role_id => member.id)
   page.page_contents.build(:id => pcID, :language_id => 1, :title => "Calendar").save
