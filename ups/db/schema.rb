@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110301133921) do
+ActiveRecord::Schema.define(:version => 20110301144249) do
 
   create_table "categories", :force => true do |t|
     t.datetime "created_at"
@@ -147,6 +147,14 @@ ActiveRecord::Schema.define(:version => 20110301133921) do
     t.datetime "updated_at"
   end
 
+  create_table "user_votes", :force => true do |t|
+    t.integer  "event_id"
+    t.integer  "user_id"
+    t.integer  "vote_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "users", :force => true do |t|
     t.string   "openid"
     t.string   "email"
@@ -162,7 +170,7 @@ ActiveRecord::Schema.define(:version => 20110301133921) do
   add_index "users", ["salt"], :name => "index_users_on_salt", :unique => true
 
   create_table "votes", :force => true do |t|
-    t.integer  "user_id"
+    t.integer  "user_vote_id"
     t.boolean  "ack"
     t.integer  "timeslot_id"
     t.datetime "created_at"
