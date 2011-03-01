@@ -9,7 +9,7 @@ class PagesController < ApplicationController
   end
   
   def show
-    @page = Page.find_by_id params[:id]
+    @page = Page.find params[:id]
     
     if !has_role_with_hierarchy?(@page.role.int_name)
       permission_denied
@@ -57,12 +57,12 @@ class PagesController < ApplicationController
   
   def edit
     @title = "edit page"
-    @edit_page = Page.find_by_id params[:id]
+    @edit_page = Page.find params[:id]
     @edit_page.extend
   end
   
   def destroy
-    Page.find_by_id(params[:id]).destroy
+    Page.find(params[:id]).destroy
     flash[:success] = "page deleted."
     
     redirect_to pages_path
