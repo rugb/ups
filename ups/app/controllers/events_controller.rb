@@ -3,6 +3,7 @@ class EventsController < ApplicationController
   #filter_access_to :all
 
   def calendar
+    @title = "Calendar"
   end
   
   def new
