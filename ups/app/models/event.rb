@@ -12,7 +12,7 @@
 #
 
 class Event < ActiveRecord::Base
-  attr_accessible :name, :user_id, :location, :timeslots_attributes
+  attr_accessible :name, :user_id, :location, :description, :timeslots_attributes
 
   belongs_to :user
   has_many :timeslots, :dependent => :destroy

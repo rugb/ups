@@ -1,2 +1,45 @@
-<h1>Events#index</h1>
-<p>Find me in app/views/events/index.html.erb</p>
+<table>
+  <thead>
+    <tr>
+      <th>
+        Name
+      </th>
+      <th>
+        bis
+      </th>
+      <th>
+      </th>
+      <th>
+      </th>
+      <th>
+      </th>
+    </tr>
+  </thead>
+  <body>
+    <% @events.each do |event| %>
+      <tr>
+        <td>
+          <%= event.name %>
+        </td>
+        <td>
+          <%= event.end_at %>
+        </td>
+        <td class="actions">
+          <% if event.end_at.nil? || event.end_at.present? && event.end_at.future?  %>
+            <%= link_to "vote", event, :class => "vote" %>
+          <% end %>
+        </td>
+        <td class="actions">
+          <% if event.user = @current_user %>
+            <%= link_to "edit", edit_event_path(event), :class => "edit" %>
+          <% end %>
+        </td>
+        <td class="actions">
+          <% if event.user = @current_user %>
+            <%= link_to "delete", event, :confirm => "Are you sure?", :method => :delete, :class => "delete" %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </body>
+</table>

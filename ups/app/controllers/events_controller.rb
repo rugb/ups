@@ -1,6 +1,6 @@
 class EventsController < ApplicationController
 
-  filter_access_to :all
+  #filter_access_to :all
   
   def new
   end
@@ -18,9 +18,13 @@ class EventsController < ApplicationController
   end
 
   def index
+    @events = Event.all
   end
 
   def show
+    @event = Event.find(params[:id])
+
+    @title = @event.name
   end
 
 end
