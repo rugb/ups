@@ -1,4 +1,5 @@
 Ups::Application.routes.draw do
+  match "/calendar" => "events#calendar", :via => :get
   resources :events
   resources :users
   resources :links

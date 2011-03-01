@@ -1,6 +1,9 @@
 class EventsController < ApplicationController
 
   #filter_access_to :all
+
+  def calendar
+  end
   
   def new
   end
