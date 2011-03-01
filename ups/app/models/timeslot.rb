@@ -12,7 +12,12 @@
 #
 
 class Timeslot < ActiveRecord::Base
-  attr_accessible :start_at, :end_at
+  attr_accessible :start_at, :end_at, :votes_attributes
+
+  belongs_to :event
+  has_many :votes, :dependent => :destroy
+
+  accepts_nested_attributes_for :votes
 
   validates :start_at, :presence => true
   validates :end_at, :presence => true

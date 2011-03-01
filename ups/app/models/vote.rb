@@ -12,4 +12,10 @@
 #
 
 class Vote < ActiveRecord::Base
+  attr_accessible :ack
+
+  belongs_to :timeslot
+  belongs_to :user
+
+  validates :user_id, :presence => true
 end
