@@ -38,6 +38,8 @@ authorization do
     has_permission_on :file_uploads, :to => [ :edit, :update, :destroy ] do
       if_attribute :page => { :user_id => is { user.id } }
     end
+
+    #has_permission_on :events, :to => [ :new, :create ]
   end
   
   role :admin do
