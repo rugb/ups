@@ -7,13 +7,13 @@
           Filename
         </th>
         <th>
-          Filesize
+          Size
         </th>
         <th>
           Page
         </th>
         <th>
-          Downloadcounter
+          Downloads
         </th>
         <th>
         </th>
@@ -24,10 +24,30 @@
       </tr>
     </thead>
     <tbody>
-    <% file_uploads.each do |file_upload| %>
+      <% file_uploads.each do |file_upload| %>
       <tr>
         <td>
           <%= link_to file_upload.filename, download_file_path(file_upload) %>
+          <div class="kramdown_reference">
+            <h5>
+              kramdown reference:
+            </h5>
+            <code>
+              [[[<%= file_upload.filename %>]]]
+            </code>
+            <br/>
+            <code>
+              ![[<%= file_upload.filename %>]] as picture
+            </code>
+            <br/>
+            <code>
+              [[[<%= file_upload.id %>]]]
+            </code>
+            <br/>
+            <code>
+              ![[<%= file_upload.id %>]] as picture
+            </code>
+          </div>
         </td>
         <td>
           <%= number_to_human_size(file_upload.file.size) %>
@@ -42,19 +62,19 @@
           <%= link_to "download", download_file_path(file_upload), :class => "download" %>
         </td>
         <td class="actions">
-            <%= link_to "edit", edit_file_upload_path(file_upload), :class => "edit" %>
+          <%= link_to "edit", edit_file_upload_path(file_upload), :class => "edit" %>
         </td>
         <td class="actions">
-            <%= link_to "delete", file_upload, :confirm => "Are you sure?", :method => :delete, :class => "delete",  %>
+          <%= link_to "delete", file_upload, :confirm => "Are you sure?", :method => :delete, :class => "delete", %>
         </td>
       </tr>
-    <% end %>
+      <% end %>
     </tbody>
   </table>
   <% end %>
   <% if edit_page.present? %>
-    <p class="actions">
-      <%= link_to "upload file", new_with_page_file_uploads_path(edit_page.id), :class => "new" %>
-    </p>
+  <p class="actions">
+    <%= link_to "upload file", new_with_page_file_uploads_path(edit_page.id), :class => "new" %>
+  </p>
   <% end %>
 </fieldset>

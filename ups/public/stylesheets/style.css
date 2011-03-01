@@ -13,7 +13,7 @@ body {
     padding-bottom: 20px;
 }
 
-h2, h3, h4, h5 {
+h2, h3, h4 {
     margin: 20px 0 10px 0;
 }
 
@@ -213,4 +213,17 @@ header nav {
 
 .treecell {
     background: url('/images/page_tree_prefix.png') -48px 0 no-repeat;
+}
+
+.kramdown_reference {
+	-moz-border-radius: 2px;
+	background: #fff;
+	border: 1px solid #aaa;
+	display: none;
+	padding: 10px;
+	position: absolute;
+}
+
+td:hover > .kramdown_reference {
+	display: block;
 }

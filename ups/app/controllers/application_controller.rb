@@ -121,14 +121,14 @@ class ApplicationController < ActionController::Base
     return page_content
   end
   
-  LINK_REGEX = /\[\[([^\]]+)\]\]/
+  LINK_REGEX = /(^|[^!])\[\[([^\]]+)\]\]/
   
   # idea by dmke
   def kramdown_internal_links(text, language)
     text.gsub LINK_REGEX do |match|
       css_class = "intlink"
       
-      page_id, title = $1.split '|', 2
+      page_id, title = $2.split '|', 2
       if page_id.to_i > 0 
         page = Page.find_by_id page_id
       else

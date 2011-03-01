@@ -2,9 +2,18 @@
 <tr>
   <td class="treecell"<%= make_treecell_style(depth) %>>
     <%= ((select_by_language_id(page.page_contents) and select_by_language_id(page.page_contents).title) or "(new)") %>
-  </td>
-  <td>
-	<code>[[<%= page.int_title %>]]</code> or <code>[[<%= page.id %>]]</code>
+    <div class="kramdown_reference">
+      <h5>
+        kramdown reference:
+      </h5>
+      <code>
+        [[<%= page.int_title %>]]
+      </code>
+      <br/>
+      <code>
+        [[<%= page.id %>]]
+      </code>
+    </div>
   </td>
   <td>
     <%= "deactivated" unless page.enabled? %>
@@ -34,9 +43,6 @@ end %>
     <tr>
       <th>
         title
-      </th>
-      <th>
-        kramdown reference
       </th>
       <th>
         visible
