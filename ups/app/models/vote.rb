@@ -12,10 +12,14 @@
 #
 
 class Vote < ActiveRecord::Base
-  attr_accessible :ack
+  attr_accessible :timeslot_id, :user_vote_id, :ack
 
   belongs_to :timeslot
   belongs_to :user_vote
 
-  validates :user_vote, :presence => true
+  #validates :user_vote_id, :presence => true
+
+  def to_s
+    "Vote-> User: #{user_vote.user.name}, TimeSlotID: #{timeslot_id}"
+  end
 end

@@ -22,35 +22,36 @@
       </thead>
       <tbody>
         <% @event.user_votes.each do |user_vote| %>
-          <tr>
-            <td class="actions">
-              <%= user_vote.user.name %>
-              <% if user_vote.user == @current_user %>
-                <%= link_to "del", delete_user_votes_event_path(@event.id, user_vote.id), :confirm => "Are you sure?", :method => :delete, :class => "delete" %>
+          <% unless user_vote.new_record? %>
+            <tr>
+              <td class="actions">
+                <%= user_vote.user.name %>
+                <% if user_vote.user == @current_user %>
+                  <%= link_to "del", delete_user_votes_event_path(@event.id, user_vote.id), :confirm => "Are you sure?", :method => :delete, :class => "delete" %>
+                <% end %>
+              </td>
+              <% @event.timeslots.each do |timeslot| %>
+                <% vote = timeslot.get_vote_for_user_vote user_vote %>
+                <% if vote.present? && vote.ack  %>
+                  <td class="vote yes"></td>
+                <% else %>
+                  <td class="vote no"></td>
+                <% end %>
               <% end %>
-            </td>
-            <% @event.timeslots.each do |timeslot| %>
-              <% vote = timeslot.get_vote_for_user_vote user_vote %>
-              <% if vote.present? && vote.ack  %>
-                <td class="vote yes"></td>
-              <% else %>
-                <td class="vote yes"></td>
-              <% end %>
-            <% end %>
-          </tr>
-          <% if @event.user_votes.find_by_user_id(@current_user.id).nil? %>
+            </tr>
+          <% else %>
             <tr>
               <td>
                 <%= @current_user.name %>
               </td>
-              <% @event.timeslots.each do |timeslot| %>
-                <td>
-                  <%= f.fields_for :user_votes do |user_vote_form| %>
-                    <%= user_vote_form.fields_for :votes do |vote_form| %>
-                      <%= vote_form.check_box :ack %>
-                    <% end %>
-                  <% end %>
-                </td>
+              <%= f.fields_for :user_votes, user_vote do |user_vote_form| %>
+                <%= user_vote_form.hidden_field :user_id %>
+                <%= user_vote_form.fields_for :votes, do |vote_form| %>
+                  <td>
+                    <%= vote_form.hidden_field :timeslot_id %>
+                    <%= vote_form.check_box :ack %>
+                  </td>
+                <% end %>
               <% end %>
             </tr>
           <% end %>

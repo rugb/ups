@@ -39,7 +39,10 @@ authorization do
       if_attribute :page => { :user_id => is { user.id } }
     end
 
-    #has_permission_on :events, :to => [ :new, :create ]
+    has_permission_on :events, :to => [ :new, :create, :update, :show, :index, :calendar ]
+    has_permission_on :events, :to => [ :user_vote_destroy ] do
+      if_attribute :user_id => is { user.id }
+    end
   end
   
   role :admin do
