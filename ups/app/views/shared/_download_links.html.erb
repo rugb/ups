@@ -1,4 +1,4 @@
-<% object.file_uploads.each do |file_upload| %>
+<% (object.file_uploads.find_all { |f| f.visible } ).each do |file_upload| %>
   <div class="actions">
     <%= link_to file_upload.filename, download_file_path(file_upload), :class => "download" %>, Downloads: <%= file_upload.count %>
   </div>

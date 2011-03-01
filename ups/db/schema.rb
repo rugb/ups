@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110228183544) do
+ActiveRecord::Schema.define(:version => 20110301084838) do
 
   create_table "categories", :force => true do |t|
     t.datetime "created_at"
@@ -50,6 +50,7 @@ ActiveRecord::Schema.define(:version => 20110228183544) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "size"
+    t.boolean  "visible"
   end
 
   create_table "languages", :force => true do |t|

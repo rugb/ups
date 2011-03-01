@@ -19,10 +19,23 @@ class FileUploadsController < ApplicationController
   end
 
   def update
+    @file_upload = FileUpload.find(params[:id])
+
+    @file_upload.update_attributes(params[:file_upload])
+
+    if @file_upload.save
+      flash[:success] = "file updated"
+      redirect_to edit_news_path(@file_upload.page)
+    else
+      flash.now[:error] = "file not updated"
+      render 'new'
+    end
   end
 
   def edit
     @file_upload = FileUpload.find(params[:id]) if (params[:id])
+
+    
   end
 
   def destroy
