@@ -10,4 +10,10 @@
     <%= list_categories %>
   </section>
   <% end %>
+  <% if Tag.first.present? %>
+  <section class="tags">
+    <h3>tags:</h3>
+    <%= tag_cloud %>
+  </section>
+  <% end %>
 </section>

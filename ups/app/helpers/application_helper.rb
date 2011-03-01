@@ -35,9 +35,21 @@ module ApplicationHelper
       a.name <=> b.name
       }.map { |tag| link_to tag.name, "" })
   end
+
+  def tag_cloud
+    raw(Tag.all.map do |tag|
+      link_to tag.name, "", :style => calc_tag_style(tag.pages.size)
+    end.join ", ")
+  end
   
   def make_html_list(array)
     return "" if array.empty?
     raw "<ul>" + array.map { |e| "<li>" + e + "</li>" }.join + "</ul>"
+  end
+
+  private
+
+  def calc_tag_style(size)
+    "font-size: " + (Math.log(size, 10) + 0.7).round(1).to_s + "em;"
   end
 end
