@@ -57,8 +57,8 @@ class FileUploadsController < ApplicationController
     @file_upload = FileUpload.find(params[:id]) if (params[:id])
     http_404 and return  if @file_upload.page.present? && @file_upload.page.enabled == false
 
-    #response.headers['Pragma'] = ' '
-    #response.headers['Cache-Control'] = ' '
+    response.headers['Pragma'] = ' '
+    response.headers['Cache-Control'] = ' '
     response.headers['Content-type'] = 'application/octet-stream'
     response.headers['Content-Disposition'] = "attachment; filename=#{@file_upload.filename}"
     response.headers['Accept-Ranges'] = 'bytes'
