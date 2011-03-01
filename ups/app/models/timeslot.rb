@@ -12,4 +12,12 @@
 #
 
 class Timeslot < ActiveRecord::Base
+  attr_accessible :start_at, :end_at
+
+  validates :start_at, :presence => true
+  validates :end_at, :presence => true
+
+  validate do |timeslot|
+    timeslot.errors.add :start_at, "is after end_at" if timeslot.start_at.present? && timeslot.end_at.present? && timeslot.start_at > timeslot.end_at
+  end
 end
