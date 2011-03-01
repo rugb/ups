@@ -5,6 +5,8 @@ class NewsController < ApplicationController
   
   filter_access_to :all
   
+  include PagesHelper
+  
   def show
     @page = Page.find(params[:id])
   end
@@ -23,6 +25,8 @@ class NewsController < ApplicationController
   def create
     @title = "create new post"
     @edit_post = Page.new(params[:page].merge(:page_type => :news, :enabled => false, :role => Role.find_by_int_name(:guest)))
+    
+    cache_html!(@edit_post)
     
     if @edit_post.page_contents.any? &&  @edit_post.save
       @edit_post.reload
@@ -48,6 +52,8 @@ class NewsController < ApplicationController
   def update
     @title = "edit post"
     @edit_post = Page.find params[:id]
+    
+    cache_html!(@edit_post)
     
     if @edit_post.update_attributes(params[:page])
       flash.now[:success] = "post updated."

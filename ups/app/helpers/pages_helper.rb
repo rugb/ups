@@ -34,15 +34,6 @@ module PagesHelper
     end
   end
   
-  def get_page_contents_by_all_languages(page)
-    page_contents = {}
-    Language.all.each do |language|
-      page_contents[language] = page.page_contents.find :first, :conditions => { :language_id => language.id }
-    end
-    
-    page_contents
-  end
-  
   def possible_page_position_options(page)
     make_page_position_tree(nil, page)
   end

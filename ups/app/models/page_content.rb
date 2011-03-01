@@ -14,8 +14,6 @@
 #  html        :text
 #
 
-require 'kramdown'
-
 class PageContent < ActiveRecord::Base
   attr_accessible :title, :text, :excerpt, :language_id
   
@@ -27,7 +25,6 @@ class PageContent < ActiveRecord::Base
   belongs_to :language
   
   before_save :update_int_title
-  before_save :update_html
   before_save :update_excerpt
   
   private
@@ -48,9 +45,5 @@ class PageContent < ActiveRecord::Base
   
   def update_excerpt
     self.excerpt = make_excerpt(text) if excerpt.blank?
-  end
-  
-  def update_html
-    self.html = Kramdown::Document.new(text).to_html if text.present?
   end
 end

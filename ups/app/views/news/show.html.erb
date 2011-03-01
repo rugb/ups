@@ -3,7 +3,15 @@
   <% if @current_user == @page.user || has_role_with_hierarchy?(:admin) %>
   <p class="actions">
     <%= link_to "edit", edit_news_path(@page), :class => "edit" %>
-    <%= link_to "delete", news_path(@page), :confirm => "Are you sure?", :method => :delete, :class => "delete" %>
+    <%= link_to "delete", news_path(@page), :confirm => "Are you sure?", :method => :delete, :class => "delete" %>, 
+    kramdown reference: 
+    <code>
+      [[<%= @page.int_title %>]]
+    </code>
+    or 
+    <code>
+      [[<%= @page.id %>]]
+    </code>
   </p>
   <% end %>
   <p>
@@ -12,13 +20,23 @@
   <%= render 'shared/download_links', :object => @page %>
   <p class="footer">
     <% if @page.user.present? %>
-    <span>author: <%= link_to @page.user.name, @page.user %></span>
+    <span>
+      author: <%= link_to @page.user.name, @page.user %>
+    </span>
     <% else %>
-    <span><i>(author deleted)</i></span>
+    <span>
+      <i>
+        (author deleted)
+      </i>
+    </span>
     <% end %>
-    <span>from: <%= @page.updated_at %></span>
+    <span>
+      from: <%= @page.updated_at %>
+    </span>
     <% if @page.categories.any? %>
-    <span>categories: <%= inline_categories_for(@page) %></span>
+    <span>
+      categories: <%= inline_categories_for(@page) %>
+    </span>
     <% end %>
   </p>
 </section>

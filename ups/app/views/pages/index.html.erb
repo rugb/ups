@@ -1,7 +1,10 @@
 <% page_tree = lambda do |page, depth| %>
 <tr>
-  <td class="treecell" <%= make_treecell_style(depth) %>>
+  <td class="treecell"<%= make_treecell_style(depth) %>>
     <%= ((select_by_language_id(page.page_contents) and select_by_language_id(page.page_contents).title) or "(new)") %>
+  </td>
+  <td>
+	<code>[[<%= page.int_title %>]]</code> or <code>[[<%= page.id %>]]</code>
   </td>
   <td>
     <%= "deactivated" unless page.enabled? %>
@@ -31,6 +34,9 @@ end %>
     <tr>
       <th>
         title
+      </th>
+      <th>
+        kramdown reference
       </th>
       <th>
         visible

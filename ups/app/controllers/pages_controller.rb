@@ -45,6 +45,7 @@ class PagesController < ApplicationController
     end
     
     if @edit_page.page_contents.any? &&  @edit_page.save
+      cache_html!(@edit_page)
       flash[:success] = "page created."
       redirect_to edit_page_path @edit_page
     else
@@ -83,6 +84,7 @@ class PagesController < ApplicationController
     end
     
     if @edit_page.update_attributes params[:page]
+      cache_html! @edit_page 
       recalc_page_positions_for_page @edit_page
       flash.now[:success] = "post updated."
     else
