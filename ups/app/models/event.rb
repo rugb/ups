@@ -12,4 +12,11 @@
 #
 
 class Event < ActiveRecord::Base
+  attr_accessible :name, :user_id, :location
+
+  validates :name, :presence => true, :length => { :maximum => 255 }
+  validates :location, :presence => true, :length => { :maximum => 255 }
+  validates :user_id, :presence => true
+
+  
 end
