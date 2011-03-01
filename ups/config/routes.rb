@@ -4,7 +4,8 @@ Ups::Application.routes.draw do
       delete 'vote/:user_vote_id' => "events#user_vote_destroy", :as => :delete_user_votes
     end
   end
-  
+
+  match "/calendar" => "events#calendar", :via => :get
   resources :users
   resources :links
   resource :user, :only => :show, :as => :current_user
