@@ -13,7 +13,10 @@
     <% end %>
     <span>from: <%= news.updated_at %></span>
     <% if news.categories.any? %>
-    <span>categories: <%= inline_categories_for(news) %></span>
+    <span>categories: <%= inline_categories_for news %></span>
+    <% end %>
+    <% if news.tags.any? %>
+    <span>tags: <%= inline_tags_for news %></span>
     <% end %>
   </p>
 </section>

@@ -109,7 +109,7 @@ class Page < ActiveRecord::Base
 
     # add new tags
     self.tags = tags_array.map do |tag_string|
-      self.tags.find_or_initialize_by_name tag_string
+      Tag.find_or_initialize_by_name tag_string
     end
   end
   
