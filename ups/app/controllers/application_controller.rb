@@ -1,3 +1,5 @@
+require 'kramdown'
+
 class ApplicationController < ActionController::Base
   include SessionHelper
   
@@ -22,8 +24,20 @@ class ApplicationController < ActionController::Base
     render 'errors/500', :status => 500
   end
   
+  def cache_html!(page)
+    page.page_contents.map do |page_content|
+      update_html(page_content)
+    end
+    
+    page.save
+  end
+  
   def select_by_language_id(elements)
-    wanted_languages.each { |language|
+    select_by_languages(elements, wanted_languages)
+  end
+  
+  def select_by_languages(elements, languages)
+    languages.each { |language|
       elements.each { |element|
         return element if element.language_id == language.id  
       }
@@ -95,5 +109,42 @@ class ApplicationController < ActionController::Base
   def current_page
     page = Page.find(:first, :conditions => {:forced_url => request.path})
     @page = page if page.present? && page.visible?
-  end  
+  end
+  
+  private
+  
+  def update_html(page_content)
+    if page_content.text.present?
+      kramdown = kramdown_internal_links(page_content.text, page_content.language)
+      page_content.html = Kramdown::Document.new(kramdown).to_html
+    end
+    return page_content
+  end
+  
+  LINK_REGEX = /\[\[([^\]]+)\]\]/
+  
+  # idea by dmke
+  def kramdown_internal_links(text, language)
+    text.gsub LINK_REGEX do |match|
+      css_class = "intlink"
+      
+      page_id, title = $1.split '|', 2
+      if page_id.to_i > 0 
+        page = Page.find_by_id page_id
+      else
+        page = Page.find_by_int_title page_id
+      end
+      
+      if page.present?
+        title = select_by_languages(page.page_contents, [language, Conf.default_language]).title if title.nil?
+        link = make_page_path page
+      else
+        title = page_id if title.nil?
+        link = ""
+        css_class += " unknown"
+      end
+      
+      "[#{title}](#{link}){: class=\"#{css_class}\"}"
+    end
+  end
 end
