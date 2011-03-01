@@ -1,5 +1,11 @@
 require 'spec_helper'
 
 describe Vote do
-  pending "add some examples to (or delete) #{__FILE__}"
+  before(:each) do
+    @user = User.new(:name => "test user", :email => "foo@bar.com", :openid => "openid")
+    @attr = {
+      :user_id => @user.id
+      }
+  end
+  
 end

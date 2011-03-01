@@ -7,7 +7,7 @@ describe Event do
     @attr = {
       :name => "Fachgespraech",
       :location => "MZH",
-      :user_id => 1
+      :user_id => @user.id
       }
   end
 
