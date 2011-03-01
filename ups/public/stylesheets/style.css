@@ -216,9 +216,9 @@ header nav {
 }
 
 .vote.yes {
-    background: #090;
+    background: #9f9;
 }
 
 .vote.no {
-    background: #900;
+    background: #f99;
 }
