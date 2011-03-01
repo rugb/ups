@@ -7,7 +7,7 @@ class ConfController < ApplicationController
     Conf.default_page = Page.find(params[:default_page])
     Conf.web_name = params[:web_name]
     Conf.calendar = params[:calendar_url]
-    flash[:success] = "settings saved."
+    flash.now[:success] = "settings saved."
     render :action => :index
   end
   

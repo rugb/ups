@@ -86,7 +86,7 @@ if Page.all.empty? || PageContent.all.empty?
   page.page_contents.build(:id => pcID, :language_id => 1, :title => "Events").save
   page.page_contents.build(:id => pcID, :language_id => 2, :title => "Termine").save
 
-  page = Page.ensure(:id => pID, :int_title => :calendar, :page_type => :page, :enabled => true, :forced_url => "/calendar", :position => pID * 10, :role_id => member.id)
+  page = Page.ensure(:id => pID, :int_title => :calendar, :page_type => :page, :enabled => false, :forced_url => "/calendar", :position => pID * 10, :role_id => member.id)
   page.page_contents.build(:id => pcID, :language_id => 1, :title => "Calendar").save
   page.page_contents.build(:id => pcID, :language_id => 2, :title => "Kalender").save
 end
