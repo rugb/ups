@@ -214,3 +214,11 @@ header nav {
 .treecell {
     background: url('/images/page_tree_prefix.png') -48px 0 no-repeat;
 }
+
+.vote.yes {
+    background: #090;
+}
+
+.vote.no {
+    background: #900;
+}
