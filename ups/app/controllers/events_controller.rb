@@ -1,7 +1,7 @@
 require 'pp'
 class EventsController < ApplicationController
 
-  before_filter :load_event, :except => [ :calendar, :index, :user_vote_destroy ]
+  before_filter :load_event, :except => [ :new, :create, :calendar, :index, :user_vote_destroy ]
   before_filter :load_user_vote, :only => :user_vote_destroy, :model => :UserVote, :attribute_check => true
   #filter_access_to :all
 
@@ -10,9 +10,19 @@ class EventsController < ApplicationController
   end
   
   def new
+    @event = Event.new
   end
 
   def create
+    @event = Event.new(params[:event].merge(:user_id => @current_user.id))
+
+    if @event.save
+      flash[:success] = "vote created"
+      redirect_to @event
+    else
+      flash.now[:error] = "vote not created"
+      render 'new'
+    end
   end
 
   def edit
