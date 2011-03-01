@@ -20,7 +20,7 @@
 require 'date'
 
 class Page < ActiveRecord::Base
-  attr_accessible :parent_id, :page_type, :enabled, :position, :int_title, :forced_url, :start_at, :role_id, :role, :user, :user_id, :page_contents_attributes, :page_categories_attributes, :file_uploads
+  attr_accessible :parent_id, :page_type, :enabled, :position, :int_title, :forced_url, :start_at, :role_id, :role, :user, :user_id, :page_contents_attributes, :page_categories_attributes, :file_uploads, :tags_string
   
   belongs_to :parent, :class_name => "Page", :foreign_key => "parent_id"
   has_many :children, :class_name => "Page", :foreign_key => "parent_id", :dependent => :destroy
@@ -91,6 +91,26 @@ class Page < ActiveRecord::Base
   
   def remove_tag(tag)
     self.tags.delete(tag)
+  end
+
+  def tags_string
+    self.tags.map do |tag|
+      tag.name
+    end.join ", "
+  end
+
+  def tags_string=(tags_string)
+    tags_array = tags_string.split(",").map! { |tag_string| tag_string.strip }
+    
+    # delete unused tags
+    self.tags = self.tags.find_all do |tag|
+      tags_array.index tag.name
+    end
+
+    # add new tags
+    self.tags = tags_array.map do |tag_string|
+      self.tags.find_or_initialize_by_name tag_string
+    end
   end
   
   # builds unique position string for editing page position
