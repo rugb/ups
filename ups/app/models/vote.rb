@@ -17,5 +17,5 @@ class Vote < ActiveRecord::Base
   belongs_to :timeslot
   belongs_to :user_vote
 
-  validates :user_id, :presence => true
+  validates :user_vote, :presence => true
 end

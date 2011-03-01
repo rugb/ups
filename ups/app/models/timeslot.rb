@@ -27,4 +27,8 @@ class Timeslot < ActiveRecord::Base
   validate do |timeslot|
     timeslot.errors.add :start_at, "is after end_at" if timeslot.start_at.present? && timeslot.end_at.present? && timeslot.start_at > timeslot.end_at
   end
+
+  def get_vote_for_user_vote(user_vote)
+    votes.find_by_user_vote_id user_vote.id
+  end
 end

@@ -12,13 +12,14 @@
 #
 
 class Event < ActiveRecord::Base
-  attr_accessible :name, :user_id, :location, :description, :timeslots_attributes
+  attr_accessible :name, :user_id, :location, :description, :timeslots_attributes, :user_vote_attributes
 
   belongs_to :user
   has_many :timeslots, :dependent => :destroy
   accepts_nested_attributes_for :timeslots
 
-  has_many :user_votes
+  has_many :user_votes, :dependent => :destroy
+  accepts_nested_attributes_for :user_votes
 
   validates :name, :presence => true, :length => { :maximum => 255 }
   validates :location, :presence => true, :length => { :maximum => 255 }

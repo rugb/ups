@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110301144249) do
+ActiveRecord::Schema.define(:version => 20110301162300) do
 
   create_table "categories", :force => true do |t|
     t.datetime "created_at"
@@ -150,7 +150,6 @@ ActiveRecord::Schema.define(:version => 20110301144249) do
   create_table "user_votes", :force => true do |t|
     t.integer  "event_id"
     t.integer  "user_id"
-    t.integer  "vote_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -1,5 +1,10 @@
 Ups::Application.routes.draw do
-  resources :events
+  resources :events do
+    member do
+      delete 'vote/:user_vote_id' => "events#user_vote_destroy", :as => :delete_user_votes
+    end
+  end
+  
   resources :users
   resources :links
   resource :user, :only => :show, :as => :current_user
