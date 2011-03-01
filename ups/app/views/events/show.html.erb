@@ -6,3 +6,27 @@
     <%= @event.description %>
   </p>
 <% end %>
+<fieldset>
+  <table>
+    <thead>
+      <tr>
+        <th>
+        </th>
+        <% @event.timeslots.each do |timeslot| %>
+          <th>
+            <%= timeslot.start_at %> - <br /><%= timeslot.end_at %>
+          </th>
+        <% end %>
+      </tr>
+    </thead>
+    <tbody>
+      <% @event.timeslots.each do |user, votes| %>
+        <tr>
+        <td>
+          <%= user %>
+        </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</fieldset>

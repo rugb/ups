@@ -15,7 +15,7 @@ class Vote < ActiveRecord::Base
   attr_accessible :ack
 
   belongs_to :timeslot
-  belongs_to :user
+  belongs_to :user_vote
 
   validates :user_id, :presence => true
 end
