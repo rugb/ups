@@ -16,6 +16,10 @@
   	<label>page name:</label>
     <%= text_field_tag :web_name, Conf.web_name %>
   </div>
+  <div class="field">
+    <label>calendar-html-adress:</label>
+    <%= text_field_tag :calendar_url, Conf.calendar, :size => 100 %>
+  </div>
   <div class="actions">
     <%= submit_tag "Save changes", :class => "continue" %>
   </div>
