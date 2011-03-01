@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20110228112338
+# Schema version: 20110301084838
 #
 # Table name: file_uploads
 #
@@ -11,6 +11,7 @@
 #  created_at :datetime
 #  updated_at :datetime
 #  size       :integer
+#  visible    :boolean
 #
 
 class FileUpload < ActiveRecord::Base
