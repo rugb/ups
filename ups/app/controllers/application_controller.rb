@@ -115,26 +115,75 @@ class ApplicationController < ActionController::Base
   
   def update_html(page_content)
     if page_content.text.present?
-      kramdown = kramdown_internal_links(page_content.text, page_content.language)
+      kramdown = page_content.text
+      kramdown = kramdown_internal_files page_content.page, kramdown, page_content.language
+      kramdown = kramdown_internal_img page_content.page, kramdown, page_content.language
+      kramdown = kramdown_internal_links kramdown, page_content.language
       page_content.html = Kramdown::Document.new(kramdown).to_html
     end
     return page_content
   end
   
-  LINK_REGEX = /(^|[^!])\[\[([^\]]+)\]\]/
+  LINK_REGEX = /(^|[^!])\[\[([^\[\]]+)\]\]/
+  FILE_REGEX = /(\[\[\[)([^\[\]]+)\]\]\]/
+  IMG_REGEX = /(!\[\[)([^\[\]]+)\]\]/
   
   # idea by dmke
-  def kramdown_internal_links(text, language)
-    text.gsub LINK_REGEX do |match|
-      css_class = "intlink"
+  def kramdown_internal_files(page, text, language)
+    text.gsub FILE_REGEX do |match|
+      file_id, title = $2.split '|', 2
+      if file_id.to_i > 0 
+        file = page.file_uploads.find_by_id file_id
+      else
+        file = page.file_uploads.find_by_filename file_id
+      end
       
+      css_class = "intfile"
+      if file.present?
+        title = file.filename if title.nil?
+        link = download_file_path file
+      else
+        title = file_id if title.nil?
+        link = ""
+        css_class += " unknown"
+      end
+      
+      "[#{title}](#{link}){: class=\"#{css_class}\"}"
+    end
+  end
+  
+  def kramdown_internal_img(page, text, language)
+    text.gsub IMG_REGEX do |match|
+      file_id, title = $2.split '|', 2
+      if file_id.to_i > 0 
+        file = page.file_uploads.find_by_id file_id
+      else
+        file = page.file_uploads.find_by_filename file_id
+      end
+      
+      css_class = "intimg"
+      if file.present?
+        title = file.filename if title.nil?
+        link = download_file_path file
+      else
+        title = file_id if title.nil?
+        link = ""
+        css_class += " unknown"
+      end
+      
+      "![#{title}](#{link}){: class=\"#{css_class}\"}"
+    end
+  end
+  
+  def kramdown_internal_links(text, language)   
+    text.gsub LINK_REGEX do |match|
       page_id, title = $2.split '|', 2
       if page_id.to_i > 0 
         page = Page.find_by_id page_id
       else
         page = Page.find_by_int_title page_id
       end
-      
+      css_class = "intlink"
       if page.present?
         title = select_by_languages(page.page_contents, [language, Conf.default_language]).title if title.nil?
         link = make_page_path page

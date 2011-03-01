@@ -53,9 +53,8 @@ class NewsController < ApplicationController
     @title = "edit post"
     @edit_post = Page.find params[:id]
     
-    cache_html!(@edit_post)
-    
     if @edit_post.update_attributes(params[:page])
+      cache_html!(@edit_post)
       flash.now[:success] = "post updated."
     else
       flash.now[:error] = "post update failed."
