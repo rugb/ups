@@ -11,15 +11,6 @@ Ups::Application.routes.draw do
   
   match "/downloads/:id" => "file_uploads#show", :as => :download_file
 
-#   match "/file_uploads/:page_id/new" => "file_uploads#new", :as => :new_file_upload_with_page, :via => :get
-#   match "/file_uploads" => "file_uploads#create", :as => :file_uploads, :via => :post
-   
-#   match "/file_uploads/:id/edit" => "file_uploads#edit", :as => :edit_file_upload, :via => :get
-#   match "/file_uploads/:id" => "file_uploads#update", :as => :file_upload, :via => :put
-#   match "/file_uploads/:id" => "file_uploads#destroy", :as => :file_upload, :via => :delete
-#   match "/file_uploads" => "file_uploads#index", :as => :file_uploads, :via => :get
-
-
   match "/category/:id/(:name)" => "categories#show", :as => :show_category, :via => :get
 
   resources :session, :only => [] do
@@ -30,7 +21,6 @@ Ups::Application.routes.draw do
       get :logout
     end
   end
-  #resources :pages, :constraints => {:int_title => /[a-z_]{0,255}/}
   
   match "/category/:id/(:name)" => "categories#update", :as => :show_category, :via => :put
   
@@ -42,11 +32,13 @@ Ups::Application.routes.draw do
   resources :news do
     get 'rss', :on => :collection
   end
+
   resources :categories do
     member do
       delete 'delete' => "categories#destroy"
     end
   end
+  
   resources :pages do
     member do
       get 'activate'
