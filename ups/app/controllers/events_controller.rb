@@ -29,6 +29,15 @@ class EventsController < ApplicationController
   end
 
   def update
+  end
+
+  def new_timeslot
+  end
+
+  def finish
+  end
+
+  def vote
     if @event.update_attributes params[:event]
       flash[:success] = "vote succesful"
       redirect_to @event

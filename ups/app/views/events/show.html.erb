@@ -6,7 +6,7 @@
     <%= @event.description %>
   </p>
 <% end %>
-<%= form_for(@event) do |f| %>
+<%= form_for @event, :url => { :action => "vote" } do |f| %>
   <fieldset>
     <table>
       <thead>

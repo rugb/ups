@@ -1,2 +1,18 @@
-<h1>Events#edit</h1>
-<p>Find me in app/views/events/edit.html.erb</p>
+<p class="actions">
+  <%= link_to "back", events_path, :class => "back" %>
+</p>
+
+<%= form_for(@event) do |f| %>
+  <fieldset>
+  <%= render 'form', :f => f%>
+    <div class="actions">
+      <%= f.submit :class => "continue" %>
+    </div>
+  <p class="actions">
+    <%= link_to "add timeslot", new_timeslot_event_path(@event.id), :class => "new" %>
+  </p>
+  <p class="actions">
+    <%= link_to "finish", finish_event_path(@event.id), :class => "finish" %>
+  </p>
+  </fieldset>
+<% end %>

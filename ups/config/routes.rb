@@ -3,6 +3,9 @@ Ups::Application.routes.draw do
     member do
       delete 'vote/:user_vote_id' => "events#user_vote_destroy", :as => :delete_user_votes
       post 'vote' => "events#vote", :as => :vote
+      post 'timeslot' => "events#create_timeslot", :as => :create_timeslot
+      get ':id/timeslot' => "events#new_timeslot", :as => :new_timeslot
+      get 'finish' => "events#finish", :as => :finish
     end
   end
 
