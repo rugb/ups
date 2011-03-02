@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110301162300) do
+ActiveRecord::Schema.define(:version => 20110302100954) do
 
   create_table "categories", :force => true do |t|
     t.datetime "created_at"
@@ -50,6 +50,7 @@ ActiveRecord::Schema.define(:version => 20110301162300) do
     t.datetime "updated_at"
     t.datetime "end_at"
     t.text     "description"
+    t.boolean  "finished"
   end
 
   create_table "file_uploads", :force => true do |t|
