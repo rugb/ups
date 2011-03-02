@@ -141,6 +141,12 @@ footer div h2 {
     text-decoration: underline;
 }
 
+footer pre {
+    max-width: 250px;
+    overflow: hidden;
+    white-space: pre-wrap;
+}
+
 header a {
     padding: 5px;
 }
