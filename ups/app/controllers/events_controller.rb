@@ -99,6 +99,16 @@ class EventsController < ApplicationController
 
   def reopen
     @event.finished = false
+
+    google = google_auth
+    @event.timeslots.each do |timeslot|
+      if gevent = google_find_event(google, timeslot.gevent_id)
+        gevent.delete unless gevent.status == :canceled
+      end
+      timeslot.gevent_id = nil
+      timeslot.save
+    end
+    
     if @event.save
       flash[:success] = "event unfinished"
       redirect_to edit_event_path @event
