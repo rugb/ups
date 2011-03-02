@@ -40,6 +40,8 @@ class ConfController < ApplicationController
     else
       flash.now[:error] = "google fails."
     end
+
+    render :action => :index
   end
       
   def pull_github
