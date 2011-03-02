@@ -16,6 +16,38 @@ class Conf < ActiveRecord::Base
   validates :name, :presence => true, :length => 1..50
   validates_length_of :value, :in => 0..255, :allow_nil => true
   
+  def self.twitter_consumer_key
+    get(:twitter_consumer_key).to_s
+  end
+
+  def self.twitter_consumer_key=(consumer_key)
+    set(:twitter_consumer_key, consumer_key)
+  end
+
+  def self.twitter_consumer_secret
+    get(:twitter_consumer_secret)
+  end
+
+  def self.twitter_consumer_secret=(consumer_secret)
+    set(:twitter_consumer_secret, consumer_secret)
+  end
+
+  def self.twitter_oauth_token
+    get(:twitter_oauth_token).to_s
+  end
+
+  def self.twitter_oauth_token=(oauth_token)
+    set(:twitter_oauth_token, oauth_token)
+  end
+
+  def self.twitter_oauth_secret
+    get(:twitter_oauth_secret).to_s
+  end
+
+  def self.twitter_oauth_secret=(oauth_secret)
+    set(:twitter_oauth_secret, oauth_secret)
+  end
+
   def self.web_name
     get(:web_name).to_s
   end

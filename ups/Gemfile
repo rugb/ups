@@ -9,6 +9,7 @@ gem 'kramdown'
 gem 'rack-openid'
 gem 'ruby-openid'
 gem 'sqlite3'
+gem 'twitter'
 
 group :development do
   gem 'annotate-models'

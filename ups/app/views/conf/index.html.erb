@@ -16,6 +16,29 @@
   	<label>page name:</label>
     <%= text_field_tag :web_name, Conf.web_name %>
   </div>
+  <h2>twitter settings</h2>
+  <fieldset>
+    <p>register a twitter-app at <a href="http://dev.twitter.com/apps">http://dev.twitter.com/apps</a></p>
+    <div class="field">
+      <label>consumer key:</label>
+      <%= text_field_tag :consumer_key, Conf.twitter_consumer_key, :size => 100 %>
+    </div>
+    <div class="field">
+      <label>consumer secret:</label>
+      <%= text_field_tag :consumer_secret, Conf.twitter_consumer_secret, :size => 100 %>
+    </div>
+    <div class="field">
+      <label>oauth token:</label>
+      <%= text_field_tag :oauth_token, Conf.twitter_oauth_token, :size => 100 %>
+    </div>
+    <div class="field">
+      <label>oauth token secret:</label>
+      <%= text_field_tag :oauth_secret, Conf.twitter_oauth_secret, :size => 100 %>
+    </div>
+    <p class="actions">
+      <%= link_to "check twitter settings", config_check_twitter_path, :class => "continue", :size => 100 %>
+    </p>
+  </fieldset>
   <div class="actions">
     <%= submit_tag "Save changes", :class => "continue" %>
   </div>

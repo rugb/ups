@@ -11,6 +11,10 @@ fieldset table {
 	margin: 10px;
 }
 
+fieldset h2 {
+    margin-left: 10px;
+}
+
 fieldset .field, fieldset .actions {
     margin: 10px;
 }
