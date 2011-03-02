@@ -12,7 +12,20 @@ class NewsController < ApplicationController
   end
   
   def index
-    @news = Page.find(:all, :order => "created_at DESC", :conditions => {:page_type => :news})
+    if params[:category].present?
+      @browse_category = Category.find_by_id params[:category]
+    end
+
+    if params[:tags].present?
+      @browse_tags_names = params[:tags].split "+"
+      @browse_tags = @browse_tags_names.map do |tag_name|
+        Tag.find_by_name tag_name
+      end.compact
+    end
+
+    @news = Page.find(:all, :order => "created_at DESC", :conditions => {:page_type => :news}).find_all do |page|
+      (@browse_category.nil? || page.categories.index(@browse_category)) && (page.tags & @browse_tags).size == @browse_tags.size
+    end
   end
   
   def new
@@ -81,5 +94,6 @@ class NewsController < ApplicationController
   
   def load_news
     @edit_news = Page.find(params[:id]) if params[:id].present?
+    @browse_tags = []
   end
 end

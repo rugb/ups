@@ -15,34 +15,34 @@ module ApplicationHelper
   def list_categories
     make_html_list(Category.all.sort { |a, b|
       select_by_language_id(a.category_names).name <=> select_by_language_id(b.category_names).name
-    }.map { |cat| link_to category_name(cat), browse_news_path(cat) })
+    }.map { |cat| link_to category_name(cat), browse_news_path(cat, @browse_tags) })
   end
   
   def list_categories_for(page)
     make_html_list(page.categories.sort { |a, b|
       select_by_language_id(a.category_names).name <=> select_by_language_id(b.category_names).name
-    }.map { |cat| link_to category_name(cat), browse_news_path(cat) })
+    }.map { |cat| link_to category_name(cat), browse_news_path(cat, @browse_tags) })
   end
   
   def inline_categories_for(page)
     raw page.categories.sort { |a, b|
       select_by_language_id(a.category_names).name <=> select_by_language_id(b.category_names).name
-    }.map { |cat| link_to category_name(cat), browse_news_path(cat) }.join(", ")
+    }.map { |cat| link_to category_name(cat), browse_news_path(cat, @browse_tags) }.join(", ")
   end
 
   def list_tags_for(page)
-    make_html_list(page.tags.map { |tag| link_to tag.name, browse_news_path(nil, [tag]) })
+    make_html_list(page.tags.map { |tag| link_to tag.name, browse_news_path(@browse_category, [tag]) })
   end
 
   def tag_cloud
     raw(Tag.all.map do |tag|
-      link_to tag.name, browse_news_path(nil, [tag]), :style => calc_tag_style(tag.pages.size)
+      link_to tag.name, browse_news_path(@browse_category, (@browse_tags | [tag]).uniq), :style => calc_tag_style(tag.pages.size)
     end.join ", ")
   end
   
   def inline_tags_for(page)
     raw(page.tags.map do |tag|
-      link_to tag.name, browse_news_path(nil, [tag])
+      link_to tag.name, browse_news_path(@browse_category, [tag])
     end.join ", ")
   end
 

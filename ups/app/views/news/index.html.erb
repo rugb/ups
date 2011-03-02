@@ -1,4 +1,10 @@
 <%= render 'sidebar' %>
+<% if @browse_category.present? %>
+<h2>Category: <%= category_name @browse_category %></h2>
+<% end %>
+<% if @browse_tags.present? %>
+<h2>Browse tags: <%= @browse_tags_names.join ", " %></h2>
+<% end %>
 <% @news.each do |news| %>
 <section class="news">
   <h2><%= link_to page_title(news), news_path(news) %></h2>
@@ -20,4 +26,7 @@
     <% end %>
   </p>
 </section>
+<% end %>
+<% if @news.empty? %>
+<p class="flash notice news">no post matched your search criterias.</p>
 <% end %>

@@ -4,17 +4,14 @@ module NewsHelper
   end
 
   def browse_news_path(cat = nil, tags = nil)
-  	a = ["&", "?"]
-  	path = news_index_path
-  	if cat.present?
-  		path += a.pop
-  		path += "category=" + cat.id.to_s
-  	end
-  	if tags.present? && tags.any?
-  		path += a.pop
-  		path += "tags=" + ((tags.map { |tag| tag.name }).join "+")
-  	end
+    if cat.present? && tags.present? && tags.any?
+      return news_index_path :category => cat.id, :tags => ((tags.map { |tag| tag.name }).join "+")
+    end
+    
+    return news_index_path :category => cat.id if cat.present?
+    
+    return news_index_path :tags => ((tags.map { |tag| tag.name }).join "+") if tags.present? && tags.any?
 
-  	return path
+    news_index_path
   end
 end

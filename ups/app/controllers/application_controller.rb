@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
   
   rescue_from ActiveRecord::RecordNotFound, :with => :http_404
   
-  helper_method :select_by_language_id, :current_user
+  helper_method :select_by_language_id, :current_user, :cache_html!
   
   before_filter :current_user
   before_filter :current_page
@@ -69,7 +69,7 @@ class ApplicationController < ActionController::Base
     wanted_languages << Conf.default_language
     
     # cleanup
-    wanted_languages.delete_if{ |lang| lang.nil? }
+    wanted_languages.compact
   end
   
   # by http://mashing-it-up.blogspot.com/2008/10/parsing-accept-language-in-rails.html

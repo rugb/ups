@@ -42,8 +42,8 @@ end
 
 if Page.all.empty? || PageContent.all.empty?
   page = Page.ensure(:id => 1, :int_title => :home, :page_type => :page, :enabled => true, :position => 10, :role_id => guest.id)
-  page.page_contents.build(:id => pcID, :language_id => 1, :title => "Homepage", :text => "This is the default homepage.").save
-  page.page_contents.build(:id => pcID, :language_id => 2, :title => "Startseite", :text => "Dies ist die Default-Startseite.").save
+  page.page_contents.build(:id => pcID, :language_id => 1, :title => "Homepage", :text => "This is the default homepage.", :html => "This is the default homepage.").save
+  page.page_contents.build(:id => pcID, :language_id => 2, :title => "Startseite", :text => "Dies ist die Default-Startseite.", :html => "Dies ist die Default-Startseite.").save
   
   Conf.ensure(:id => 2, :name => :default_page, :value => 1)
   
@@ -82,7 +82,7 @@ end
 category = Category.new
 category.category_names.build(:id => 1, :language_id => 2, :name => "Allgemein").save
 category.category_names.build(:id => 2, :language_id => 1, :name => "general").save
-category.save
+category.save!
 
 User.ensure(:id => 0)
 
