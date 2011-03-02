@@ -106,8 +106,8 @@ class EventsController < ApplicationController
 
     google = google_auth
     @event.timeslots.each do |timeslot|
-      if gevent = google_find_event(google, timeslot.gevent_id)
-        gevent[:event].delete unless gevent[:event].status == :canceled
+      if (gevent = google_find_event(google, timeslot.gevent_id))
+        gevent.delete unless gevent.status == :canceled
       end
       timeslot.gevent_id = nil
       timeslot.save
