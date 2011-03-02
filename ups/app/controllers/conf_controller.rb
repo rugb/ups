@@ -9,6 +9,7 @@ class ConfController < ApplicationController
     Conf.default_page = Page.find(params[:default_page])
     Conf.web_name = params[:web_name]
     Conf.calendar = params[:calendar_url]
+    Conf.github_user = params[:github_user]
 
     Conf.twitter_consumer_key = params[:consumer_key].strip
     Conf.twitter_consumer_secret = params[:consumer_secret].strip
@@ -25,6 +26,11 @@ class ConfController < ApplicationController
     else
       flash.now[:error] = "twitter fails. check your keys and secrets."
     end
+
+    render :action => :index
+  end
+
+  def pull_github
 
     render :action => :index
   end

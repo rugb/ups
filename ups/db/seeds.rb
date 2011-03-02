@@ -93,6 +93,10 @@ if Page.all.empty? || PageContent.all.empty?
   page = Page.ensure(:id => pID, :int_title => :calendar, :page_type => :page, :enabled => false, :forced_url => "/calendar", :position => pID * 10, :role_id => member.id)
   page.page_contents.build(:id => pcID, :language_id => 1, :title => "Calendar").save
   page.page_contents.build(:id => pcID, :language_id => 2, :title => "Kalender").save
+
+  page = Page.ensure(:id => pID, :int_title => :projects, :page_type => :page, :enabled => false, :position => pID * 10, :role_id => guest.id)
+  page.page_contents.build(:id => pcID, :language_id => 1, :title => "Projects").save
+  page.page_contents.build(:id => pcID, :language_id => 2, :title => "Projekte").save
 end
 
 category = Category.new
