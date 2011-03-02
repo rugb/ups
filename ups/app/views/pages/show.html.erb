@@ -22,7 +22,7 @@
 </p>
 <%= render 'shared/download_links', :object => @page %>
 
-<% if @page.children.any? %>
+<% if @page.children.select{ |child| child.visible? }.any? %>
 <% @page.children.each do |news| %>
 <section>
   <h2><%= link_to page_title(news), make_page_path(news) %></h2>

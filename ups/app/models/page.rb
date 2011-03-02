@@ -51,7 +51,7 @@ class Page < ActiveRecord::Base
     record.errors.add :enabled, "connot be true if page has no internal title" if record.enabled && (record.int_title.nil? || record.int_title == "")
   end
   validates_numericality_of :position, :only_integer => true, :greater_than => 0, :allow_nil => true
-  validates_inclusion_of :page_type, :in => [:news, :page]
+  validates_inclusion_of :page_type, :in => [:news, :page, :project]
   validates_inclusion_of :enabled, :in => [true, false]
   validates :int_title, :uniqueness => true,  :format => /^[a-z0-9_]{0,255}$/, :allow_nil => true
   validates_numericality_of :role_id, :presence => true, :greater_than => 0

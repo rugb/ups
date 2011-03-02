@@ -36,7 +36,7 @@
     <%= link_to "deactivate", deactivate_page_path(page), :class => "disable" if page.deactivatable? %>
   </td>
 </tr>
-<% page.children.find(:all, :conditions => {:page_type => :page}).each { |page| page_tree.call page, depth + 1 }
+<% page.children.each { |page| page_tree.call page, depth + 1 if page.page_type != :news }
 end %>
 <table>
   <thead>

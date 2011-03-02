@@ -1,7 +1,7 @@
 module PagesHelper
   def visible_children_pages(page)
-    Page.find(:all, :conditions => {:enabled => true, :parent_id => (page and page.id), :page_type => :page}).find_all do |child|
-      child.visible? && child.position.present? && has_role_with_hierarchy?(child.role.int_name)
+    Page.find(:all, :conditions => {:enabled => true, :parent_id => (page and page.id)}).find_all do |child|
+      child.visible? && child.position.present? && has_role_with_hierarchy?(child.role.int_name) && child.page_type != :news
     end
   end
   

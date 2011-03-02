@@ -5,7 +5,7 @@ class PagesController < ApplicationController
   include PagesHelper
   
   def index
-    @pages = Page.find :all, :conditions => {:parent_id => nil, :page_type => :page}
+    @pages = Page.find(:all, :conditions => {:parent_id => nil}).select { |page| page.page_type != :news }
   end
   
   def show
