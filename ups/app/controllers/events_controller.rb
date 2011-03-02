@@ -44,10 +44,6 @@ class EventsController < ApplicationController
     redirect_to edit_event_path @event
   end
 
-  def destroy_timeslot
-
-  end
-
   def finish
   end
 
@@ -58,15 +54,29 @@ class EventsController < ApplicationController
         @timeslot << timeslot if timeslot.choosen?
       end
 
+      @event.finished = true
+      @event.save!
+
       if @timeslot.empty?
-        flash.now[:notice] = 'no event created'
-        render 'finish'
+        flash[:notice] = "no event created"
       else
-        flash.now[:success] = "event created"
+        flash[:success] = "event created"
       end
+      redirect_to calendar_path
     else
       flash.now[:error] = "error"
       render 'finish'
+    end
+  end
+
+  def unfinish
+    @event.finished = false
+    if @event.save
+      flash[:success] = "event unfinished"
+      redirect_to edit_event_path @event
+    else
+      flash[:error] = "cannot unfinish event"
+      redirect_to events_path
     end
   end
 
@@ -80,6 +90,9 @@ class EventsController < ApplicationController
   end
 
   def destroy
+    @event.destroy
+
+    redirect_to events_path
   end
 
   def user_vote_destroy

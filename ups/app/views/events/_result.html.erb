@@ -1,0 +1,10 @@
+<tr>
+  <td>
+    result
+  </td>
+  <% event.timeslots.each do |timeslot| %>
+    <td>
+      <%= (timeslot.votes.find_all { |vote| vote.ack }).size %>
+    </td>
+  <% end %>
+</tr>

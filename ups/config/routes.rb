@@ -6,6 +6,7 @@ Ups::Application.routes.draw do
       get 'timeslot/new' => "events#new_timeslot", :as => :new_timeslot
       delete 'timeslot/:timeslot_id' => "events#destroy_timeslot", :as => :destroy_timeslot
       get 'finish' => "events#finish", :as => :finish
+      put 'unfinish' => "events#unfinish", :as => :unfinish
       put 'finish' => "events#finished", :as => :finished
     end
   end

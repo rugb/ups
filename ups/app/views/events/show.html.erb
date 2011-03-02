@@ -24,6 +24,7 @@
         <% @event.user_votes.each do |user_vote| %>
           <%= render 'user_vote', :user_vote => user_vote, :f => f %>
         <% end %>
+      <%= render 'result', :event => @event %>
       </tbody>
     </table>
     <div class="actions">
