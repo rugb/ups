@@ -4,12 +4,12 @@ gem 'rails', '3.0.4'
 
 gem 'carrierwave'
 gem 'declarative_authorization'
-gem 'googlecalendar'
 gem 'kramdown'
 gem 'rack-openid'
 gem 'ruby-openid'
 gem 'sqlite3'
 gem 'twitter'
+gem 'gcal4ruby'
 
 group :development do
   gem 'annotate-models'

@@ -1,12 +1,13 @@
 module GoogleHelper
   def google_add_event(google, event)
-    google.new_event(event)
+    event = GCal4Ruby::Event.new(google, event)
+    event.save
   end
 
   def google_auth
-    g=Googlecalendar::GData.new
+    g = GCal4Ruby::Service.new
     begin
-      g.login(Conf.google_account_name, Conf.google_account_password)
+      g.authenticate(Conf.google_account_name, Conf.google_account_password)
     rescue
       return nil
     end
