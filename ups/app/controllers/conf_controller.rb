@@ -33,7 +33,6 @@ class ConfController < ApplicationController
   def pull_github
     begin
       user = GitHub::API.user(Conf.github_user)
-      p "=======================", user.repositories
 
       flash.now[:success] = "github projects pulled"
     rescue
