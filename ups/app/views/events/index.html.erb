@@ -43,7 +43,7 @@
             <% unless event.finished? %>
               <%= link_to "finish", finish_event_path(event), :class => "finish" %>
             <% else %>
-              <%= link_to "unfinish", unfinish_event_path(event), :method => :put, :class => "unfinish" %>
+              <%= link_to "reopen", unfinish_event_path(event), :method => :put, :class => "reopen" %>
             <% end %>
           <% end %>
         </td>

@@ -63,21 +63,31 @@ class EventsController < ApplicationController
       if @timeslots.empty?
         flash[:notice] = "no event created"
       else
-        flash[:success] = "event created"
+        #flash[:success] = "event created"
+        success=""
 
+        count=0
         google = google_auth
         @timeslots.each do |timeslot|
           gevent = {
             :title => @event.name,
             :content => @event.description,
-            :author => @event.user.name,
-            :email => @event.user.email,
             :where => @event.location,
-            :startTime => timeslot.start_at.strftime("%Y-%m-%dT%H:%M:%S"),
-            :endTime => timeslot.end_at.strftime("%Y-%m-%dT%H:%M:%S")
+            :start_time => timeslot.start_at.strftime("%Y-%m-%dT%H:%M:%S"),
+            :end_time => timeslot.end_at.strftime("%Y-%m-%dT%H:%M:%S")
           }
-          pp gevent
-          p google_add_event(google, gevent)
+          created_event_on_google = google_add_event(google, gevent)
+          if created_event_on_google[:saved]
+            timeslot.gevent_id = created_event_on_google[:event].id
+            timeslot.save
+            count += 1
+          end
+        end
+
+        if count > 0
+          flash[:success] = view_context.pluralize(count, "event") + " created"
+        else
+          flash[:error] = "no events created"
         end
       end
       redirect_to calendar_path
@@ -87,7 +97,7 @@ class EventsController < ApplicationController
     end
   end
 
-  def unfinish
+  def reopen
     @event.finished = false
     if @event.save
       flash[:success] = "event unfinished"

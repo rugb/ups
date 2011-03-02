@@ -1,7 +1,9 @@
 module GoogleHelper
   def google_add_event(google, event)
-    event = GCal4Ruby::Event.new(google, event)
-    event.save
+    event = GCal4Ruby::Event.new(google, event.merge(:calendar => google.calendars[0]))
+    saved = event.save
+
+    return {:saved => saved, :event => event}
   end
 
   def google_auth
