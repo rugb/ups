@@ -9,6 +9,7 @@ class ConfController < ApplicationController
     Conf.default_page = Page.find(params[:default_page])
     Conf.web_name = params[:web_name]
     Conf.calendar = params[:calendar_url]
+    Conf.github_user = params[:github_user]
 
     Conf.google_account_name = params[:google_account_name].strip
     Conf.google_account_password = params[:google_account_password].strip
@@ -32,11 +33,21 @@ class ConfController < ApplicationController
     render :action => :index
   end
 
+
   def check_google
     if google_check
       flash.now[:success] = "google works."
     else
       flash.now[:error] = "google fails."
+
+  def pull_github
+    begin
+      user = GitHub::API.user(Conf.github_user)
+      p "=======================", user.repositories
+
+      flash.now[:success] = "github projects pulled"
+    rescue
+      flash.now[:error] = "github pull failed."
     end
 
     render :action => :index

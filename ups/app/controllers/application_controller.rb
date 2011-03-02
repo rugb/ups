@@ -136,9 +136,9 @@ class ApplicationController < ActionController::Base
     text.gsub FILE_REGEX do |match|
       file_id, title = $2.split '|', 2
       if file_id.to_i > 0 
-        file = page.file_uploads.find_by_id file_id
+        file = FileUpload.find_by_id file_id
       else
-        file = page.file_uploads.find_by_filename file_id
+        file = FileUpload.find_by_filename file_id
       end
       
       css_class = "intfile"
@@ -160,9 +160,9 @@ class ApplicationController < ActionController::Base
     text.gsub IMG_REGEX do |match|
       file_id, title = $2.split '|', 2
       if file_id.to_i > 0 
-        file = page.file_uploads.find_by_id file_id
+        file = FileUpload.find_by_id file_id
       else
-        file = page.file_uploads.find_by_filename file_id
+        file = FileUpload.find_by_filename file_id
       end
       
       css_class = "intimg"

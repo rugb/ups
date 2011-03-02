@@ -33,6 +33,15 @@
     <p class="actions">
       <%= link_to "check google settings", config_check_google_path, :class => "continue", :size => 50 %>
     </p>
+  <h2>github settings</h2>
+  <fieldset>
+    <div class="field">
+      <label>github user:</label>
+      <%= text_field_tag :github_user, Conf.github_user, :size => 50 %>
+    </div>
+    <p class="actions">
+      <%= link_to "pull github projects", config_pull_github_path, :class => "continue" %>
+    </p>
   </fieldset>
   <h2>twitter settings</h2>
   <fieldset>
@@ -54,7 +63,7 @@
       <%= text_field_tag :oauth_secret, Conf.twitter_oauth_secret, :size => 50 %>
     </div>
     <p class="actions">
-      <%= link_to "check twitter settings", config_check_twitter_path, :class => "continue", :size => 50 %>
+      <%= link_to "check twitter settings", config_check_twitter_path, :class => "continue" %>
     </p>
   </fieldset>
   <div class="actions">

@@ -83,7 +83,7 @@ class PagesController < ApplicationController
       @edit_page.position = position_select[1] == "" ? nil : position_select[1].to_i
     end
     
-    if @edit_page.update_attributes params[:page]
+    if @edit_page.update_attributes params[:page].merge(:user => @current_user)
       cache_html! @edit_page 
       recalc_page_positions_for_page @edit_page
       flash.now[:success] = "post updated."

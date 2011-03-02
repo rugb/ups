@@ -16,6 +16,14 @@ class Conf < ActiveRecord::Base
   validates :name, :presence => true, :length => 1..50
   validates_length_of :value, :in => 0..255, :allow_nil => true
 
+  def self.github_user
+    get(:github_user).to_s
+  end
+
+  def self.github_user=(github_user)
+    set(:github_user, github_user)
+  end
+
   def self.calendar
     get(:calendar_url)
   end

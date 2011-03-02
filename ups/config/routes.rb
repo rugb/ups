@@ -63,6 +63,7 @@ Ups::Application.routes.draw do
   match "/config" => "conf#update", :via => :put
   match "/config/check_twitter" => "conf#check_twitter", :via => :get
   match "/config/check_google" => "conf#check_google", :via => :get
+  match "/config/pull_github" => "conf#pull_github", :via => :get
   
   match "/credits" => "pages#credits"
   match "/setup" => "pages#setup"

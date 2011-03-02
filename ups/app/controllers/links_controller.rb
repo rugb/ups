@@ -2,20 +2,20 @@ class LinksController < ApplicationController
   filter_access_to :all
   
   def new
+    @title = "create new link"
     @link = Link.new
-
-    Category.all.each do |cat|
-      @link.link_categories.build(:category_id => cat.id)
-    end
+    @link.extend
   end
 
   def create
+    @title = "create new links"
     @link = Link.new(params[:link])
     
     if @link.save
       flash[:success] = "link created"
       redirect_to links_path
     else
+      @link.extend
       flash.now[:error] = "link not created"
       render 'new'
     end
@@ -24,15 +24,22 @@ class LinksController < ApplicationController
   def update
     @link = Link.find(params[:id])
 
-    @link.update_attributes(params[:link])
-
-    
+    if @link.update_attributes(params[:link])
+      flash[:success] = "link updated."
+      redirect_to links_path
+    else
+      @link.extend
+      flash.now[:error] = "link update failed."
+      render :action => :edit
+    end
   end
 
   def destroy
     @link = Link.find(params[:id])
 
     @link.destroy
+
+    flash[:success] = "link deleted."
 
     redirect_to links_path
   end
@@ -46,7 +53,8 @@ class LinksController < ApplicationController
   end
 
   def edit
+    @title = "edit link"
     @link = Link.find(params[:id])
+    @link.extend
   end
-
 end

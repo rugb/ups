@@ -54,6 +54,6 @@ module ApplicationHelper
   private
 
   def calc_tag_style(size)
-    "font-size: " + (Math.log(size, 10) + 0.7).round(1).to_s + "em;"
+    "font-size: " + (Math.log(size + 1, 10) + 0.5).round(1).to_s + "em;"
   end
 end
