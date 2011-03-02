@@ -6,6 +6,8 @@ class EventsController < ApplicationController
   before_filter :load_event, :except => [ :new, :create, :calendar, :index, :user_vote_destroy ]
   before_filter :load_user_vote, :only => :user_vote_destroy, :model => :UserVote, :attribute_check => true
 
+  # todo
+  # check for edit,update attribute
   filter_access_to :all
 
   def calendar
