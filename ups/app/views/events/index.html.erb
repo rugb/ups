@@ -1,3 +1,4 @@
+<% if @events.any? %>
 <table>
   <thead>
     <tr>
@@ -56,3 +57,7 @@
     <% end %>
   </body>
 </table>
+<% end %>
+<p class="actions">
+  <%= link_to "create new event", new_event_path, :class => "new" %>
+</p>
