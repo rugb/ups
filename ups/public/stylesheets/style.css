@@ -147,6 +147,11 @@ footer pre {
     white-space: pre-wrap;
 }
 
+footer pre:hover {
+    overflow: visible;
+    position: absolute;
+}
+
 header a {
     padding: 5px;
 }

@@ -31,7 +31,7 @@
           <% if event.end_at.nil? || event.end_at.present? && event.end_at.future? && !event.finished? %>
             <%= link_to "vote", event, :class => "vote" %>
           <% else %>
-            <%= link_to "show", event, :class => "show" %>
+            <%= link_to "show", event, :class => "continue" %>
           <% end %>
         </td>
         <td class="actions">
@@ -39,12 +39,12 @@
             <%= link_to "edit", edit_event_path(event), :class => "edit" %>
           <% end %>
         </td>
-        <td>
+        <td class="actions">
           <% if event.user == @current_user || has_role?(:admin) %>
             <% unless event.finished? %>
               <%= link_to "finish", finish_event_path(event), :class => "finish" %>
             <% else %>
-              <%= link_to "reopen", reopen_event_path(event), :method => :put, :class => "reopen" %>
+              <%= link_to "reopen", reopen_event_path(event), :confirm => "Are you sure?", :method => :put, :class => "reopen" %>
             <% end %>
           <% end %>
         </td>

@@ -54,3 +54,11 @@
 .actions .vote {
     background-image: url('/images/icons/chart_bar.png');
 }
+
+.actions .finish {
+    background-image: url('/images/icons/tick.png');
+}
+
+.actions .reopen {
+    background-image: url('/images/icons/arrow_refresh.png');
+}
