@@ -101,6 +101,7 @@ class Page < ActiveRecord::Base
 
   def tags_string=(tags_string)
     tags_array = tags_string.split(",").map! { |tag_string| tag_string.strip }
+    tags_array.uniq!
     
     # delete unused tags
     self.tags = self.tags.find_all do |tag|

@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20110301093539
+# Schema version: 20110302161658
 #
 # Table name: timeslots
 #
@@ -9,6 +9,7 @@
 #  event_id   :integer
 #  created_at :datetime
 #  updated_at :datetime
+#  gevent_id  :string(255)
 #
 
 class Timeslot < ActiveRecord::Base

@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20110301133921
+# Schema version: 20110302161658
 #
 # Table name: events
 #
@@ -11,6 +11,7 @@
 #  updated_at  :datetime
 #  end_at      :datetime
 #  description :text
+#  finished    :boolean
 #
 
 class Event < ActiveRecord::Base
