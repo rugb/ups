@@ -1,4 +1,7 @@
 module ConfHelper
+
+  include GoogleHelper
+  
   def twitter_update(tweet)
     twitter_auth
     begin
@@ -27,5 +30,9 @@ module ConfHelper
       config.oauth_token = Conf.twitter_oauth_token
       config.oauth_token_secret = Conf.twitter_oauth_secret
     end
-	end
+  end
+
+  def google_check
+    return google_auth.nil? ? false : true
+  end
 end

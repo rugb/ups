@@ -11,6 +11,9 @@ class ConfController < ApplicationController
     Conf.calendar = params[:calendar_url]
     Conf.github_user = params[:github_user]
 
+    Conf.google_account_name = params[:google_account_name].strip
+    Conf.google_account_password = params[:google_account_password].strip
+
     Conf.twitter_consumer_key = params[:consumer_key].strip
     Conf.twitter_consumer_secret = params[:consumer_secret].strip
     Conf.twitter_oauth_token = params[:oauth_token].strip
@@ -29,6 +32,13 @@ class ConfController < ApplicationController
 
     render :action => :index
   end
+
+
+  def check_google
+    if google_check
+      flash.now[:success] = "google works."
+    else
+      flash.now[:error] = "google fails."
 
   def pull_github
     begin

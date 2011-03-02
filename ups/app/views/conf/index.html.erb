@@ -13,13 +13,26 @@
     <%= select_tag :default_page, options_from_collection_for_select(Page.where("role_id = " + Role.find_by_int_name(:guest).id.to_s), :id, :int_title, Conf.default_page.id) %>
   </div>
   <div class="field">
-  	<label>page name:</label>
+    <label>page name:</label>
     <%= text_field_tag :web_name, Conf.web_name %>
   </div>
-  <div class="field">
-    <label>calendar-html-adress:</label>
-    <%= text_field_tag :calendar_url, Conf.calendar, :size => 100 %>
-  </div>
+  <h2>Google Calendar</h2>
+  <fieldset>
+    <div class="field">
+      <label>Google Account Username:</label>
+      <%= text_field_tag :google_account_name, Conf.google_account_name %>
+    </div>
+    <div class="field">
+      <label>Google Account Password:</label>
+      <%= password_field_tag :google_account_password, Conf.google_account_password %>
+    </div>
+    <div class="field">
+      <label>calendar-html-adress:</label>
+      <%= text_field_tag :calendar_url, Conf.calendar, :size => 100 %>
+    </div>
+    <p class="actions">
+      <%= link_to "check google settings", config_check_google_path, :class => "continue", :size => 50 %>
+    </p>
   <h2>github settings</h2>
   <fieldset>
     <div class="field">
