@@ -1,6 +1,8 @@
 require 'pp'
 class EventsController < ApplicationController
 
+  include GoogleHelper
+  
   before_filter :load_event, :except => [ :new, :create, :calendar, :index, :user_vote_destroy ]
   before_filter :load_user_vote, :only => :user_vote_destroy, :model => :UserVote, :attribute_check => true
 
@@ -19,7 +21,7 @@ class EventsController < ApplicationController
 
     if @event.save
       flash[:success] = "vote created"
-      redirect_to @event
+      redirect_to edit_event_path @event
     else
       flash.now[:error] = "vote not created"
       render 'new'
@@ -50,18 +52,33 @@ class EventsController < ApplicationController
 
   def finished
     if @event.update_attributes(params[:event])
-      @timeslot=[]
+      @timeslots=[]
       @event.timeslots.each do |timeslot|
-        @timeslot << timeslot if timeslot.choosen?
+        @timeslots << timeslot if timeslot.choosen?
       end
 
       @event.finished = true
       @event.save!
 
-      if @timeslot.empty?
+      if @timeslots.empty?
         flash[:notice] = "no event created"
       else
         flash[:success] = "event created"
+
+        google = google_auth
+        @timeslots.each do |timeslot|
+          gevent = {
+            :title => @event.name,
+            :content => @event.description,
+            :author => @event.user.name,
+            :email => @event.user.email,
+            :where => @event.location,
+            :startTime => timeslot.start_at.strftime("%Y-%m-%dT%H:%M:%S.000Z"),
+            :endTime => timeslot.end_at.strftime("%Y-%m-%dT%H:%M:%S.000Z")
+          }
+          pp gevent
+          p google_add_event(google, gevent)
+        end
       end
       redirect_to calendar_path
     else

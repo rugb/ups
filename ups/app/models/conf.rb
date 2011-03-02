@@ -23,6 +23,22 @@ class Conf < ActiveRecord::Base
   def self.calendar=(calendar_url)
     set(:calendar_url, calendar_url)
   end
+
+  def self.google_account_name
+    get(:google_account_name)
+  end
+
+  def self.google_account_name=(google_account_name)
+    set(:google_account_name, google_account_name)
+  end
+
+  def self.google_account_password
+    get(:google_account_password)
+  end
+  
+  def self.google_account_password=(google_account_password)
+    set(:google_account_password, google_account_password)
+  end
   
   def self.twitter_consumer_key
     get(:twitter_consumer_key).to_s

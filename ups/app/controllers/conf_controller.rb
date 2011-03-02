@@ -10,6 +10,9 @@ class ConfController < ApplicationController
     Conf.web_name = params[:web_name]
     Conf.calendar = params[:calendar_url]
 
+    Conf.google_account_name = params[:google_account_name].strip
+    Conf.google_account_password = params[:google_account_password].strip
+
     Conf.twitter_consumer_key = params[:consumer_key].strip
     Conf.twitter_consumer_secret = params[:consumer_secret].strip
     Conf.twitter_oauth_token = params[:oauth_token].strip
@@ -24,6 +27,16 @@ class ConfController < ApplicationController
       flash.now[:success] = "twitter works."
     else
       flash.now[:error] = "twitter fails. check your keys and secrets."
+    end
+
+    render :action => :index
+  end
+
+  def check_google
+    if google_check
+      flash.now[:success] = "google works."
+    else
+      flash.now[:error] = "google fails."
     end
 
     render :action => :index
