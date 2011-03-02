@@ -52,10 +52,6 @@ footer ul li, section ul li {
     margin: 2px 0;
 }
 
-pre {
-    margin-top: 20px;
-}
-
 header, section, nav, footer {
     display: block;
 }
