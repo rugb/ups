@@ -6,6 +6,7 @@ class NewsController < ApplicationController
   filter_access_to :all
   
   include PagesHelper
+  include ConfHelper
   
   def show
     @page = Page.find(params[:id])
@@ -47,6 +48,7 @@ class NewsController < ApplicationController
       @edit_post.user = @current_user
       @edit_post.enabled = true
       @edit_post.save
+      twitter_update(make_page_url(@edit_post) + ": " + select_by_languages(@edit_post.page_contents, [Conf.default_language]).title)
       flash[:success] = "post created."
       redirect_to edit_news_path @edit_post
     else
@@ -79,6 +81,10 @@ class NewsController < ApplicationController
   def destroy
     @edit_post = Page.find(params[:id])
     @edit_post.destroy
+
+    Tag.all.each do |tag|
+      tag.destroy if tag.pages.empty?
+    end
     
     flash[:success] = "post deleted."
     redirect_to news_index_path

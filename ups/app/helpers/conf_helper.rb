@@ -1,4 +1,14 @@
 module ConfHelper
+  def twitter_update(tweet)
+    twitter_auth
+    begin
+      ::Twitter.update(tweet)[0..139] if tweet.present?
+      return true
+    rescue
+      return false
+    end
+  end
+
   def twitter_check
     twitter_auth
     begin

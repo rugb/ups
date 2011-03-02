@@ -34,6 +34,18 @@ module PagesHelper
     end
   end
   
+  def make_page_url(page)
+    if page.forced_url.nil?
+      if(page.int_title.nil?)
+        page_url(page)
+      else
+        show_page_url(page.id, page.int_title)
+      end
+    else
+      root_path + page.forced_url
+    end
+  end
+  
   def possible_page_position_options(page)
     make_page_position_tree(nil, page)
   end
