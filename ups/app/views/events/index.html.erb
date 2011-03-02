@@ -5,7 +5,9 @@
         Name
       </th>
       <th>
-        bis
+        vote until
+      </th>
+      <th>
       </th>
       <th>
       </th>
@@ -30,12 +32,17 @@
           <% end %>
         </td>
         <td class="actions">
-          <% if event.user = @current_user %>
+          <% if event.user == @current_user %>
             <%= link_to "edit", edit_event_path(event), :class => "edit" %>
           <% end %>
         </td>
+        <td>
+          <% if event.user == @current_user %>
+            <%= link_to "finish", finish_event_path(event), :class => "finish" %>
+          <% end %>
+        </td>
         <td class="actions">
-          <% if event.user = @current_user %>
+          <% if event.user == @current_user %>
             <%= link_to "delete", event, :confirm => "Are you sure?", :method => :delete, :class => "delete" %>
           <% end %>
         </td>

@@ -6,7 +6,7 @@
     <%= @event.description %>
   </p>
 <% end %>
-<%= form_for @event, :url => { :action => "vote" } do |f| %>
+<%= form_for @event, :url => { :action => "finished" } do |f| %>
   <fieldset>
     <table>
       <thead>
@@ -24,10 +24,20 @@
         <% @event.user_votes.each do |user_vote| %>
           <%= render 'user_vote', :user_vote => user_vote, :f => f %>
         <% end %>
+        <tr>
+          <td>
+            Event for:
+          </td>
+          <%= f.fields_for :timeslots do |ft| %>
+            <td>
+              <%= ft.check_box :choosen %>
+            </td>
+          <% end %>
+        </tr>
       </tbody>
     </table>
     <div class="actions">
-      <%= f.submit "vote" %>
+      <%= f.submit "finish", :class => "continue" %>
     </div>
   </fieldset>
 <% end %>

@@ -12,7 +12,7 @@
 #
 
 class Timeslot < ActiveRecord::Base
-  attr_accessible :start_at, :end_at, :votes_attributes
+  attr_accessible :start_at, :end_at, :votes_attributes, :choosen
 
   belongs_to :event
   has_many :votes, :dependent => :destroy
@@ -30,5 +30,17 @@ class Timeslot < ActiveRecord::Base
 
   def get_vote_for_user_vote(user_vote)
     votes.find_by_user_vote_id user_vote.id
+  end
+
+  def choosen?
+    @choosen == "1"
+  end
+
+  def choosen
+    @choosen
+  end
+
+  def choosen=(c)
+    @choosen = c
   end
 end

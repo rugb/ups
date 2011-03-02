@@ -29,12 +29,45 @@ class EventsController < ApplicationController
   end
 
   def update
+    if @event.update_attributes(params[:event])
+      flash[:success] = "vote updated"
+      redirect_to edit_event_path @event
+    else
+      flash.now[:error] = "vote update failed"
+      render 'edit'      
+    end
   end
 
   def new_timeslot
+    @event.timeslots.build(:start_at => DateTime.now, :end_at => DateTime.now).save
+
+    redirect_to edit_event_path @event
+  end
+
+  def destroy_timeslot
+
   end
 
   def finish
+  end
+
+  def finished
+    if @event.update_attributes(params[:event])
+      @timeslot=[]
+      @event.timeslots.each do |timeslot|
+        @timeslot << timeslot if timeslot.choosen?
+      end
+
+      if @timeslot.empty?
+        flash.now[:notice] = 'no event created'
+        render 'finish'
+      else
+        flash.now[:success] = "event created"
+      end
+    else
+      flash.now[:error] = "error"
+      render 'finish'
+    end
   end
 
   def vote

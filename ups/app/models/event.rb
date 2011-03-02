@@ -18,7 +18,7 @@ class Event < ActiveRecord::Base
 
   belongs_to :user
   has_many :timeslots, :dependent => :destroy
-  accepts_nested_attributes_for :timeslots
+  accepts_nested_attributes_for :timeslots, :allow_destroy => true
 
   has_many :user_votes, :dependent => :destroy
   accepts_nested_attributes_for :user_votes
