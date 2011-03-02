@@ -27,8 +27,10 @@
       <%= render 'result', :event => @event %>
       </tbody>
     </table>
-    <div class="actions">
-      <%= f.submit "vote" %>
-    </div>
+    <% unless @event.finished? %>
+      <div class="actions">
+        <%= f.submit "vote" %>
+      </div>
+    <% end %>
   </fieldset>
 <% end %>

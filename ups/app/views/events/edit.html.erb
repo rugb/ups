@@ -20,6 +20,12 @@
           <%= ft.datetime_select :end_at %>
         </div>
         <div class="field">
+          <label>
+            vote count:
+          </label>
+          <%= (ft.object.votes.find_all { |vote| vote.ack }).size %>
+        </div>
+        <div class="field">
           Delete: <%= ft.check_box :_destroy %>
         </div>
       </fieldset>

@@ -29,6 +29,8 @@
         <td class="actions">
           <% if event.end_at.nil? || event.end_at.present? && event.end_at.future? && !event.finished? %>
             <%= link_to "vote", event, :class => "vote" %>
+          <% else %>
+            <%= link_to "show", event, :class => "show" %>
           <% end %>
         </td>
         <td class="actions">

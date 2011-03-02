@@ -3,7 +3,8 @@ class EventsController < ApplicationController
 
   before_filter :load_event, :except => [ :new, :create, :calendar, :index, :user_vote_destroy ]
   before_filter :load_user_vote, :only => :user_vote_destroy, :model => :UserVote, :attribute_check => true
-  #filter_access_to :all
+
+  filter_access_to :all
 
   def calendar
     @title = "Calendar"
@@ -109,7 +110,7 @@ class EventsController < ApplicationController
     @title = @event.name
 
     @user_vote = @event.user_votes.find_by_user_id @current_user.id
-    if @user_vote.nil?
+    if @user_vote.nil? && !@event.finished?
       @user_vote = @event.user_votes.build(:user_id => @current_user.id)
       @event.timeslots.each do |timeslot|
         @user_vote.votes.build(:timeslot_id => timeslot.id)

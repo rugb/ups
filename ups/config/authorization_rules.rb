@@ -43,6 +43,9 @@ authorization do
     has_permission_on :events, :to => [ :user_vote_destroy ] do
       if_attribute :user_id => is { user.id }
     end
+    has_permission_on :events, :to => :vote do
+      if_attribute :finished => false
+    end
   end
   
   role :admin do

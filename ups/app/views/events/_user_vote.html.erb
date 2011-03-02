@@ -2,7 +2,7 @@
   <tr>
     <td class="actions">
       <%= user_vote.user.name %>
-      <% if user_vote.user == @current_user %>
+      <% if user_vote.user == @current_user && !@event.finished? %>
         <%= link_to "del", delete_user_votes_event_path(@event.id, user_vote.id), :confirm => "Are you sure?", :method => :delete, :class => "delete" %>
       <% end %>
     </td>
