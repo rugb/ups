@@ -33,6 +33,9 @@ class ConfController < ApplicationController
   def pull_github
     begin
       user = GitHub::API.user(Conf.github_user)
+      if user.repositories.any?
+
+      end
 
       flash.now[:success] = "github projects pulled"
     rescue
