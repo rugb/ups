@@ -42,7 +42,7 @@ class EventsController < ApplicationController
   end
 
   def new_timeslot
-    @event.timeslots.build(:start_at => DateTime.now, :end_at => DateTime.now).save
+    @event.timeslots.build(:start_at => DateTime.now, :end_at => DateTime.now.advance(:hours => 1)).save
 
     redirect_to edit_event_path @event
   end
@@ -73,8 +73,8 @@ class EventsController < ApplicationController
             :author => @event.user.name,
             :email => @event.user.email,
             :where => @event.location,
-            :startTime => timeslot.start_at.strftime("%Y-%m-%dT%H:%M:%S.000Z"),
-            :endTime => timeslot.end_at.strftime("%Y-%m-%dT%H:%M:%S.000Z")
+            :startTime => timeslot.start_at.strftime("%Y-%m-%dT%H:%M:%S"),
+            :endTime => timeslot.end_at.strftime("%Y-%m-%dT%H:%M:%S")
           }
           pp gevent
           p google_add_event(google, gevent)
