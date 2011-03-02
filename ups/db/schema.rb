@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110301084838) do
+ActiveRecord::Schema.define(:version => 20110302100954) do
 
   create_table "categories", :force => true do |t|
     t.datetime "created_at"
@@ -40,6 +40,17 @@ ActiveRecord::Schema.define(:version => 20110301084838) do
     t.string   "value"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "events", :force => true do |t|
+    t.string   "name"
+    t.integer  "user_id"
+    t.string   "location"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "end_at"
+    t.text     "description"
+    t.boolean  "finished"
   end
 
   create_table "file_uploads", :force => true do |t|
@@ -129,6 +140,21 @@ ActiveRecord::Schema.define(:version => 20110301084838) do
     t.datetime "updated_at"
   end
 
+  create_table "timeslots", :force => true do |t|
+    t.datetime "start_at"
+    t.datetime "end_at"
+    t.integer  "event_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "user_votes", :force => true do |t|
+    t.integer  "event_id"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "users", :force => true do |t|
     t.string   "openid"
     t.string   "email"
@@ -142,5 +168,13 @@ ActiveRecord::Schema.define(:version => 20110301084838) do
   end
 
   add_index "users", ["salt"], :name => "index_users_on_salt", :unique => true
+
+  create_table "votes", :force => true do |t|
+    t.integer  "user_vote_id"
+    t.boolean  "ack"
+    t.integer  "timeslot_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
 end

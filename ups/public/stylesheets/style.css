@@ -227,3 +227,11 @@ header nav {
 td:hover > .kramdown_reference {
 	display: block;
 }
+
+.vote.yes {
+    background: #9f9;
+}
+
+.vote.no {
+    background: #f99;
+}

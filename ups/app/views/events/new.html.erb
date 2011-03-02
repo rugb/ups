@@ -1,0 +1,12 @@
+<p class="actions">
+  <%= link_to "back", events_path, :class => "back" %>
+</p>
+
+<%= form_for(@event) do |f| %>
+  <fieldset>
+  <%= render 'form', :f => f%>
+  <div class="actions">
+      <%= f.submit :class => "new" %>
+    </div>
+  </fieldset>
+<% end %>

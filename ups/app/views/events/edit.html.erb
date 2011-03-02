@@ -1,0 +1,43 @@
+<p class="actions">
+  <%= link_to "back", events_path, :class => "back" %>
+</p>
+
+<%= form_for(@event) do |f| %>
+  <fieldset>
+    <%= render 'form', :f => f%>
+    <%= f.fields_for :timeslots do |ft| %>
+      <fieldset>
+        <div class="field">
+          <label>
+            start:
+          </label>
+          <%= ft.datetime_select :start_at %>
+        </div>
+        <div class="field">
+          <label>
+            end:
+          </label>
+          <%= ft.datetime_select :end_at %>
+        </div>
+        <div class="field">
+          <label>
+            vote count:
+          </label>
+          <%= (ft.object.votes.find_all { |vote| vote.ack }).size %>
+        </div>
+        <div class="field">
+          Delete: <%= ft.check_box :_destroy %>
+        </div>
+      </fieldset>
+    <% end %>
+    <div class="actions">
+      <%= f.submit :class => "continue" %>
+    </div>
+  <p class="actions">
+    <%= link_to "add timeslot", new_timeslot_event_path(@event.id), :class => "new" %>
+  </p>
+  <p class="actions">
+    <%= link_to "finish", finish_event_path(@event.id), :class => "finish" %>
+  </p>
+  </fieldset>
+<% end %>

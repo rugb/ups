@@ -50,3 +50,7 @@
 .actions .credits {
     background-image: url('/images/icons/lightbulb.png');
 }
+
+.actions .vote {
+    background-image: url('/images/icons/chart_bar.png');
+}

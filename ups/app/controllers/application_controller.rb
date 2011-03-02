@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   
   protect_from_forgery
   
-  rescue_from ActiveRecord::RecordNotFound, :with => :http_404
+  #rescue_from ActiveRecord::RecordNotFound, :with => :http_404
   
   helper_method :select_by_language_id, :current_user, :cache_html!
   

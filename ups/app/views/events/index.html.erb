@@ -1,0 +1,58 @@
+<table>
+  <thead>
+    <tr>
+      <th>
+        Name
+      </th>
+      <th>
+        vote until
+      </th>
+      <th>
+      </th>
+      <th>
+      </th>
+      <th>
+      </th>
+      <th>
+      </th>
+    </tr>
+  </thead>
+  <body>
+    <% @events.each do |event| %>
+      <tr>
+        <td>
+          <%= event.name %>
+        </td>
+        <td>
+          <%= event.end_at %>
+        </td>
+        <td class="actions">
+          <% if event.end_at.nil? || event.end_at.present? && event.end_at.future? && !event.finished? %>
+            <%= link_to "vote", event, :class => "vote" %>
+          <% else %>
+            <%= link_to "show", event, :class => "show" %>
+          <% end %>
+        </td>
+        <td class="actions">
+          <% if event.user == @current_user %>
+            <%= link_to "edit", edit_event_path(event), :class => "edit" %>
+          <% end %>
+        </td>
+        <td>
+          <% if event.user == @current_user %>
+            <% unless event.finished? %>
+              <%= link_to "finish", finish_event_path(event), :class => "finish" %>
+            <% else %>
+              <%= link_to "unfinish", unfinish_event_path(event), :method => :put, :class => "unfinish" %>
+            <% end %>
+          <% end %>
+        </td>
+        <td class="actions">
+          <% if event.user == @current_user %>
+            <%= link_to "delete", event, :confirm => "Are you sure?", :method => :delete, :class => "delete" %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </body>
+</table>

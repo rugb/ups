@@ -20,6 +20,8 @@ class User < ActiveRecord::Base
   
   has_many :pages
   has_many :comments
+  has_many :votes
+  has_many :events
   
   belongs_to :role
   belongs_to :language

@@ -1,0 +1,36 @@
+<p>
+  von <%= @event.created_at %> bis <%= @event.end_at %>
+</p>
+<% if @event.description.present? %>
+  <p>
+    <%= @event.description %>
+  </p>
+<% end %>
+<%= form_for @event, :url => { :action => "vote" } do |f| %>
+  <fieldset>
+    <table>
+      <thead>
+        <tr>
+          <th>
+          </th>
+          <% @event.timeslots.each do |timeslot| %>
+            <th>
+              <%= timeslot.start_at %> - <br /><%= timeslot.end_at %>
+            </th>
+          <% end %>
+        </tr>
+      </thead>
+      <tbody>
+        <% @event.user_votes.each do |user_vote| %>
+          <%= render 'user_vote', :user_vote => user_vote, :f => f %>
+        <% end %>
+      <%= render 'result', :event => @event %>
+      </tbody>
+    </table>
+    <% unless @event.finished? %>
+      <div class="actions">
+        <%= f.submit "vote" %>
+      </div>
+    <% end %>
+  </fieldset>
+<% end %>
