@@ -15,6 +15,14 @@ class Conf < ActiveRecord::Base
   
   validates :name, :presence => true, :length => 1..50
   validates_length_of :value, :in => 0..255, :allow_nil => true
+
+  def self.calendar
+    get(:calendar_url)
+  end
+
+  def self.calendar=(calendar_url)
+    set(:calendar_url, calendar_url)
+  end
   
   def self.twitter_consumer_key
     get(:twitter_consumer_key).to_s

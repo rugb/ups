@@ -135,7 +135,7 @@ footer {
 
 footer div {
     float: left;
-    width: 30%;
+    width: 200px;
 }
 
 footer div h2 {
@@ -226,4 +226,12 @@ header nav {
 
 td:hover > .kramdown_reference {
 	display: block;
+}
+
+.vote.yes {
+    background: #9f9;
+}
+
+.vote.no {
+    background: #f99;
 }

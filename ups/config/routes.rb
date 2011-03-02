@@ -1,4 +1,17 @@
 Ups::Application.routes.draw do
+  resources :events do
+    member do
+      delete 'vote/:user_vote_id' => "events#user_vote_destroy", :as => :delete_user_votes
+      put 'vote' => "events#vote", :as => :vote
+      get 'timeslot/new' => "events#new_timeslot", :as => :new_timeslot
+      delete 'timeslot/:timeslot_id' => "events#destroy_timeslot", :as => :destroy_timeslot
+      get 'finish' => "events#finish", :as => :finish
+      put 'unfinish' => "events#unfinish", :as => :unfinish
+      put 'finish' => "events#finished", :as => :finished
+    end
+  end
+
+  match "/calendar" => "events#calendar", :via => :get
   resources :users
   resources :links
   resource :user, :only => :show, :as => :current_user
