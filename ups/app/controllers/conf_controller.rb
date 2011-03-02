@@ -76,7 +76,7 @@ class ConfController < ApplicationController
       end
 
       flash.now[:success] = "github projects pulled"
-    #rescue
+    rescue
       flash.now[:error] = "github pull failed."
     end
 
