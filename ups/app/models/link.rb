@@ -21,6 +21,10 @@ class Link < ActiveRecord::Base
   
   validates :title, :presence => true, :length => { :maximum => 255 }
   validates :href, :presence => true, :length => { :maximum => 255 }, :format => /^(http|https|ftp):\/\//
+
+  def extend
+    extend_link_categories(self)
+  end
   
   def add_category(category)
     self.categories.push(category)
@@ -28,5 +32,20 @@ class Link < ActiveRecord::Base
   
   def remove_category(category)
     self.categories.delete(category)
+  end
+
+  private
+
+  def extend_link_categories(link)
+    link.link_categories.each do |link_category|
+      link_category.checked = "1"
+    end
+    Category.all.each do |cat|
+      found = false
+      link.link_categories.each do |link_category|
+        found ||= cat == link_category.category
+      end
+      link_category = link.link_categories.build(:category_id => cat.id) unless found
+    end
   end
 end

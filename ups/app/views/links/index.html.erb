@@ -21,10 +21,10 @@
 <% @links.each do |link| %>
     <tr>
       <td>
-        <%= link.title %>
+        <%= link_to link.title, link.href %>
       </td>
       <td>
-        <%= link.href %>
+        <%= link_to link.href, link.href %>
       </td>
       <td>
         <%= inline_categories_for link %>

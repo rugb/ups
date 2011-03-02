@@ -1,31 +1,34 @@
-<script src="http://widgets.twimg.com/j/2/widget.js"></script>
-<script>
-new TWTR.Widget({
-  version: 2,
-  type: 'profile',
-  rpp: 4,
-  interval: 6000,
-  width: 250,
-  height: 400,
-  theme: {
-    shell: {
-      background: '#f0f0f0',
-      color: '#aaaaaa'
+<div class="list twitter">
+  <h2>twitter:</h2>
+  <script src="http://widgets.twimg.com/j/2/widget.js"></script>
+  <script>
+  new TWTR.Widget({
+    version: 2,
+    type: 'profile',
+    rpp: 4,
+    interval: 6000,
+    width: 250,
+    height: 400,
+    theme: {
+      shell: {
+        background: '#f0f0f0',
+        color: '#aaaaaa'
+      },
+      tweets: {
+        background: '#f0f0f0',
+        color: '#000000',
+        links: '#000099'
+      }
     },
-    tweets: {
-      background: '#f0f0f0',
-      color: '#000000',
-      links: '#000099'
+    features: {
+      scrollbar: false,
+      loop: false,
+      live: false,
+      hashtags: true,
+      timestamp: true,
+      avatars: false,
+      behavior: 'all'
     }
-  },
-  features: {
-    scrollbar: false,
-    loop: false,
-    live: false,
-    hashtags: true,
-    timestamp: true,
-    avatars: false,
-    behavior: 'all'
-  }
-}).render().setUser('11awe23').start();
-</script>
+  }).render().setUser('11awe23').start();
+  </script>
+</div>
