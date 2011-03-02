@@ -39,7 +39,9 @@ class ConfController < ApplicationController
       flash.now[:success] = "google works."
     else
       flash.now[:error] = "google fails."
-
+    end
+  end
+      
   def pull_github
     begin
       user = GitHub::API.user(Conf.github_user)
@@ -82,5 +84,4 @@ class ConfController < ApplicationController
 
     render :action => :index
   end
-  
 end
