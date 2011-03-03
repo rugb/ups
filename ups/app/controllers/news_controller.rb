@@ -39,10 +39,11 @@ class NewsController < ApplicationController
   def create
     @title = "create new post"
     @edit_post = Page.new(params[:page].merge(:page_type => :news, :enabled => false, :role => Role.find_by_int_name(:guest)))
-    
-    cache_html!(@edit_post)
-    
-    if @edit_post.page_contents.any? &&  @edit_post.save
+    @edit_post.edit_role = Role.find_by_int_name :member
+
+    if @edit_post.valid? && @edit_post.page_contents.any? &&  @edit_post.save  
+      cache_html!(@edit_post)
+
       @edit_post.reload
       @edit_post.parent = Page.find(:first, :conditions => {:forced_url => "/news"})
       @edit_post.user = @current_user
@@ -68,7 +69,7 @@ class NewsController < ApplicationController
     @title = "edit post"
     @edit_post = Page.find params[:id]
     
-    if @edit_post.update_attributes(params[:page])
+    if @edit_post.update_attributes(params[:page].merge(:page_type => :news, :role => Role.find_by_int_name(:guest)))
       cache_html!(@edit_post)
       flash.now[:success] = "post updated."
     else

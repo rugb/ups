@@ -16,7 +16,7 @@ class PagesController < ApplicationController
     else
       http_404 and return if(@page.nil? || !@page.visible?)
       
-      redirect_to show_page_path(@page.id, @page.int_title) if (params[:int_title] != @page.int_title)
+      redirect_to show_page_path(@page.id, @page.int_title) and return if (params[:int_title] != @page.int_title)
       set_session_language params[:language_short] if params[:language_short].present?
       
       redirect_to @page.forced_url if @page.forced_url.present?
@@ -46,7 +46,7 @@ class PagesController < ApplicationController
     
     update_edit_role
     
-    if @edit_page.page_contents.any? &&  @edit_page.save
+    if @edit_page.valid? && @edit_page.page_contents.any? &&  @edit_page.save
       cache_html!(@edit_page)
       flash[:success] = "page created."
       redirect_to edit_page_path @edit_page

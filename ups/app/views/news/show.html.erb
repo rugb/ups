@@ -1,6 +1,6 @@
 <%= render 'sidebar' %>
 <section class="news">
-  <% if @current_user == @page.user || has_role_with_hierarchy?(:admin) %>
+  <% if page_editable? @page %>
   <p class="actions">
     <%= link_to "edit", edit_news_path(@page), :class => "edit" %>
     <%= link_to "delete", news_path(@page), :confirm => "Are you sure?", :method => :delete, :class => "delete" %>, 

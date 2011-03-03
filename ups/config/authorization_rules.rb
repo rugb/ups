@@ -12,7 +12,6 @@ authorization do
 
     has_permission_on :news, :to => [ :index, :show, :rss ]
     has_permission_on :pages, :to => :home
-    has_permission_on :categories, :to => [ :show ]
 
     has_permission_on :users, :to => :backdoor if Rails.env.development?
   end
@@ -41,9 +40,8 @@ authorization do
       if_attribute :user_id => is { user.id }
     end
 
-    has_permission_on :file_uploads, :to => [ :new, :create ]
-    has_permission_on :file_uploads, :to => [ :edit, :update, :destroy ] do
-      if_attribute :page => { :user_id => is { user.id } }
+    has_permission_on :file_uploads, :to => [ :new, :create, :edit, :update, :destroy ] do
+      if_attribute :role => { :int_name => is { user.role.int_title } }
     end
 
     has_permission_on :events, :to => [ :new, :create, :show, :index, :calendar ]

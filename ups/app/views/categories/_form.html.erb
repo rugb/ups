@@ -1,4 +1,4 @@
-<%= form_for(@edit_category) do |f| %>
+<%= form_for @edit_category  do |f| %>
 <fieldset>
   <%= render 'errors/form', :object => @edit_category %>
   <% f.fields_for :category_names do |name_fields| %>

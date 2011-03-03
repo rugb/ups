@@ -1,7 +1,8 @@
 class FileUploadsController < ApplicationController
-  filter_access_to :all
+  filter_access_to :new, :attribute_check => true, :model => Page, :load_method => :load_page
   
   def new
+    @title = "upload file"
     @file_upload = FileUpload.new
     @file_upload.page_id = params[:page_id]
   end
@@ -33,6 +34,7 @@ class FileUploadsController < ApplicationController
   end
   
   def edit
+    @title = "edit upload"
     @file_upload = FileUpload.find(params[:id]) if (params[:id])
   end
   
@@ -59,5 +61,10 @@ class FileUploadsController < ApplicationController
     @file_upload.save!
     
     send_data @file_upload.file.file.read, :filename => @file_upload.filename
+  end
+
+  private
+  def load_page
+    Page.find_by_id params[:id]
   end
 end

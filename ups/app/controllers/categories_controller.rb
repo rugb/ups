@@ -21,6 +21,7 @@ class CategoriesController < ApplicationController
   end
   
   def edit
+    @title = "edit category"
     @edit_category = Category.find(params[:id])
     @edit_category.extend
   end
