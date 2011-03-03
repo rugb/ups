@@ -11,7 +11,8 @@ authorization do
     end
 
     has_permission_on :news, :to => [ :index, :show, :rss ]
-    has_permission_on :pages, :to => :home
+    has_permission_on :pages, :to => [ :home, :create_comment_preview, :create_comment ]
+    has_permission_on :categories, :to => [ :show ]
 
     has_permission_on :users, :to => :backdoor if Rails.env.development?
   end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110303100852) do
+ActiveRecord::Schema.define(:version => 20110303160424) do
 
   create_table "categories", :force => true do |t|
     t.datetime "created_at"
@@ -149,6 +149,7 @@ ActiveRecord::Schema.define(:version => 20110303100852) do
     t.integer  "user_id"
     t.integer  "role_id"
     t.integer  "edit_role_id"
+    t.boolean  "enable_comments"
   end
 
   add_index "pages", ["edit_role_id"], :name => "index_pages_on_edit_role_id"
