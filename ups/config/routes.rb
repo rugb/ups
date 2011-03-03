@@ -35,7 +35,6 @@ Ups::Application.routes.draw do
     end
   end
   
-  match "/page/:id/(:int_title)(/:language_short)" => "pages#show", :as => :show_page, :via => :get
   
   match "/blog/:id/(:int_title)(/:language_short)" => "news#show", :as => :show_news, :via => :get
   match "/blog/:id/(:int_title)(/:language_short)" => "news#destroy", :as => :show_news, :via => :delete
@@ -46,6 +45,7 @@ Ups::Application.routes.draw do
 
   resources :categories, :except => :show
   
+  match "/page/:id/(:int_title)(/:language_short)" => "pages#show", :as => :show_page, :via => :get
   resources :pages do
     member do
       get 'activate'
@@ -74,5 +74,5 @@ Ups::Application.routes.draw do
   
   root :to => "pages#home"
   
-  #match "*a" => "application#http_404"
+  match "*a" => "application#http_404"
 end

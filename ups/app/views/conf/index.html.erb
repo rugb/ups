@@ -1,4 +1,5 @@
 <%= form_tag config_path, :method => :put do %>
+<%= hidden_field :tab, :selected %>
 <fieldset id="config_tabs">
   <ul>
     <li><a href="#config_tag_general">General</a></li>
@@ -37,7 +38,7 @@
       <label>calendar-id:</label>
       <%= text_field_tag :calendar_id, Conf.google_calendar_id, :size => 100%>
       <% if Conf.google_calendar_id.nil? %>
-        <%= link_to "create new calendar", config_create_google_calendar_path, :method=> :post, :class => "continue" %>
+        <span class="actions"><%= link_to "create new calendar", config_create_google_calendar_path, :method=> :post, :class => "new" %></span>
       <% end %>
     </div>
     <div class="field">
@@ -86,6 +87,12 @@
 <% end %>
 <script type="text/javascript">
   $(function(){
-      $("#config_tabs").tabs();
+    $("#config_tabs").tabs({
+      select: function(event, ui) {
+        $("#tab_selected").val(ui.tab)
+
+        return true;
+      }
+    }).tabs('select', "#<%= @selected_tab %>");
   })
 </script>

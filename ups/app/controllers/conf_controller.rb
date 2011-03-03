@@ -20,6 +20,9 @@ class ConfController < ApplicationController
     Conf.twitter_oauth_secret = params[:oauth_secret].strip
 
     flash.now[:success] = "settings saved."
+
+    @selected_tab = params[:tab][:selected].gsub(/^[^#]*#/, "") if params[:tab][:selected].present?
+
     render :action => :index
   end
 
