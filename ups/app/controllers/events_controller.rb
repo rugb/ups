@@ -4,10 +4,12 @@ class EventsController < ApplicationController
   include GoogleHelper
   
   before_filter :load_event, :except => [ :new, :create, :calendar, :index, :user_vote_destroy ]
-  before_filter :load_user_vote, :only => :user_vote_destroy, :model => :UserVote, :attribute_check => true
+  before_filter :load_user_vote, :only => :user_vote_destroy #, :model => :UserVote, :attribute_check => true
 
   # todo
   # check for edit,update attribute
+  filter_access_to :edit, :update, :attribute_check => true
+  filter_access_to :user_vote_destroy, :model => UserVote, :attribute_check => true
   filter_access_to :all
 
   def calendar
@@ -40,7 +42,7 @@ class EventsController < ApplicationController
       redirect_to edit_event_path @event
     else
       flash.now[:error] = "vote update failed"
-      render 'edit'      
+      render 'edit'
     end
   end
 
@@ -67,9 +69,6 @@ class EventsController < ApplicationController
       if @timeslots.empty?
         flash[:notice] = "no event created"
       else
-        #flash[:success] = "event created"
-        success=""
-
         count=0
         google = google_auth
         @timeslots.each do |timeslot|
@@ -89,7 +88,7 @@ class EventsController < ApplicationController
         end
 
         if count > 0
-          flash[:success] = view_context.pluralize(count, "event") + " created"
+          flash[:success] = view_context.pluralize(count, "event") + " (of #{@timeslots.count}) created"
         else
           flash[:error] = "no events created"
         end
@@ -157,6 +156,11 @@ class EventsController < ApplicationController
         @user_vote.votes.build(:timeslot_id => timeslot.id)
       end
     end
+
+    @vote_button = !@event.finished? && @user_vote.new_record?
+    @finish_button = @current_user == @event.user
+    
+    @button_div =  @vote_button || @finish_button
   end
 
   private

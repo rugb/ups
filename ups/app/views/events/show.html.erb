@@ -27,9 +27,18 @@
       <%= render 'result', :event => @event %>
       </tbody>
     </table>
-    <% unless @event.finished? %>
+    <% if @button_div %>
       <div class="actions">
-        <%= f.submit "vote" %>
+        <% if @vote_button %>
+          <%= f.submit "vote", :class => "continue" %>
+        <% end %>
+        <% if @finish_button %>
+          <% unless @event.finished? %>
+            <%= link_to "finish", finish_event_path(@event), :class => "finish" %>
+          <% else %>
+            <%= link_to "reopen", reopen_event_path(@event), :confirm => "Are you sure?", :method => :put, :class => "reopen" %>
+          <% end %>
+        <% end %>
       </div>
     <% end %>
   </fieldset>
