@@ -35,12 +35,12 @@
       <%= render 'layouts/languages' %>
       <%= render 'shared/twitter' %>
       <%= render 'shared/linklist' %>
+      <% if Rails.env.development? %>
+      <%= render 'shared/backdoor' if signed_in? %>
+      <div class="list debug">
+        <%= debug(params) %>
+      </div>
+      <% end %>
     </footer>
-    <% if Rails.env.development? %>
-    <%= render 'shared/backdoor' %>
-    <div class="list debug">
-      <%= debug(params) %>
-    </div>
-    <% end %>
   </body>
 </html>

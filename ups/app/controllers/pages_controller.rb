@@ -44,6 +44,8 @@ class PagesController < ApplicationController
       @edit_page.position = position_select[1] == "" ? nil : position_select[1].to_i
     end
     
+    update_edit_role
+    
     if @edit_page.page_contents.any? &&  @edit_page.save
       cache_html!(@edit_page)
       flash[:success] = "page created."
@@ -82,6 +84,8 @@ class PagesController < ApplicationController
       @edit_page.parent = Page.find_by_id position_select[0]
       @edit_page.position = position_select[1] == "" ? nil : position_select[1].to_i
     end
+
+    update_edit_role
     
     if @edit_page.update_attributes params[:page].merge(:user => @current_user)
       cache_html! @edit_page 
@@ -135,6 +139,15 @@ class PagesController < ApplicationController
   end
   
   private
+  def update_edit_role
+    @edit_page.edit_role_id = @current_user.role.id
+
+    if has_role_with_hierarchy?(:admin) && params[:page][:edit_role_id].present?
+      @edit_page.edit_role_id = params[:page][:edit_role_id]
+    end
+
+  end
+
   def current_show_page
     @page ||= Page.find_by_id(params[:id]) if params[:id].present?
   end

@@ -13,9 +13,9 @@
       </label>
       <span><%= page_title @edit_page %>
         <i>(<%= (@edit_page.int_title or "new") %>)</i></span>
-      <span><%= link_to "activate", activate_page_path(@edit_page), :class => "enable" if @edit_page.activatable? %>
+      <span><%= link_to "activate", activate_page_path(@edit_page), :class => "enable" if page_activateable? @edit_page %>
       </span>
-      <span><%= link_to "deactivate", deactivate_page_path(@edit_page), :class => "disable" if @edit_page.deactivatable? %>
+      <span><%= link_to "deactivate", deactivate_page_path(@edit_page), :class => "disable" if page_deactivateable? @edit_page %>
       </span>
     </div>
     <div class="field">
@@ -30,6 +30,14 @@
           visible for:
         </label>
         <%= f.select :role_id, roles_options %>
+      </div>
+    <% end %>
+    <% if page_edit_role_changeable? @edit_page %>
+      <div class="field">
+        <label>
+          editable for:
+        </label>
+        <%= f.select :edit_role_id, edit_roles_options %>
       </div>
     <% end %>
     <fieldset id="content_tabs">

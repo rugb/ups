@@ -84,6 +84,7 @@ class ConfController < ApplicationController
             page.page_type = :project
             page.position = 23
             page.role = Role.find_by_int_name :guest
+            page.edit_role = Role.find_by_int_name :member
             page.save!
             page.page_contents.build(:language_id => Conf.default_language.id, :title => repo.name, :text => repo.description).save
             cache_html! page

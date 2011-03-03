@@ -1,9 +1,37 @@
 module PagesHelper
+  def page_visible?(page)
+    page.visible?
+  end
+
+  def page_activateable?(page)
+    page.activateable? && permitted_to?(:activate, page)
+  end
+
+  def page_deactivateable?(page)
+    page.deactivateable? && permitted_to?(:deactivate, page)
+  end
+
+  def page_editable?(page)
+    has_role_with_hierarchy? page.edit_role.int_name
+  end
+
+  def page_edit_role_changeable?(page)
+    has_role_with_hierarchy? :admin
+  end
+
+  def page_deleteable?(page)
+    page.deleteable?
+  end
 
   def editable_children_pages(page)
-    page = Page if page.nil?
-    page.find(:all, :conditions => {:edit_role_id => @current_user.role.id}).select do |child| 
-      child.page_type != :news && has_role_with_hierarchy?(child.edit_role.int_name)
+    if page.nil?
+      Page.find(:all).select do |child| 
+        child_editable?(child) && (child.parent.nil? || !has_role_with_hierarchy?(child.parent.edit_role.int_name))
+      end
+    else
+      page.find(:all, :conditions => {:parent_id => page.id}).select do |child| 
+        child_editable?(child)
+      end
     end
   end
 
@@ -71,16 +99,22 @@ module PagesHelper
     Role.all.collect { |r| [ r.to_s.pluralize, r.id ] }
   end
   
+  def edit_roles_options
+    admin = Role.find_by_int_name :admin
+    member = Role.find_by_int_name :member
+    [[admin.to_s.pluralize, admin.id], [member.to_s.pluralize, member.id]]
+  end
+
   private
   def make_page_position_tree(parent, me)
     options = []
     
     if(parent.nil?)
-      pages = Page.find :all, :conditions => { :parent_id => nil }
+      pages = visible_children_pages nil
       options << radio_button_tag(:position_select, "_", me.parent.nil? && me.position.nil?) + " not in menu"
       options << radio_button_tag(:position_select, "_1") + " first"
     else
-      pages = parent.children
+      pages = visible_children_pages parent
       options << radio_button_tag(:position_select, parent.id.to_s+"_1") + " under " + make_page_int_title(parent)
     end
     
@@ -96,5 +130,9 @@ module PagesHelper
     end
     
     make_html_list(options)
+  end
+
+  def child_editable?(child)
+    child.page_type != :news && has_role_with_hierarchy?(child.edit_role.int_name)
   end
 end

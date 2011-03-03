@@ -137,16 +137,16 @@ class Page < ActiveRecord::Base
     enabled && (start_at.nil? or DateTime.now > start_at) && page_contents.any?
   end
   
-  def deletable?
+  def deleteable?
     !visible? && self != Conf.default_page && forced_url.nil?
   end
   
-  def activatable?
+  def activateable?
     !enabled && page_contents.any? && !changed?
   end
   
-  def deactivatable?
-    enabled && (role != Role.find_by_int_name(:admin)) && self != Conf.default_page
+  def deactivateable?
+    enabled && (edit_role != Role.find_by_int_name(:admin)) && self != Conf.default_page
   end
   
   private
