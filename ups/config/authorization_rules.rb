@@ -26,6 +26,10 @@ authorization do
 
     has_permission_on :users, :to => :show
     has_permission_on :session, :to => [ :show, :logout ]
+
+    has_permission_on :pages, :to => [ :edit_comment, :update_comment, :destroy_comment ] do
+      if_attribute :user_id => is { user.id }
+    end
   end
 
   role :member do

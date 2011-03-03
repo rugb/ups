@@ -1,5 +1,8 @@
 class PagesController < ApplicationController
   #before_filter :current_show_page
+
+  #before_filter :load_comment, :only => [ :update_comment, :delete_comment ]
+  filter_access_to :edit_comment, :update_comment, :destroy_comment, :model => Comment, :load_method => :load_comment, :attribute_check => true
   filter_access_to :all
   
   include PagesHelper
@@ -143,6 +146,28 @@ class PagesController < ApplicationController
     end
   end
 
+  def edit_comment
+     @comment = Comment.find params[:comment_id]
+  end
+
+  def update_comment
+    @page = Page.find params[:id]
+    @comment = Comment.find params[:comment_id]
+
+    if @comment.update_attributes(params[:comment])
+      flash[:success] = "comment updated"
+
+      if @page.page_type == :page
+        redirect_to make_page_path @page
+      else
+        redirect_to show_news_path @page
+      end      
+    else
+      flash.now[:error] = "error on updating a comment"
+      render :edit_comment
+    end
+  end
+
   def destroy_comment
     @page = Page.find params[:id]
     @comment = Comment.find params[:comment_id]
@@ -186,6 +211,10 @@ class PagesController < ApplicationController
 
   def current_show_page
     @page ||= Page.find_by_id(params[:id]) if params[:id].present?
+  end
+
+  def load_comment
+    @comment = Comment.find params[:comment_id]
   end
   
   def recalc_page_positions_for_page(page)

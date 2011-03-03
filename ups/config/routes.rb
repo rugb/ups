@@ -52,6 +52,8 @@ Ups::Application.routes.draw do
       get 'deactivate'
     end
     collection do
+      get ':id/:comment_id/edit', :action => :edit_comment, :as => :edit_comment
+      put ':id/:comment_id', :action => :update_comment, :as => :update_comment
       post ':id/create_comment', :action => :create_comment, :as => :create_comment
       post ':id/create_comment_preview', :action => :create_comment_preview, :as => :create_comment_preview
       delete ':id/:comment_id/destroy_comment', :action => :destroy_comment, :as => :destroy_comment
