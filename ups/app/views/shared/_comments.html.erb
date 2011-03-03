@@ -1,0 +1,49 @@
+<% page.comments.each do |comment| %>
+  <%= comment.text %>
+  <p class="footer">
+    author:
+    <% if comment.user.present? %>
+      <%= link_to comment.user.name, comment.user %>
+      <% if @current_user == comment.user %>
+        <div class="actions">
+          <%= link_to "del", comment, :confirm => "Are you sure?", :method => :delete, :class => "delete" %>
+        </div>
+      <% end %>
+    <% else %>
+      <%= comment.name %> (<%= comment.email %>)
+    <% end %>
+  </p>
+<% end %>
+<% if page.enable_comments %>
+  <%= form_for :comment, :url => create_comment_pages_path, :method => :post do |f| %>
+    <fieldset>
+      <div class="field">
+        <% if signed_in? %>
+          <%= @current_user.name %>
+        <% else %>
+          <div class="field">
+            <label>
+              Name:
+            </label>
+            <%= f.text_field :name %>
+          </div>
+          <div class="field">
+            <label>
+              email:
+            </label>
+            <%= f.text_field :email %>
+          </div>
+        <% end %>
+      </div>
+      <div class="field">
+        <label>
+          comment:
+        </label>
+        <%= f.text_area :text, :rows => 10 %>
+      </div>
+      <div class="actions">
+        <%= f.submit "create", :class => "continue" %>
+      </div>
+    </fieldset>
+  <% end %>
+<% end %>

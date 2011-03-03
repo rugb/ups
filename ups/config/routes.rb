@@ -54,6 +54,7 @@ Ups::Application.routes.draw do
     collection do
       post ':id/create_comment', :action => :create_comment, :as => :create_comment
       post ':id/create_comment_preview', :action => :create_comment_preview, :as => :create_comment_preview
+      delete ':id/destroy_comment', :action => :destroy_comment, :as => :destroy_comment
     end
   end
   
