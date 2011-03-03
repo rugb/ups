@@ -1,5 +1,5 @@
 <p>
-  started at <%= datetime(@event.created_at) %>, vote until <%= datetime(@event.end_at) %>
+  started at <%= @event.created_at %>, vote until <%= @event.end_at %>
 </p>
 <% if @event.description.present? %>
   <p>
@@ -17,8 +17,8 @@
           </th>
           <% @event.timeslots.each do |timeslot| %>
             <th>
-              <%= datetime(timeslot.start_at) %><br />
-              <%= datetime(timeslot.end_at) %>
+              <%= timeslot.start_at %><br />
+              <%= timeslot.end_at %>
             </th>
           <% end %>
         </tr>

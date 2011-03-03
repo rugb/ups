@@ -17,7 +17,7 @@
   </td>
   <td>
     <%= "deactivated" unless page.enabled? %>
-    <%= "at " + page.start_at.to_s if page.enabled? unless page.visible? %>
+    <%= "at " + page.start_at if page.enabled? unless page.visible? %>
   </td>
   <td class="actions">
     <% page.page_contents.sort_by { |page_content| page_content.language.name }.each do |page_content| %>

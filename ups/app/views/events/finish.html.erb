@@ -1,5 +1,5 @@
 <p>
-  von <%= @event.created_at %> bis <%= @event.end_at %>
+  started at <%= @event.created_at %>, vote until <%= @event.end_at %>
 </p>
 <% if @event.description.present? %>
   <p>

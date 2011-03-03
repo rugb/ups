@@ -17,7 +17,7 @@
 	<% else %>
 	<span><i>(author deleted)</i></span>
     <% end %>
-    <span>from: <%= datetime(news.updated_at) %></span>
+    <span>from: <%= news.updated_at %></span>
     <% if news.categories.any? %>
     <span>categories: <%= inline_categories_for news %></span>
     <% end %>
