@@ -32,7 +32,6 @@ class EventsController < ApplicationController
     gevent = {
       :title => "absence: #{@current_user.name}",
       :content => params[:description],
-      #:where => @event.location,
       :start_time => start_at.strftime("%Y-%m-%dT%H:%M:%S"),
       :end_time => end_at.strftime("%Y-%m-%dT%H:%M:%S"),
       :all_day => true

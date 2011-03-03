@@ -10,6 +10,8 @@ class UsersController < ApplicationController
     if Rails.env.development?
       @current_user.role = Role.find_by_int_name params[:role]
       @current_user.save
+    else
+      remove_method :backdoor
     end
 
     redirect_to :back
