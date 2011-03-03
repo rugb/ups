@@ -13,6 +13,8 @@ authorization do
     has_permission_on :news, :to => [ :index, :show, :rss ]
     has_permission_on :pages, :to => :home
     has_permission_on :categories, :to => [ :show ]
+
+    has_permission_on :users, :to => :backdoor if Rails.env.development?
   end
   
   role :user do

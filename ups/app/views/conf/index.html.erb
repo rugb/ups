@@ -1,23 +1,30 @@
 <%= form_tag config_path, :method => :put do %>
-<fieldset>
-  <div class="field">
-    <label>
-      system language:
-    </label>
-    <%= select_tag :default_language, options_from_collection_for_select(Language.all, :short, :name, Conf.default_language.short) %>
+<fieldset id="config_tabs">
+  <ul>
+    <li><a href="#config_tag_general">General</a></li>
+    <li><a href="#config_tag_calendar">Google Calendar</a></li>
+    <li><a href="#config_tag_github">GitHub</a></li>
+    <li><a href="#config_tag_twitter">Twitter</a></li>
+  </ul>
+  <div id="config_tag_general">
+    <div class="field">
+      <label>
+        system language:
+      </label>
+      <%= select_tag :default_language, options_from_collection_for_select(Language.all, :short, :name, Conf.default_language.short) %>
+    </div>
+    <div class="field">
+      <label>
+        home page:
+      </label>
+      <%= select_tag :default_page, options_from_collection_for_select(Page.where("role_id = " + Role.find_by_int_name(:guest).id.to_s), :id, :int_title, Conf.default_page.id) %>
+    </div>
+    <div class="field">
+      <label>page name:</label>
+      <%= text_field_tag :web_name, Conf.web_name %>
+    </div>
   </div>
-  <div class="field">
-    <label>
-      home page:
-    </label>
-    <%= select_tag :default_page, options_from_collection_for_select(Page.where("role_id = " + Role.find_by_int_name(:guest).id.to_s), :id, :int_title, Conf.default_page.id) %>
-  </div>
-  <div class="field">
-    <label>page name:</label>
-    <%= text_field_tag :web_name, Conf.web_name %>
-  </div>
-  <h2>Google Calendar</h2>
-  <fieldset>
+  <div id="config_tag_calendar">
     <div class="field">
       <label>Google Account Username:</label>
       <%= text_field_tag :google_account_name, Conf.google_account_name %>
@@ -32,15 +39,14 @@
     </div>
     <div class="field">
       <label>calendar-id:</label>
-      <%= text_field_tag :calendar_id, Conf.google_calendar_id %>
-      <%= link_to "create new calendar", config_create_google_calendar_path, :method=> :post, :class => "continue" %>
+      <%= text_field_tag :calendar_id, Conf.google_calendar_id, :size => 50 %>
+      <span class="actions"><%= link_to "create new calendar", config_create_google_calendar_path, :method=> :post, :class => "new" %></span>
     </div>
     <p class="actions">
       <%= link_to "check google settings", config_check_google_path, :class => "continue", :size => 50 %>
     </p>
-  </fieldset>
-  <h2>github settings</h2>
-  <fieldset>
+  </div>
+  <div id="config_tag_github">
     <div class="field">
       <label>github user:</label>
       <%= text_field_tag :github_user, Conf.github_user, :size => 50 %>
@@ -48,9 +54,8 @@
     <p class="actions">
       <%= link_to "pull github projects", config_pull_github_path, :class => "continue" %>
     </p>
-  </fieldset>
-  <h2>twitter settings</h2>
-  <fieldset>
+  </div>
+  <div id="config_tag_twitter">
     <p>register a twitter-app at <a href="http://dev.twitter.com/apps">http://dev.twitter.com/apps</a></p>
     <div class="field">
       <label>consumer key:</label>
@@ -71,9 +76,14 @@
     <p class="actions">
       <%= link_to "check twitter settings", config_check_twitter_path, :class => "continue" %>
     </p>
-  </fieldset>
+  </div>
   <div class="actions">
     <%= submit_tag "Save changes", :class => "continue" %>
   </div>
 </fieldset>
 <% end %>
+<script type="text/javascript">
+  $(function(){
+      $("#config_tabs").tabs();
+  })
+</script>
