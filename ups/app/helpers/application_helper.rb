@@ -1,5 +1,9 @@
 module ApplicationHelper
   
+  def datetime(dt)
+    dt.strftime("%d.%m.%Y %H:%M")
+  end
+
   # generates title für <title> tag
   def make_title
     title = make_page_title + " - " if make_page_title.present?

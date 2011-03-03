@@ -235,10 +235,17 @@ td:hover > .kramdown_reference {
 	display: block;
 }
 
+.vote {
+    font-weight: bold;
+    text-align: center;
+}
+
 .vote.yes {
     background: #9f9;
+    color: #090;
 }
 
 .vote.no {
     background: #f99;
+    color: #900;
 }
