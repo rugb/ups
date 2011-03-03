@@ -7,7 +7,7 @@
       <% end %>
     </td>
     <% @event.timeslots.each do |timeslot| %>
-      <% vote = timeslot.get_vote_for_user_vote user_vote %>
+      <% vote = timeslot.vote_for_user_vote user_vote %>
       <% if vote.present? && vote.ack  %>
         <td class="vote yes">YES</td>
       <% else %>

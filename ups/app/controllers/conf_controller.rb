@@ -43,7 +43,22 @@ class ConfController < ApplicationController
 
     render :action => :index
   end
-      
+
+  def create_google_calendar
+    google = google_auth
+
+    cal = GCal4Ruby::Calendar.new(google, :title => Conf.web_name, :timezone => "Europe/Berlin")
+
+    if cal.save
+      Conf.google_calendar_id = cal.id
+      flash[:success] = "calendar created"
+    else
+      flash[:error] = "calendar not created"
+    end
+
+    redirect_to :action => :index
+  end
+ 
   def pull_github
     begin
       user = GitHub.user(Conf.github_user)

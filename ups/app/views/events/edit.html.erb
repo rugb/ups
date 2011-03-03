@@ -23,7 +23,7 @@
           <label>
             vote count:
           </label>
-          <%= (ft.object.votes.find_all { |vote| vote.ack }).size %>
+          <%= ft.object.acks %>
         </div>
         <div class="field">
           Delete: <%= ft.check_box :_destroy %>

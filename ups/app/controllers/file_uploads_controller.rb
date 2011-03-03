@@ -34,8 +34,6 @@ class FileUploadsController < ApplicationController
   
   def edit
     @file_upload = FileUpload.find(params[:id]) if (params[:id])
-    
-    
   end
   
   def destroy

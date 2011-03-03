@@ -4,7 +4,7 @@
   </td>
   <% event.timeslots.each do |timeslot| %>
     <td class="vote result">
-      <%= (timeslot.votes.find_all { |vote| vote.ack }).size %>
+      <%= timeslot.acks %>
     </td>
   <% end %>
 </tr>
