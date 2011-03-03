@@ -1,43 +1,3 @@
-<% page_tree = lambda do |page, depth| %>
-<tr>
-  <td class="treecell"<%= make_treecell_style(depth) %>>
-    <%= ((select_by_language_id(page.page_contents) and select_by_language_id(page.page_contents).title) or "(new)") %>
-    <div class="kramdown_reference">
-      <h5>
-        kramdown reference:
-      </h5>
-      <code>
-        [[<%= page.int_title %>]]
-      </code>
-      <br/>
-      <code>
-        [[<%= page.id %>]]
-      </code>
-    </div>
-  </td>
-  <td>
-    <%= "deactivated" unless page.enabled? %>
-    <%= "at " + page.start_at if page.enabled? unless page.visible? %>
-  </td>
-  <td class="actions">
-    <% page.page_contents.sort_by { |page_content| page_content.language.name }.each do |page_content| %>
-    <%= link_to page_content.language.name, edit_page_path(page.id), :class => "edit" %>
-    <% end %>
-  </td>
-  <td class="actions">
-    <%= link_to "show", make_page_path(page), :class => "continue" if page_visible? page %>
-    <%= link_to "activate", activate_page_path(page), :class => "enable" if page_activateable? page %>
-  </td>
-  <td class="actions">
-    <%= link_to "edit", edit_page_path(page), :class => "edit" if page_editable? page %>
-  </td>
-  <td class="actions">
-    <%= link_to "delete", page, :confirm => "Are you sure?", :method => :delete, :class => "delete" if page_deleteable? page %>
-    <%= link_to "deactivate", deactivate_page_path(page), :class => "disable" if page_deactivateable? page %>
-  </td>
-</tr>
-<% editable_children_pages(page).each { |page| page_tree.call page, depth + 1 if page.page_type != :news }
-end %>
 <% if @pages.any? %>
   <table>
     <thead>
@@ -60,7 +20,9 @@ end %>
       </tr>
     </thead>
     <tbody>
-      <% @pages.each { |page| page_tree.call page, 0 } %>
+      <% @pages.each do |page| %>
+        <%= render 'index', :page => page, :depth => 0 %>
+      <% end %>
     </tbody>
   </table>
 <% end %>
