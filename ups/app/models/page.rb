@@ -39,7 +39,7 @@ class Page < ActiveRecord::Base
   has_many :comments, :dependent => :destroy
   belongs_to :user
   belongs_to :role
-  belongs_to :edit_role, :class_name => "User"
+  belongs_to :edit_role, :class_name => "Role"
   
   has_many :file_uploads
   
@@ -57,8 +57,15 @@ class Page < ActiveRecord::Base
   validates_inclusion_of :enabled, :in => [true, false]
   validates :int_title, :uniqueness => true,  :format => /^[a-z0-9_]{0,255}$/, :allow_nil => true
   validates_numericality_of :role_id, :presence => true, :greater_than => 0
+  validates_numericality_of :edit_role_id, :presence => true, :greater_than => 0
   
   before_validation :destroy_relevant
+
+  def initialize(options = {})
+    super(options)
+
+    self.edit_role = Role.find_by_int_name :admin
+  end
   
   def extend
     extend_page_contents(self)

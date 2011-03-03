@@ -1,4 +1,12 @@
 module PagesHelper
+
+  def editable_children_pages(page)
+    page = Page if page.nil?
+    page.find(:all, :conditions => {:edit_role_id => @current_user.role.id}).select do |child| 
+      child.page_type != :news && has_role_with_hierarchy?(child.edit_role.int_name)
+    end
+  end
+
   def visible_children_pages(page)
     Page.find(:all, :conditions => {:enabled => true, :parent_id => (page and page.id)}).find_all do |child|
       child.visible? && child.position.present? && has_role_with_hierarchy?(child.role.int_name) && child.page_type != :news

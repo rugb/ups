@@ -22,8 +22,8 @@
 </p>
 <%= render 'shared/download_links', :object => @page %>
 
-<% if @page.children.select{ |child| child.visible? }.any? %>
-<% @page.children.each do |news| %>
+<% if visible_children_pages(@page).any? %>
+<% visible_children_pages(@page).each do |news| %>
 <section>
   <h2><%= link_to page_title(news), make_page_path(news) %></h2>
   <% if page_excerpt(news).present? %>
