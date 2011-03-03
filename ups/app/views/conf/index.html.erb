@@ -30,6 +30,11 @@
       <label>calendar-html-adress:</label>
       <%= text_field_tag :calendar_url, Conf.calendar, :size => 100 %>
     </div>
+    <div class="field">
+      <label>calendar-id:</label>
+      <%= text_field_tag :calendar_id, Conf.google_calendar_id %>
+      <%= link_to "create new calendar", config_create_google_calendar_path, :method=> :post, :class => "continue" %>
+    </div>
     <p class="actions">
       <%= link_to "check google settings", config_check_google_path, :class => "continue", :size => 50 %>
     </p>

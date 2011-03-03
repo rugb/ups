@@ -9,9 +9,9 @@
     <% @event.timeslots.each do |timeslot| %>
       <% vote = timeslot.vote_for_user_vote user_vote %>
       <% if vote.present? && vote.ack  %>
-        <td class="vote yes"></td>
+        <td class="vote yes">YES</td>
       <% else %>
-        <td class="vote no"></td>
+        <td class="vote no">NO</td>
       <% end %>
     <% end %>
   </tr>

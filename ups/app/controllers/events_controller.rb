@@ -113,10 +113,10 @@ class EventsController < ApplicationController
     end
     
     if @event.save
-      flash[:success] = "event unfinished"
+      flash[:success] = "event reopened"
       redirect_to edit_event_path @event
     else
-      flash[:error] = "cannot unfinish event"
+      flash[:error] = "cannot reopened event"
       redirect_to events_path
     end
   end
