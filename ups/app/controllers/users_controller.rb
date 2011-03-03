@@ -5,15 +5,6 @@ class UsersController < ApplicationController
   filter_access_to :edit, :attribute_check => true
 
   filter_access_to :all
-
-  def backdoor
-    if Rails.env.development?
-      @current_user.role = Role.find_by_int_name params[:role]
-      @current_user.save
-    end
-
-    redirect_to :back
-  end
   
   def index
     @users = User.where "id > 0"
@@ -80,4 +71,15 @@ class UsersController < ApplicationController
 
        @user = nil if @user.present? && @user.id == 0
      end
+end
+
+if Rails.env.development?
+  UsersController.class_eval do
+    def backdoor
+      @current_user.role = Role.find_by_int_name params[:role]
+      @current_user.save
+
+      redirect_to :back
+    end
+  end
 end

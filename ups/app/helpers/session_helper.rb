@@ -1,5 +1,5 @@
 module SessionHelper
-  def sign_in(user)    
+  def sign_in(user)
     cookies.permanent.signed[:remember_token] = [user.id, user.salt]
     @current_user = user
   end
@@ -25,7 +25,7 @@ module SessionHelper
   end
 
   def signed_in?
-    si = @current_user.present? && @current_user.role.int_name != :guest
+    @current_user.present? && @current_user.id != 0
   end
 
   def permission_denied

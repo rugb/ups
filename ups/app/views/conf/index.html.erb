@@ -34,13 +34,15 @@
       <%= password_field_tag :google_account_password, Conf.google_account_password %>
     </div>
     <div class="field">
-      <label>calendar-html-adress:</label>
-      <%= text_field_tag :calendar_url, Conf.calendar, :size => 100 %>
+      <label>calendar-id:</label>
+      <%= text_field_tag :calendar_id, Conf.google_calendar_id, :size => 100%>
+      <% if Conf.google_calendar_id.nil? %>
+        <%= link_to "create new calendar", config_create_google_calendar_path, :method=> :post, :class => "continue" %>
+      <% end %>
     </div>
     <div class="field">
-      <label>calendar-id:</label>
-      <%= text_field_tag :calendar_id, Conf.google_calendar_id, :size => 50 %>
-      <span class="actions"><%= link_to "create new calendar", config_create_google_calendar_path, :method=> :post, :class => "new" %></span>
+      <label>calendar-html-adress:</label>
+      <%= text_field_tag :calendar_url, Conf.calendar, :size => 100 %>
     </div>
     <p class="actions">
       <%= link_to "check google settings", config_check_google_path, :class => "continue", :size => 50 %>

@@ -12,6 +12,8 @@ Ups::Application.routes.draw do
   end
 
   match "/calendar" => "events#calendar", :via => :get
+  match "/calendar/absence/new" => "events#new_absence", :via => :get, :as => :new_absence
+  match "/calendar/absence" => "events#create_absence", :via => :post, :as => :create_absence
   resources :users
   resources :links
   resource :user, :only => :show, :as => :current_user

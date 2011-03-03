@@ -3,7 +3,7 @@ class EventsController < ApplicationController
 
   include GoogleHelper
   
-  before_filter :load_event, :except => [ :new, :create, :calendar, :index, :user_vote_destroy ]
+  before_filter :load_event, :except => [ :new, :create, :calendar, :index, :user_vote_destroy, :new_absence, :create_absence ]
   before_filter :load_user_vote, :only => :user_vote_destroy #, :model => :UserVote, :attribute_check => true
 
   # todo
@@ -14,6 +14,38 @@ class EventsController < ApplicationController
 
   def calendar
     @title = "Calendar"
+  end
+
+  def new_absence
+    @title = "new absence"
+
+    @timeslot = Timeslot.new(:user_id => @current_user.id)
+  end
+
+  def create_absence
+    # convert string to int (month, ... )
+    time = params[:time].each_with_object({}) { |(k,v),h| h[k] = v.to_i }
+
+    start_at = DateTime.civil_from_format("local", time["start_at(1i)"], time["start_at(2i)"], time["start_at(3i)"], 0, 0)
+    end_at = DateTime.civil_from_format("local", time["end_at(1i)"], time["end_at(2i)"], time["end_at(3i)"], 0, 0)
+
+    gevent = {
+      :title => "absence: #{@current_user.name}",
+      :content => params[:description],
+      :start_time => start_at.strftime("%Y-%m-%dT%H:%M:%S"),
+      :end_time => end_at.strftime("%Y-%m-%dT%H:%M:%S"),
+      :all_day => true
+    }
+
+    google = google_auth
+    created_event_on_google = google_add_event(google, gevent)
+    if created_event_on_google[:saved]
+      flash[:success] = "absence created"
+    else
+      flash[:error] = "error"
+    end
+
+    redirect_to :action => :calendar
   end
   
   def new
