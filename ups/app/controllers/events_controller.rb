@@ -23,15 +23,22 @@ class EventsController < ApplicationController
   end
 
   def create_absence
-=begin
+    # convert string to int (month, ... )
+    time = params[:time].each_with_object({}) { |(k,v),h| h[k] = v.to_i }
+
+    start_at = DateTime.civil_from_format("local", time["start_at(1i)"], time["start_at(2i)"], time["start_at(3i)"], 0, 0)
+    end_at = DateTime.civil_from_format("local", time["end_at(1i)"], time["end_at(2i)"], time["end_at(3i)"], 0, 0)
+
     gevent = {
       :title => "absence: #{@current_user.name}",
       :content => params[:description],
       #:where => @event.location,
-      :start_time => params[:start_at].strftime("%Y-%m-%dT%H:%M:%S"),
-      :end_time => params[:end_at].strftime("%Y-%m-%dT%H:%M:%S")
+      :start_time => start_at.strftime("%Y-%m-%dT%H:%M:%S"),
+      :end_time => end_at.strftime("%Y-%m-%dT%H:%M:%S"),
+      :all_day => true
     }
 
+    google = google_auth
     created_event_on_google = google_add_event(google, gevent)
     if created_event_on_google[:saved]
       flash[:success] = "absence created"
@@ -40,8 +47,6 @@ class EventsController < ApplicationController
     end
 
     redirect_to :action => :calendar
-=end
-    render :action => :new_absence
   end
   
   def new
