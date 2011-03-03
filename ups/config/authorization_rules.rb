@@ -31,14 +31,14 @@ authorization do
   role :member do
     includes :user
 
+    has_permission_on :pages, :to => [:index, :new, :create]
+    has_permission_on :pages, :to => [:edit, :update] do
+      if_attribute :edit_role => { :int_name => is { user.role.int_title } }
+    end
+
     has_permission_on :news, :to => [ :new, :create ]
     has_permission_on :news, :to => [ :edit, :update ] do
       if_attribute :user_id => is { user.id }
-    end
-
-    has_permission_on :file_uploads, :to => [ :new, :create ]
-    has_permission_on :file_uploads, :to => [ :edit, :update, :destroy ] do
-      if_attribute :page => { :user_id => is { user.id } }
     end
 
     has_permission_on :events, :to => [ :new, :create, :show, :index, :calendar ]

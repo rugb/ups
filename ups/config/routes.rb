@@ -26,8 +26,6 @@ Ups::Application.routes.draw do
   
   match "/downloads/:id" => "file_uploads#show", :as => :download_file
 
-  match "/category/:id/(:name)" => "categories#show", :as => :show_category, :via => :get
-
   resources :session, :only => [] do
     collection do
       get :login
@@ -36,8 +34,6 @@ Ups::Application.routes.draw do
       get :logout
     end
   end
-  
-  match "/category/:id/(:name)" => "categories#update", :as => :show_category, :via => :put
   
   match "/page/:id/(:int_title)(/:language_short)" => "pages#show", :as => :show_page, :via => :get
   
@@ -48,11 +44,7 @@ Ups::Application.routes.draw do
     get 'rss', :on => :collection
   end
 
-  resources :categories do
-    member do
-      delete 'delete' => "categories#destroy"
-    end
-  end
+  resources :categories, :except => :show
   
   resources :pages do
     member do

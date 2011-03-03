@@ -5,7 +5,7 @@ class PagesController < ApplicationController
   include PagesHelper
   
   def index
-    @pages = Page.find(:all, :conditions => {:parent_id => nil}).select { |page| page.page_type != :news }
+    @pages = editable_children_pages nil
   end
   
   def show
@@ -16,7 +16,7 @@ class PagesController < ApplicationController
     else
       http_404 and return if(@page.nil? || !@page.visible?)
       
-      redirect_to show_page_path(@page.id, @page.int_title) if (params[:int_title] != @page.int_title)
+      redirect_to show_page_path(@page.id, @page.int_title) and return if (params[:int_title] != @page.int_title)
       set_session_language params[:language_short] if params[:language_short].present?
       
       redirect_to @page.forced_url if @page.forced_url.present?
@@ -44,7 +44,9 @@ class PagesController < ApplicationController
       @edit_page.position = position_select[1] == "" ? nil : position_select[1].to_i
     end
     
-    if @edit_page.page_contents.any? &&  @edit_page.save
+    update_edit_role
+    
+    if @edit_page.valid? && @edit_page.page_contents.any? &&  @edit_page.save
       cache_html!(@edit_page)
       flash[:success] = "page created."
       redirect_to edit_page_path @edit_page
@@ -82,6 +84,8 @@ class PagesController < ApplicationController
       @edit_page.parent = Page.find_by_id position_select[0]
       @edit_page.position = position_select[1] == "" ? nil : position_select[1].to_i
     end
+
+    update_edit_role
     
     if @edit_page.update_attributes params[:page].merge(:user => @current_user)
       cache_html! @edit_page 
@@ -146,6 +150,15 @@ class PagesController < ApplicationController
   end
   
   private
+  def update_edit_role
+    @edit_page.edit_role_id = @current_user.role.id
+
+    if has_role_with_hierarchy?(:admin) && params[:page][:edit_role_id].present?
+      @edit_page.edit_role_id = params[:page][:edit_role_id]
+    end
+
+  end
+
   def current_show_page
     @page ||= Page.find_by_id(params[:id]) if params[:id].present?
   end

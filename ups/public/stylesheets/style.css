@@ -143,9 +143,7 @@ footer div h2 {
 }
 
 footer pre {
-    max-width: 250px;
     overflow: hidden;
-    white-space: pre-wrap;
 }
 
 footer pre:hover {

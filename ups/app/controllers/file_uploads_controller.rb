@@ -1,7 +1,12 @@
 class FileUploadsController < ApplicationController
-  filter_access_to :all
+  filter_access_to :show
+
+  before_filter :check_for_page_rights, :except => :show
+
+  include PagesHelper
   
   def new
+    @title = "upload file"
     @file_upload = FileUpload.new
     @file_upload.page_id = params[:page_id]
   end
@@ -33,6 +38,7 @@ class FileUploadsController < ApplicationController
   end
   
   def edit
+    @title = "edit upload"
     @file_upload = FileUpload.find(params[:id]) if (params[:id])
   end
   
@@ -59,5 +65,18 @@ class FileUploadsController < ApplicationController
     @file_upload.save!
     
     send_data @file_upload.file.file.read, :filename => @file_upload.filename
+  end
+
+  private
+  def check_for_page_rights
+    if params[:page_id].present?
+      id = params[:page_id]
+    elsif params[:file_upload].present? && params[:file_upload][:page_id].present?
+      id = params[:file_upload][:page_id]
+    end
+    @edit_page = Page.find_by_id(id) if id.present?
+    @edit_page ||= FileUpload.find_by_id(params[:id]).page
+
+    permission_denied and return unless @edit_page.nil? || page_editable?(@edit_page)
   end
 end

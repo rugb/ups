@@ -38,7 +38,7 @@
         <%= link_to "edit", edit_category_path(edit_category), :class => "edit" %>
       </td>
       <td class="actions">
-        <%= link_to "delete", delete_category_path(edit_category), :confirm => "Are you sure?", :method => :delete, :class => "delete" if edit_category.deletable? %>
+        <%= link_to "delete", category_path(edit_category), :confirm => "Are you sure?", :method => :delete, :class => "delete" if edit_category.deletable? %>
       </td>
     </tr>
     <% end %>
