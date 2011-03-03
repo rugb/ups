@@ -22,6 +22,8 @@
 require 'date'
 
 class Page < ActiveRecord::Base
+  STATIC_PAGES = [:administration, :pages]
+
   attr_accessible :parent_id, :page_type, :enabled, :position, :int_title, :forced_url, :start_at, :role_id, :role, :user, :user_id, :enable_comments, :page_contents_attributes, :page_categories_attributes, :file_uploads, :tags_string
   
   belongs_to :parent, :class_name => "Page", :foreign_key => "parent_id"
@@ -139,7 +141,7 @@ class Page < ActiveRecord::Base
   end
   
   def deleteable?
-    !visible? && self != Conf.default_page && forced_url.nil?
+    !visible? && self != Conf.default_page && forced_url.nil? && !static?
   end
   
   def activateable?
@@ -147,7 +149,11 @@ class Page < ActiveRecord::Base
   end
   
   def deactivateable?
-    enabled && (edit_role != Role.find_by_int_name(:admin)) && self != Conf.default_page
+    enabled && (role != Role.find_by_int_name(:admin)) && self != Conf.default_page && !static?
+  end
+
+  def static?
+    STATIC_PAGES.index(int_title.to_sym)
   end
   
   private
