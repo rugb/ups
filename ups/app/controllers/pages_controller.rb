@@ -136,7 +136,11 @@ class PagesController < ApplicationController
     @comment.save!
 
     flash[:success] = "comment created"
-    redirect_to make_page_path @page
+    if @page.page_type == :page
+      redirect_to make_page_path @page
+    else
+      redirect_to show_news_path @page
+    end
   end
 
   def destroy_comment
@@ -146,7 +150,12 @@ class PagesController < ApplicationController
     @comment.destroy
 
     flash[:success] = "comment deleted"
-    redirect_to make_page_path @page
+    
+    if @page.page_type == :page
+      redirect_to make_page_path @page
+    else
+      redirect_to show_news_path @page
+    end
   end
   
   def home
