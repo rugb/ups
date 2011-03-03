@@ -17,7 +17,7 @@
   <fieldset>
     <%= page_text(@page) %>
   </fieldset>
-  <p class="footer">
+  <p class="footer actions">
     <% if @page.user.present? %>
     <span>
       author: <%= link_to @page.user.name, @page.user, :class => "user" %>

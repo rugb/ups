@@ -1,19 +1,26 @@
-<h2>comments:</h2>
-<% page.comments.each do |comment| %>
-  <%= comment.text %>
-  <p class="footer actions">
-    author:
-    <% if comment.user.present? %>
-      <%= link_to comment.user.name, comment.user, :class => "user" %> 
-      <% if @current_user == comment.user || has_role?(:admin) %>
-        <%= link_to "del", destroy_comment_pages_path(page.id, comment.id), :confirm => "Are you sure?", :method => :delete, :class => "delete" %>
-      <% end %>
-    <% else %>
-      <%= comment.name %> (<%= comment.email %>)
-    <% end %>
-  </p>
+<% if page.comments.any? %>
+  <h2>comments:</h2>
+  <% page.comments.each do |comment| %>
+    <fieldset>
+      <p>
+        <%= comment.text %>
+      </p>
+      <p class="footer actions">
+        author:
+        <% if comment.user.present? %>
+          <%= link_to comment.user.name, comment.user, :class => "user" %> 
+          <% if @current_user == comment.user || has_role?(:admin) %>
+            <%= link_to "del", destroy_comment_pages_path(page.id, comment.id), :confirm => "Are you sure?", :method => :delete, :class => "delete" %>
+          <% end %>
+        <% else %>
+          <%= comment.name %> (<%= comment.email %>)
+        <% end %>
+      </p>
+    </fieldset>
+  <% end %>
 <% end %>
 <% if page.enable_comments %>
+  <h2>add new comment:</h2>
   <%= form_for :comment, :url => create_comment_pages_path, :method => :post do |f| %>
     <fieldset>
       <div class="field">

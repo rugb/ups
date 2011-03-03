@@ -11,9 +11,9 @@
   <p>
     <%= page_excerpt(news) %>
   </p>
-  <p class="footer">
+  <p class="footer actions">
     <% if news.user.present? %>
-    <span>author: <%= link_to news.user.name, news.user %></span>
+    <span>author: <%= link_to news.user.name, news.user, :class => "user" %></span>
 	<% else %>
 	<span><i>(author deleted)</i></span>
     <% end %>

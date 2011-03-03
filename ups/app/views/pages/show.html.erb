@@ -1,8 +1,8 @@
 <%= page_text(@page) %>
-<p class="footer">
+<p class="footer actions">
   <% if @page.user.present? %>
     <span>
-      author: <%= link_to @page.user.name, @page.user %>
+      author: <%= link_to @page.user.name, @page.user, :class => "user" %>
     </span>
   <% else %>
     <span>
@@ -23,29 +23,11 @@
 <%= render 'shared/download_links', :object => @page %>
 
 <% if visible_children_pages(@page).any? %>
-  <% visible_children_pages(@page).each do |news| %>
-    <section>
-      <h2><%= link_to page_title(news), make_page_path(news) %></h2>
-      <% if page_excerpt(news).present? %>
-      <p>
-        <%= page_excerpt(news) %>
-      </p>
-      <% end %>
-      <p class="footer">
-        <% if news.user.present? %>
-        <span>author: <%= link_to news.user.name, news.user, :class => "user" %></span>
-            <% else %>
-            <span><i>(author deleted)</i></span>
-        <% end %>
-        <span>from: <%= news.updated_at %></span>
-        <% if news.categories.any? %>
-        <span>categories: <%= inline_categories_for news %></span>
-        <% end %>
-        <% if news.tags.any? %>
-        <span>tags: <%= inline_tags_for news %></span>
-        <% end %>
-      </p>
-    </section>
-  <% end %>
+  <h2>subpages:</h2>
+  <ul>
+    <% visible_children_pages(@page).each do |news| %>
+      <li><%= link_to page_title(news), make_page_path(news) %><%= " - " + page_excerpt(news) if page_excerpt(news).present? %></li>
+    <% end %>
+  </ul>
 <% end %>
 <%= render "shared/comments.html.erb", :page => @page %>
