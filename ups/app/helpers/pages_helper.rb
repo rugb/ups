@@ -36,8 +36,14 @@ module PagesHelper
   end
 
   def visible_children_pages(page)
-    Page.find(:all, :conditions => {:enabled => true, :parent_id => (page and page.id)}).find_all do |child|
-      child.visible? && child.position.present? && has_role_with_hierarchy?(child.role.int_name) && child.page_type != :news
+    children_pages(page).find_all do |child|
+      child.visible?
+    end
+  end
+
+  def children_pages(page)
+    Page.find(:all, :conditions => {:parent_id => (page and page.id)}).find_all do |child|
+      child.position.present? && has_role_with_hierarchy?(child.role.int_name) && child.page_type != :news
     end
   end
   
@@ -110,17 +116,18 @@ module PagesHelper
     options = []
     
     if(parent.nil?)
-      pages = visible_children_pages nil
+      pages = children_pages nil
       options << radio_button_tag(:position_select, "_", me.parent.nil? && me.position.nil?) + " not in menu"
       options << radio_button_tag(:position_select, "_1") + " first"
     else
-      pages = visible_children_pages parent
+      pages = children_pages parent
       options << radio_button_tag(:position_select, parent.id.to_s+"_1") + " under " + make_page_int_title(parent)
     end
     
     pages.each do |page|
       if page.position.present?
-        if page == me 
+        p page, me
+        if page.id == me.id 
           options << radio_button_tag(:position_select, page.position_select, true) + " " + make_page_int_title(page)
         else
           options << " " + make_page_int_title(page) + make_page_position_tree(page, me)
