@@ -1,0 +1,25 @@
+<%= form_tag create_absence_path, :method => :post do %>
+  <fieldset>
+    <div class="field">
+      <label>
+        start:
+      </label>
+      <%= datetime_select "time", "start_at", :order => [:day, :month, :year], :date_seperator => ".", :time_seperator => ":" %>
+    </div>
+    <div class="field">
+      <label>
+        end:
+      </label>
+      <%= datetime_select "time", "end_at", :order => [:day, :month, :year], :date_seperator => ".", :time_seperator => ":" %>
+    </div>
+    <div class="field">
+      <label>
+        description:
+      </label>
+      <%= text_area_tag :description, nil, :rows => 5 %>
+    </div>
+    <div class="actions">
+      <%= submit_tag "create", :confirm => "Are you sure?", :class => "continue" %>
+    </div>
+  </fieldset>
+<% end %>

@@ -3,7 +3,7 @@ class EventsController < ApplicationController
 
   include GoogleHelper
   
-  before_filter :load_event, :except => [ :new, :create, :calendar, :index, :user_vote_destroy ]
+  before_filter :load_event, :except => [ :new, :create, :calendar, :index, :user_vote_destroy, :new_absence, :create_absence ]
   before_filter :load_user_vote, :only => :user_vote_destroy #, :model => :UserVote, :attribute_check => true
 
   # todo
@@ -14,6 +14,34 @@ class EventsController < ApplicationController
 
   def calendar
     @title = "Calendar"
+  end
+
+  def new_absence
+    @title = "new absence"
+
+    @timeslot = Timeslot.new(:user_id => @current_user.id)
+  end
+
+  def create_absence
+=begin
+    gevent = {
+      :title => "absence: #{@current_user.name}",
+      :content => params[:description],
+      #:where => @event.location,
+      :start_time => params[:start_at].strftime("%Y-%m-%dT%H:%M:%S"),
+      :end_time => params[:end_at].strftime("%Y-%m-%dT%H:%M:%S")
+    }
+
+    created_event_on_google = google_add_event(google, gevent)
+    if created_event_on_google[:saved]
+      flash[:success] = "absence created"
+    else
+      flash[:error] = "error"
+    end
+
+    redirect_to :action => :calendar
+=end
+    render :action => :new_absence
   end
   
   def new
