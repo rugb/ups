@@ -6,10 +6,11 @@
       OpenID:
     </label>
     <% if @user.new_record? %>
-    <%= f.text_field :openid %>
+      <%= f.text_field :openid %>
     <% else %>
-    <span><%= link_to @user.openid, @user.openid %>
-    </span>
+      <span>
+        <%= link_to @user.openid, @user.openid %>
+      </span>
     <% end %>
   </div>
   <div class="field">

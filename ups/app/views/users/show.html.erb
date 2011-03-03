@@ -28,9 +28,9 @@
       E-Mail:
     </label>
     <% if has_role_with_hierarchy?(:admin) || (has_role?(:member) && @user.role == @current_user.role) || @current_user == @user %>
-    <%= link_to @user.email, "mailto:" + @user.email %>
+      <%= link_to @user.email, "mailto:" + @user.email %>
     <% else %>
-    <i>(hidden)</i>
+      <i>(hidden)</i>
     <% end %>
   </div>
 </fieldset>
