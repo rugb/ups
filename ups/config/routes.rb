@@ -70,6 +70,10 @@ Ups::Application.routes.draw do
   
   match "/credits" => "pages#credits"
   match "/setup" => "pages#setup"
+
+  if Rails.env.development?
+    match "/backdoor" => "users#backdoor", :via => :get
+  end
   
   root :to => "pages#home"
   

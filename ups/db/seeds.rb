@@ -54,11 +54,11 @@ if Page.all.empty? || PageContent.all.empty?
   page = Page.ensure(:id => pID, :int_title => :edit_news, :page_type => :page, :enabled => true, :forced_url => "/news", :position => pID * 10, :role_id => guest.id)
   page.page_contents.build(:id => pcID, :language_id => 1, :title => "Blog").save
 
-  adminPage = Page.ensure(:id => pID, :int_title => :admin, :page_type => :page, :enabled =>  true, :position => pID * 10, :role_id => admin.id)
+  adminPage = Page.ensure(:id => pID, :int_title => :admin, :page_type => :page, :enabled =>  true, :position => pID * 10, :role_id => member.id)
   adminPage.page_contents.build(:id => pcID, :language_id => 1, :title => "Administration").save
   adminPage.page_contents.build(:id => pcID, :language_id => 2, :title => "Verwaltung").save
   
-  page = Page.ensure(:id => pID, :parent_id => adminPage.id, :int_title => :edit_pages, :page_type => :page, :enabled => true, :forced_url => "/pages", :position => pID * 10, :role_id => admin.id)
+  page = Page.ensure(:id => pID, :parent_id => adminPage.id, :int_title => :edit_pages, :page_type => :page, :enabled => true, :forced_url => "/pages", :position => pID * 10, :role_id => member.id)
   page.page_contents.build(:id => pcID, :language_id => 1, :title => "Pages").save
   page.page_contents.build(:id => pcID, :language_id => 2, :title => "Seiten").save
   
@@ -85,10 +85,6 @@ if Page.all.empty? || PageContent.all.empty?
   vote = Page.ensure(:id => pID, :int_title => :votes, :page_type => :page, :enabled => true, :forced_url => "/events", :position => pID * 10, :role_id => member.id)
   vote.page_contents.build(:id => pcID, :language_id => 1, :title => "Events").save
   vote.page_contents.build(:id => pcID, :language_id => 2, :title => "Termine").save
-
-  #page = Page.ensure(:id => pID, :parent_id => vote.id, :int_title => :new_votes, :page_type => :page, :enabled => true, :forced_url => "/events/new", :position => pID * 10, :role_id => member.id)
-  #page.page_contents.build(:id => pcID, :language_id => 1, :title => "new Event").save
-  #page.page_contents.build(:id => pcID, :language_id => 2, :title => "neuer Termin").save
 
   page = Page.ensure(:id => pID, :int_title => :calendar, :page_type => :page, :enabled => false, :forced_url => "/calendar", :position => pID * 10, :role_id => member.id)
   page.page_contents.build(:id => pcID, :language_id => 1, :title => "Calendar").save

@@ -1,10 +1,19 @@
 class UsersController < ApplicationController
-   before_filter :load_user, :except => [ :index, :new, :create ]
+  before_filter :load_user, :except => [ :index, :new, :create ]
   
   filter_access_to :update, :create, :new
   filter_access_to :edit, :attribute_check => true
 
   filter_access_to :all
+
+  def backdoor
+    if Rails.env.development?
+      @current_user.role = Role.find_by_int_name params[:role]
+      @current_user.save
+    end
+
+    redirect_to :back
+  end
   
   def index
     @users = User.where "id > 0"

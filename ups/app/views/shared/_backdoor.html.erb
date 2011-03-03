@@ -1,0 +1,8 @@
+<div class="actions" style="position: absolute; top: 5px; right: 5px; background: #fff; padding: 5px; border: 1px solid #900; -moz-border-radius: 2px;">
+  current: <span style="color: #000;"><%= @current_user.role %></span>
+  switch to:
+  <%= link_to "admin", backdoor_path(:role => "admin"), :class => "user" %>
+  <%= link_to "member", backdoor_path(:role => "member"), :class => "user" %>
+  <%= link_to "user", backdoor_path(:role => "user"), :class => "user" %>
+  <%= link_to "guest", backdoor_path(:role => "guest"), :class => "user" %>
+</div>

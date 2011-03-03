@@ -7,7 +7,7 @@
 
 body {
     background: #f0f0f0;
-    color: #fff;
+    color: #aaa;
     font-family: 'Ubuntu', sans-serif;
     font-size: 12px;
     padding-bottom: 20px;
@@ -98,6 +98,7 @@ header {
     margin: 5px 0 0 -5px;
     padding: 0 5px 5px 5px;
     position: absolute;
+    z-index: 1234;
 }
 
 #menu li ul li {
