@@ -1,5 +1,9 @@
 class FileUploadsController < ApplicationController
-  filter_access_to :new, :attribute_check => true, :model => Page, :load_method => :load_page
+  filter_access_to :show
+
+  before_filter :check_for_page_rights, :except => :show
+
+  include PagesHelper
   
   def new
     @title = "upload file"
@@ -64,7 +68,15 @@ class FileUploadsController < ApplicationController
   end
 
   private
-  def load_page
-    Page.find_by_id params[:id]
+  def check_for_page_rights
+    if params[:page_id].present?
+      id = params[:page_id]
+    elsif params[:file_upload].present? && params[:file_upload][:page_id].present?
+      id = params[:file_upload][:page_id]
+    end
+    @edit_page = Page.find_by_id(id) if id.present?
+    @edit_page ||= FileUpload.find_by_id(params[:id]).page
+
+    permission_denied and return unless @edit_page.nil? || page_editable?(@edit_page)
   end
 end

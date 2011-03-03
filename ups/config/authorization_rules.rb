@@ -40,10 +40,6 @@ authorization do
       if_attribute :user_id => is { user.id }
     end
 
-    has_permission_on :file_uploads, :to => [ :new, :create, :edit, :update, :destroy ] do
-      if_attribute :role => { :int_name => is { user.role.int_title } }
-    end
-
     has_permission_on :events, :to => [ :new, :create, :show, :index, :calendar ]
     has_permission_on :events, :to => [ :edit, :update ] do
       if_attribute :user_id => is { user.id }
