@@ -20,7 +20,7 @@
   <p class="footer">
     <% if @page.user.present? %>
     <span>
-      author: <%= link_to @page.user.name, @page.user %>
+      author: <%= link_to @page.user.name, @page.user, :class => "user" %>
     </span>
     <% else %>
     <span>
