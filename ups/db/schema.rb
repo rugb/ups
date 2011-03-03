@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110302161658) do
+ActiveRecord::Schema.define(:version => 20110303100852) do
 
   create_table "categories", :force => true do |t|
     t.datetime "created_at"
@@ -25,6 +25,9 @@ ActiveRecord::Schema.define(:version => 20110302161658) do
     t.integer  "category_id"
   end
 
+  add_index "category_names", ["category_id"], :name => "index_category_names_on_category_id"
+  add_index "category_names", ["language_id"], :name => "index_category_names_on_language_id"
+
   create_table "comments", :force => true do |t|
     t.integer  "user_id"
     t.text     "text"
@@ -34,6 +37,9 @@ ActiveRecord::Schema.define(:version => 20110302161658) do
     t.string   "email"
     t.integer  "page_id"
   end
+
+  add_index "comments", ["page_id"], :name => "index_comments_on_page_id"
+  add_index "comments", ["user_id"], :name => "index_comments_on_user_id"
 
   create_table "confs", :force => true do |t|
     t.string   "name"
@@ -53,6 +59,8 @@ ActiveRecord::Schema.define(:version => 20110302161658) do
     t.boolean  "finished"
   end
 
+  add_index "events", ["user_id"], :name => "index_events_on_user_id"
+
   create_table "file_uploads", :force => true do |t|
     t.integer  "page_id"
     t.string   "filename"
@@ -63,6 +71,9 @@ ActiveRecord::Schema.define(:version => 20110302161658) do
     t.integer  "size"
     t.boolean  "visible"
   end
+
+  add_index "file_uploads", ["filename"], :name => "index_file_uploads_on_filename"
+  add_index "file_uploads", ["page_id"], :name => "index_file_uploads_on_page_id"
 
   create_table "languages", :force => true do |t|
     t.string   "short"
@@ -80,6 +91,9 @@ ActiveRecord::Schema.define(:version => 20110302161658) do
     t.datetime "updated_at"
   end
 
+  add_index "link_categories", ["category_id"], :name => "index_link_categories_on_category_id"
+  add_index "link_categories", ["link_id"], :name => "index_link_categories_on_link_id"
+
   create_table "links", :force => true do |t|
     t.string   "title"
     t.string   "href"
@@ -95,6 +109,9 @@ ActiveRecord::Schema.define(:version => 20110302161658) do
     t.datetime "updated_at"
   end
 
+  add_index "page_categories", ["category_id"], :name => "index_page_categories_on_category_id"
+  add_index "page_categories", ["page_id"], :name => "index_page_categories_on_page_id"
+
   create_table "page_contents", :force => true do |t|
     t.string   "title"
     t.text     "text"
@@ -106,12 +123,18 @@ ActiveRecord::Schema.define(:version => 20110302161658) do
     t.text     "html"
   end
 
+  add_index "page_contents", ["language_id"], :name => "index_page_contents_on_language_id"
+  add_index "page_contents", ["page_id"], :name => "index_page_contents_on_page_id"
+
   create_table "page_tags", :force => true do |t|
     t.integer  "page_id"
     t.integer  "tag_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "page_tags", ["page_id"], :name => "index_page_tags_on_page_id"
+  add_index "page_tags", ["tag_id"], :name => "index_page_tags_on_tag_id"
 
   create_table "pages", :force => true do |t|
     t.integer  "parent_id"
@@ -125,7 +148,13 @@ ActiveRecord::Schema.define(:version => 20110302161658) do
     t.string   "int_title"
     t.integer  "user_id"
     t.integer  "role_id"
+    t.integer  "edit_role_id"
   end
+
+  add_index "pages", ["edit_role_id"], :name => "index_pages_on_edit_role_id"
+  add_index "pages", ["parent_id"], :name => "index_pages_on_parent_id"
+  add_index "pages", ["position"], :name => "index_pages_on_position"
+  add_index "pages", ["role_id"], :name => "index_pages_on_role_id"
 
   create_table "roles", :force => true do |t|
     t.string   "name"
@@ -134,11 +163,15 @@ ActiveRecord::Schema.define(:version => 20110302161658) do
     t.datetime "updated_at"
   end
 
+  add_index "roles", ["int_name"], :name => "index_roles_on_int_name"
+
   create_table "tags", :force => true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "tags", ["name"], :name => "index_tags_on_name"
 
   create_table "timeslots", :force => true do |t|
     t.datetime "start_at"
@@ -149,12 +182,17 @@ ActiveRecord::Schema.define(:version => 20110302161658) do
     t.string   "gevent_id"
   end
 
+  add_index "timeslots", ["event_id"], :name => "index_timeslots_on_event_id"
+
   create_table "user_votes", :force => true do |t|
     t.integer  "event_id"
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "user_votes", ["event_id"], :name => "index_user_votes_on_event_id"
+  add_index "user_votes", ["user_id"], :name => "index_user_votes_on_user_id"
 
   create_table "users", :force => true do |t|
     t.string   "openid"
@@ -168,6 +206,7 @@ ActiveRecord::Schema.define(:version => 20110302161658) do
     t.integer  "language_id"
   end
 
+  add_index "users", ["role_id"], :name => "index_users_on_role_id"
   add_index "users", ["salt"], :name => "index_users_on_salt", :unique => true
 
   create_table "votes", :force => true do |t|
@@ -177,5 +216,8 @@ ActiveRecord::Schema.define(:version => 20110302161658) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "votes", ["timeslot_id"], :name => "index_votes_on_timeslot_id"
+  add_index "votes", ["user_vote_id"], :name => "index_votes_on_user_vote_id"
 
 end

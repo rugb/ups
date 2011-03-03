@@ -1,20 +1,21 @@
 # == Schema Information
-# Schema version: 20110225155059
+# Schema version: 20110303100852
 #
 # Table name: pages
 #
-#  id         :integer         not null, primary key
-#  parent_id  :integer
-#  position   :integer
-#  page_type  :string(255)
-#  start_at   :datetime
-#  enabled    :boolean
-#  forced_url :string(255)
-#  created_at :datetime
-#  updated_at :datetime
-#  int_title  :string(255)
-#  user_id    :integer
-#  role_id    :integer
+#  id           :integer         not null, primary key
+#  parent_id    :integer
+#  position     :integer
+#  page_type    :string(255)
+#  start_at     :datetime
+#  enabled      :boolean
+#  forced_url   :string(255)
+#  created_at   :datetime
+#  updated_at   :datetime
+#  int_title    :string(255)
+#  user_id      :integer
+#  role_id      :integer
+#  edit_role_id :integer
 #
 
 require 'date'
@@ -38,6 +39,7 @@ class Page < ActiveRecord::Base
   has_many :comments, :dependent => :destroy
   belongs_to :user
   belongs_to :role
+  belongs_to :edit_role, :class_name => "User"
   
   has_many :file_uploads
   
