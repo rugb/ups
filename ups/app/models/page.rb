@@ -1,21 +1,22 @@
 # == Schema Information
-# Schema version: 20110303100852
+# Schema version: 20110303160424
 #
 # Table name: pages
 #
-#  id           :integer         not null, primary key
-#  parent_id    :integer
-#  position     :integer
-#  page_type    :string(255)
-#  start_at     :datetime
-#  enabled      :boolean
-#  forced_url   :string(255)
-#  created_at   :datetime
-#  updated_at   :datetime
-#  int_title    :string(255)
-#  user_id      :integer
-#  role_id      :integer
-#  edit_role_id :integer
+#  id              :integer         not null, primary key
+#  parent_id       :integer
+#  position        :integer
+#  page_type       :string(255)
+#  start_at        :datetime
+#  enabled         :boolean
+#  forced_url      :string(255)
+#  created_at      :datetime
+#  updated_at      :datetime
+#  int_title       :string(255)
+#  user_id         :integer
+#  role_id         :integer
+#  edit_role_id    :integer
+#  enable_comments :boolean
 #
 
 require 'date'

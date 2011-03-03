@@ -29,6 +29,12 @@
     </label>
     <%= f.datetime_select :start_at, :order => [:day, :month, :year], :date_seperator => ".", :time_seperator => ":" %>
   </div>
+  <div class="field">
+    <label>
+      allow comments:
+    </label>
+    <%= f.check_box :enable_comments %>
+  </div>
   <fieldset id="content_tabs">
     <ul>
       <% @edit_post.page_contents.each do |content| %>
