@@ -115,12 +115,16 @@ class PagesController < ApplicationController
     @edit_page.enabled = false
     @edit_page.save
     if @edit_page.save
-      flash[:success]="deactivated."
+      flash[:success]= "deactivated."
       redirect_to pages_path
     else
       flash[:error] = "this page cannot be deactivated."
       redirect_to pages_path
     end
+  end
+
+  def create_comment_preview
+    
   end
 
   def create_comment
@@ -131,7 +135,18 @@ class PagesController < ApplicationController
 
     @comment.save!
 
-    redirect_to @page
+    flash[:success] = "comment created"
+    redirect_to make_page_path @page
+  end
+
+  def destroy_comment
+    @page = Page.find params[:id]
+    @comment = Comment.find params[:comment_id]
+
+    @comment.destroy
+
+    flash[:success] = "comment deleted"
+    redirect_to make_page_path @page
   end
   
   def home
