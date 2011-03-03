@@ -118,6 +118,17 @@ class PagesController < ApplicationController
       redirect_to pages_path
     end
   end
+
+  def create_comment
+    @page = Page.find params[:id]
+    @comment = Comment.new(params[:comment])
+    @comment.user = @current_user if signed_in?
+    @comment.page_id = @page.id
+
+    @comment.save!
+
+    redirect_to @page
+  end
   
   def home
     default_page = Conf.default_page

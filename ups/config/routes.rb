@@ -59,6 +59,10 @@ Ups::Application.routes.draw do
       get 'activate'
       get 'deactivate'
     end
+    collection do
+      post ':id/create_comment', :action => :create_comment, :as => :create_comment
+      post ':id/create_comment_preview', :action => :create_comment_preview, :as => :create_comment_preview
+    end
   end
   
   match "/config" => "conf#index", :via => :get
@@ -77,5 +81,5 @@ Ups::Application.routes.draw do
   
   root :to => "pages#home"
   
-  match "*a" => "application#http_404"
+  #match "*a" => "application#http_404"
 end

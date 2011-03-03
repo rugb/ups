@@ -32,6 +32,12 @@
         <%= f.select :role_id, roles_options %>
       </div>
     <% end %>
+    <div class="field">
+      <label>
+        comments:
+      </label>
+      <%= f.check_box :enable_comments %>
+    </div>
     <fieldset id="content_tabs">
       <ul>
         <% @edit_page.page_contents.each do |content| %>
