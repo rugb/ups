@@ -175,12 +175,13 @@ class PagesController < ApplicationController
   
   private
   def update_edit_role
-    @edit_page.edit_role_id = @current_user.role.id
+    if @edit_page.edit_role.present?
+      @edit_page.edit_role_id = @current_user.role.id
 
-    if has_role_with_hierarchy?(:admin) && params[:page][:edit_role_id].present?
-      @edit_page.edit_role_id = params[:page][:edit_role_id]
+      if has_role_with_hierarchy?(:admin) && params[:page][:edit_role_id].present?
+        @edit_page.edit_role_id = params[:page][:edit_role_id]
+      end
     end
-
   end
 
   def current_show_page

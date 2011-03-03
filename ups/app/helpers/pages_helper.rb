@@ -12,7 +12,11 @@ module PagesHelper
   end
 
   def page_editable?(page)
-    has_role_with_hierarchy? page.edit_role.int_name
+    if page.edit_role.nil?
+      has_role_with_hierarchy? :admin
+    else
+      has_role_with_hierarchy?(page.edit_role.int_name)
+    end
   end
 
   def page_edit_role_changeable?(page)
@@ -26,10 +30,10 @@ module PagesHelper
   def editable_children_pages(page)
     if page.nil?
       Page.find(:all).select do |child| 
-        child_editable?(child) && (child.parent.nil? || !has_role_with_hierarchy?(child.parent.edit_role.int_name))
+        child_editable?(child) && (child.parent.nil? || (child.parent.edit_role.present? && !has_role_with_hierarchy?(child.parent.edit_role.int_name)))
       end
     else
-      page.find(:all, :conditions => {:parent_id => page.id}).select do |child| 
+      page.children.find(:all, :conditions => {:parent_id => page.id}).select do |child| 
         child_editable?(child)
       end
     end
@@ -140,6 +144,10 @@ module PagesHelper
   end
 
   def child_editable?(child)
-    child.page_type != :news && has_role_with_hierarchy?(child.edit_role.int_name)
+    if child.edit_role.nil?
+      has_role_with_hierarchy? :admin
+    else
+      child.page_type != :news && has_role_with_hierarchy?(child.edit_role.int_name)
+    end
   end
 end

@@ -22,8 +22,6 @@
 require 'date'
 
 class Page < ActiveRecord::Base
-  STATIC_PAGES = [:administration, :pages]
-
   attr_accessible :parent_id, :page_type, :enabled, :position, :int_title, :forced_url, :start_at, :role_id, :role, :user, :user_id, :enable_comments, :page_contents_attributes, :page_categories_attributes, :file_uploads, :tags_string
   
   belongs_to :parent, :class_name => "Page", :foreign_key => "parent_id"
@@ -60,7 +58,7 @@ class Page < ActiveRecord::Base
   validates_inclusion_of :enabled, :in => [true, false]
   validates :int_title, :uniqueness => true,  :format => /^[a-z0-9_]{0,255}$/, :allow_nil => true
   validates_numericality_of :role_id, :presence => true, :greater_than => 0
-  validates_numericality_of :edit_role_id, :presence => true, :greater_than => 0
+  validates_numericality_of :edit_role_id, :presence => true, :allow_nil => true, :greater_than => 0
   
   before_validation :destroy_relevant
 
@@ -153,7 +151,7 @@ class Page < ActiveRecord::Base
   end
 
   def static?
-    STATIC_PAGES.index(int_title.to_sym)
+    edit_role.nil?
   end
   
   private

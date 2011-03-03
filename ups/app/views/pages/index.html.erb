@@ -36,32 +36,34 @@
     <%= link_to "deactivate", deactivate_page_path(page), :class => "disable" if page_deactivateable? page %>
   </td>
 </tr>
-<% page.children.each { |page| page_tree.call page, depth + 1 if page.page_type != :news }
+<% editable_children_pages(page).each { |page| page_tree.call page, depth + 1 if page.page_type != :news }
 end %>
-<table>
-  <thead>
-    <tr>
-      <th>
-        title
-      </th>
-      <th>
-        visible
-      </th>
-      <th>
-        languages
-      </th>
-      <th>
-      </th>
-      <th>
-      </th>
-      <th>
-      </th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @pages.each { |page| page_tree.call page, 0 } %>
-  </tbody>
-</table>
+<% if @pages.any? %>
+  <table>
+    <thead>
+      <tr>
+        <th>
+          title
+        </th>
+        <th>
+          visible
+        </th>
+        <th>
+          languages
+        </th>
+        <th>
+        </th>
+        <th>
+        </th>
+        <th>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @pages.each { |page| page_tree.call page, 0 } %>
+    </tbody>
+  </table>
+<% end %>
 <p class="actions">
   <%= link_to "new page", new_page_path, :class => "new" %>
 </p>

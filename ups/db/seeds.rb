@@ -55,10 +55,14 @@ if Page.all.empty? || PageContent.all.empty?
   page.page_contents.build(:id => pcID, :language_id => 1, :title => "Blog").save
 
   adminPage = Page.ensure(:id => pID, :int_title => :admin, :page_type => :page, :enabled =>  true, :position => pID * 10, :role_id => member.id)
+  adminPage.edit_role = nil
+  adminPage.save
   adminPage.page_contents.build(:id => pcID, :language_id => 1, :title => "Administration").save
   adminPage.page_contents.build(:id => pcID, :language_id => 2, :title => "Verwaltung").save
   
   page = Page.ensure(:id => pID, :parent_id => adminPage.id, :int_title => :edit_pages, :page_type => :page, :enabled => true, :forced_url => "/pages", :position => pID * 10, :role_id => member.id)
+  page.edit_role = nil
+  page.save
   page.page_contents.build(:id => pcID, :language_id => 1, :title => "Pages").save
   page.page_contents.build(:id => pcID, :language_id => 2, :title => "Seiten").save
   
