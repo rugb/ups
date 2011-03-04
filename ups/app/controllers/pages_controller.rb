@@ -189,45 +189,49 @@ class PagesController < ApplicationController
 #   end
   
   def update
-    @title = "edit page"
+    @title = "edit #{path_type_name}"
     @edit_page = Page.find params[:id]
-    
-    position_select = params[:position_select].split("_")
-    
-    if position_select.empty?
-      @edit_page.parent = nil
-      @edit_page.position = nil
-    else
-      @edit_page.parent = Page.find_by_id position_select[0]
-      @edit_page.position = position_select[1] == "" ? nil : position_select[1].to_i
-    end
 
-    update_edit_role
+    if path_type == :page
+      position_select = params[:position_select].split("_")
+
+      if position_select.empty?
+        @edit_page.parent = nil
+        @edit_page.position = nil
+      else
+        @edit_page.parent = Page.find_by_id position_select[0]
+        @edit_page.position = position_select[1] == "" ? nil : position_select[1].to_i
+      end
+
+      update_edit_role
+
+      recalc_page_positions_for_page @edit_page
+    end
     
     if @edit_page.update_attributes params[:page].merge(:user => @current_user)
       cache_html! @edit_page 
-      recalc_page_positions_for_page @edit_page
-      flash.now[:success] = "post updated."
+      flash.now[:success] = "#{path_type_name} updated."
     else
-      flash.now[:error] = "post update failed."
+      flash.now[:error] = "#{path_type_name} update failed."
     end
+
     @edit_page.extend
     render :action => :edit
   end
 
-  def update_news
-    @title = "edit #{path_type_name}"
-    @edit_page = Page.find params[:id]
-    
-    if @edit_page.update_attributes(params[:page].merge(:page_type => path_type, :role => Role.find_by_int_name(:guest)))
-      cache_html!(@edit_page)
-      flash.now[:success] = "post updated."
-    else
-      flash.now[:error] = "post update failed."
-    end
-    @edit_page.extend
-    render :action => :edit_news
-  end
+#   def update_news
+#     @title = "edit #{path_type_name}"
+#     @edit_page = Page.find params[:id]
+#     
+#     if @edit_page.update_attributes(params[:page].merge(:page_type => path_type, :role => Role.find_by_int_name(:guest)))
+#       cache_html!(@edit_page)
+#       flash.now[:success] = "post updated."
+#     else
+#       flash.now[:error] = "post update failed."
+#     end
+#     @edit_page.extend
+#     render :action => :edit_news
+#   end
   
   def activate
     @edit_page = Page.find params[:id]
