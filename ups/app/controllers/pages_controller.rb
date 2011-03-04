@@ -136,9 +136,11 @@ class PagesController < ApplicationController
     @comment.user = @current_user if signed_in?
     @comment.page_id = @page.id
 
-    @comment.save!
-
-    flash[:success] = "comment created"
+    if @comment.save
+      flash[:success] = "comment created"
+    else
+      flash[:error] = "comment not created"
+    end
     if @page.page_type == :page
       redirect_to make_page_path @page
     else

@@ -35,5 +35,6 @@ class Comment < ActiveRecord::Base
                      :uniqueness => { :case_sensitive => false },
                      :length => { :maximum => 255 },
                      :allow_nil => true
+  validates :text, :presence => true
   validates_numericality_of :user_id, :greater_than => 0, :allow_nil => true
 end
