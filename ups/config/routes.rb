@@ -40,11 +40,11 @@ Ups::Application.routes.draw do
   match "/blog/:id/(:int_title)(/:language_short)" => "pages#destroy_news", :as => :show_news, :via => :delete
   match "/blog/:id/(:int_title)(/:language_short)" => "pages#update_news", :as => :show_news, :via => :put
 
-  match "news" => "pages#index_news", :via => :get
-  match "news/new" => "pages#new_news", :via => :get
-  match "news" => "pages#create_news", :via => :post
-  match "news/:id/edit" => "pages#edit_news", :via => :get, :as => :edit_news
-  resources :news, :controller => :pages, :except => [ :index ] do
+#   match "news" => "pages#index_news", :via => :get
+#   match "news/new" => "pages#new_news", :via => :get
+#   match "news" => "pages#create_news", :via => :post
+#   match "news/:id/edit" => "pages#edit_news", :via => :get, :as => :edit_news
+  resources :news, :controller => :pages do
     get 'rss', :on => :collection
   end
 

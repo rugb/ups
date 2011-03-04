@@ -17,25 +17,44 @@ class PagesController < ApplicationController
   
   
   def index
-    @pages = editable_children_pages nil
+    if path_type == :page
+      @pages = editable_children_pages nil
+    elsif path_type == :news
+      if params[:category].present?
+        @browse_category = Category.find_by_id params[:category]
+      end
+      
+      if params[:tags].present?
+        @browse_tags_names = params[:tags].split "+"
+        @browse_tags = @browse_tags_names.map do |tag_name|
+          Tag.find_by_name tag_name
+        end.compact
+      end
+      
+      @pages = Page.find(:all, :order => "created_at DESC", :conditions => {:page_type => path_type}).find_all do |page|
+        (@browse_category.nil? || page.categories.index(@browse_category)) && (page.tags & @browse_tags).size == @browse_tags.size
+      end
+
+      render 'index_news' and return
+    end
   end
 
-  def index_news
-    if params[:category].present?
-      @browse_category = Category.find_by_id params[:category]
-    end
-    
-    if params[:tags].present?
-      @browse_tags_names = params[:tags].split "+"
-      @browse_tags = @browse_tags_names.map do |tag_name|
-        Tag.find_by_name tag_name
-      end.compact
-    end
-    
-    @pages = Page.find(:all, :order => "created_at DESC", :conditions => {:page_type => path_type}).find_all do |page|
-      (@browse_category.nil? || page.categories.index(@browse_category)) && (page.tags & @browse_tags).size == @browse_tags.size
-    end
-  end
+#   def index_news
+#     if params[:category].present?
+#       @browse_category = Category.find_by_id params[:category]
+#     end
+#     
+#     if params[:tags].present?
+#       @browse_tags_names = params[:tags].split "+"
+#       @browse_tags = @browse_tags_names.map do |tag_name|
+#         Tag.find_by_name tag_name
+#       end.compact
+#     end
+#     
+#     @pages = Page.find(:all, :order => "created_at DESC", :conditions => {:page_type => path_type}).find_all do |page|
+#       (@browse_category.nil? || page.categories.index(@browse_category)) && (page.tags & @browse_tags).size == @browse_tags.size
+#     end
+#   end
   
   def show
      if path_type == :news
@@ -56,98 +75,118 @@ class PagesController < ApplicationController
   end
   
   def new
-    @title = "create new page"
+    @title = "create new #{path_type_name}"
     @edit_page = Page.new(:page_type => path_type, :enabled => false, :role => Role.find_by_int_name(:guest))
     @edit_page.extend
     @edit_page.user = @current_user
+
+    if path_type == :news
+      render 'new_news' and return
+    end
   end
   
-  def new_news
-    @title = "create new post"
-    @edit_page = Page.new(:page_type => path_type, :enabled => false, :role => Role.find_by_int_name(:guest))
-    @edit_page.extend
-    @edit_page.user = @current_user
-  end
+#   def new_news
+#     @title = "create new post"
+#     @edit_page = Page.new(:page_type => path_type, :enabled => false, :role => Role.find_by_int_name(:guest))
+#     @edit_page.extend
+#     @edit_page.user = @current_user
+#   end
   
   def create
-    @title = "create new page"
+    @title = "create new #{path_type_name}"
     @edit_page = Page.new(params[:page].merge(:page_type => path_type, :enabled => false, :role => Role.find_by_int_name(:guest), :user => @current_user))
-    
-    position_select = params[:position_select].split("_")
-    
-    if position_select.empty?
-      @edit_page.parent = nil
-      @edit_page.position = nil
-    else
-      @edit_page.parent = Page.find_by_id position_select[0]
-      @edit_page.position = position_select[1] == "" ? nil : position_select[1].to_i
-    end
-    
-    update_edit_role
-    
-    if @edit_page.valid? && @edit_page.page_contents.any? &&  @edit_page.save
-      cache_html!(@edit_page)
-      flash[:success] = "page created."
-      redirect_to edit_page_path @edit_page
-    else
-      @edit_page.extend
-      flash.now[:error] = "page creation failed."
-      render :action => :new
-    end
-  end
 
-  def create_news
-    @title = "create new post"
-    @edit_page = Page.new(params[:page].merge(:page_type => path_type, :enabled => false, :role => Role.find_by_int_name(:guest), :user => @current_user))
-    @edit_page.edit_role = Role.find_by_int_name :member
+    if path_type == :news
+      @edit_page.edit_role = Role.find_by_int_name :member
+      @edit_page.parent = Page.find(:first, :conditions => {:forced_url => "/news"})
+      @edit_page.enabled = true
+    else
+      position_select = params[:position_select].split("_")
+
+      if position_select.empty?
+        @edit_page.parent = nil
+        @edit_page.position = nil
+      else
+        @edit_page.parent = Page.find_by_id position_select[0]
+        @edit_page.position = position_select[1] == "" ? nil : position_select[1].to_i
+      end
+      
+      update_edit_role
+    end
     
     if @edit_page.valid? && @edit_page.page_contents.any? &&  @edit_page.save
       cache_html!(@edit_page)
       
-      @edit_page.reload
-      @edit_page.parent = Page.find(:first, :conditions => {:forced_url => "/news"})
-      @edit_page.enabled = true
-      @edit_page.save
-      twitter_update(make_page_url(@edit_page) + ": " + select_by_languages(@edit_page.page_contents, [Conf.default_language]).title)
-      flash[:success] = "post created."
-      redirect_to edit_news_path @edit_page
+      flash[:success] = "#{path_type_name} created."
+      redirect_to edit_page_path @edit_page
     else
       @edit_page.extend
-      flash.now[:error] = "post creation failed."
-      render :action => :new_news
+      flash.now[:error] = "#{path_type_name} creation failed."
+      render :action => :new
     end
   end
+
+#   def create_news
+#     @title = "create new post"
+#     @edit_page = Page.new(params[:page].merge(:page_type => path_type, :enabled => false, :role => Role.find_by_int_name(:guest), :user => @current_user))
+#     @edit_page.edit_role = Role.find_by_int_name :member
+#     
+#     if @edit_page.valid? && @edit_page.page_contents.any? &&  @edit_page.save
+#       cache_html!(@edit_page)
+#       
+#       @edit_page.reload
+# 
+#       @edit_page.save
+#       twitter_update(make_page_url(@edit_page) + ": " + select_by_languages(@edit_page.page_contents, [Conf.default_language]).title)
+#       flash[:success] = "post created."
+#       redirect_to edit_news_path @edit_page
+#     else
+#       @edit_page.extend
+#       flash.now[:error] = "post creation failed."
+#       render :action => :new_news
+#     end
+#   end
   
   def edit
-    @title = "edit page"
-    @edit_page = Page.find params[:id]
-    @edit_page.extend
-  end
-
-  def edit_news
     @title = "edit #{path_type_name}"
     @edit_page = Page.find params[:id]
     @edit_page.extend
-  end
-  
-  def destroy
-    Page.find(params[:id]).destroy
-    flash[:success] = "page deleted."
-    
-    redirect_to pages_path
+
+    if path_type == :news
+      render 'edit_news' and return
+    end
   end
 
-  def destroy_news
-    @edit_page = Page.find(params[:id])
-    @edit_page.destroy
-    
+#   def edit_news
+#     @title = "edit #{path_type_name}"
+#     @edit_page = Page.find params[:id]
+#     @edit_page.extend
+#   end
+  
+  def destroy
+    @page = Page.find(params[:id])
+    @page.destroy
+
     Tag.all.each do |tag|
       tag.destroy if tag.pages.empty?
     end
-    
-    flash[:success] = "post deleted."
-    redirect_to news_index_path
+
+    flash[:success] = "#{path_type_name} deleted."
+
+    redirect_to pages_path
   end
+
+#   def destroy_news
+#     @page = Page.find(params[:id])
+#     @page.destroy
+#     
+#     Tag.all.each do |tag|
+#       tag.destroy if tag.pages.empty?
+#     end
+#     
+#     flash[:success] = "#{path_type_name} deleted."
+#     redirect_to news_index_path
+#   end
   
   def update
     @title = "edit page"
