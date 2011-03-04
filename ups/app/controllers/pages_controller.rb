@@ -163,6 +163,20 @@ class PagesController < ApplicationController
     @edit_page.extend
     render :action => :edit
   end
+
+  def update_news
+    @title = "edit #{path_type.to_s}"
+    @edit_page = Page.find params[:id]
+    
+    if @edit_page.update_attributes(params[:page].merge(:page_type => :news, :role => Role.find_by_int_name(:guest)))
+      cache_html!(@edit_page)
+      flash.now[:success] = "post updated."
+    else
+      flash.now[:error] = "post update failed."
+    end
+    @edit_page.extend
+    render :action => :edit_news
+  end
   
   def activate
     @edit_page = Page.find params[:id]
@@ -262,6 +276,12 @@ class PagesController < ApplicationController
   
   def setup
   end
+
+  def rss
+    @news = Page.find(:all, :order => "created_at DESC", :conditions => {:page_type => path_type}, :limit => 10)
+    render :layout => false
+    response.headers["Content-Type"] = "application/xml; charset=utf-8"
+  end
   
   private
   def update_edit_role
@@ -275,9 +295,9 @@ class PagesController < ApplicationController
   end
 
   def path_type
-    type = :page if /^\/pages/ =~ request.request_uri
-    type = :news if /^\/news/ =~ request.request_uri
-    type = :news if /^\/blog/ =~ request.request_uri
+    return :page if /^\/pages/ =~ request.request_uri
+    return :news if /^\/news/ =~ request.request_uri
+    return :news if /^\/blog/ =~ request.request_uri
   end
   
   def load_page
