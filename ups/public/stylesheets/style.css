@@ -248,3 +248,7 @@ td:hover > .kramdown_reference {
     background: #f99;
     color: #900;
 }
+
+.comment {
+    margin-bottom: 10px;
+}

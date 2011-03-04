@@ -1,7 +1,7 @@
 <% if page.comments.any? %>
   <h2>comments:</h2>
   <% page.comments.each do |comment| %>
-    <fieldset>
+    <fieldset class="comment">
       <p>
         <%= comment.text %>
       </p>
@@ -10,8 +10,8 @@
         <% if comment.user.present? %>
           <%= link_to comment.user.name, comment.user, :class => "user" %> 
           <% if @current_user == comment.user || has_role?(:admin) %>
-            <%= link_to "del", destroy_comment_pages_path(page.id, comment.id), :confirm => "Are you sure?", :method => :delete, :class => "delete" %>
             <%= link_to "edit", edit_comment_pages_path(page.id, comment.id), :class => "edit" %>
+            <%= link_to "del", destroy_comment_pages_path(page.id, comment.id), :confirm => "Are you sure?", :method => :delete, :class => "delete" %>
           <% end %>
         <% else %>
           <%= comment.name %> (<%= comment.email %>)
