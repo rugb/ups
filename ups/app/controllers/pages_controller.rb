@@ -125,7 +125,7 @@ class PagesController < ApplicationController
   end
 
   def edit_news
-    @title = "edit #{path_type.to_s}"
+    @title = "edit #{path_type_name}"
     @edit_page = Page.find params[:id]
     @edit_page.extend
   end
@@ -165,10 +165,10 @@ class PagesController < ApplicationController
   end
 
   def update_news
-    @title = "edit #{path_type.to_s}"
+    @title = "edit #{path_type_name}"
     @edit_page = Page.find params[:id]
     
-    if @edit_page.update_attributes(params[:page].merge(:page_type => :news, :role => Role.find_by_int_name(:guest)))
+    if @edit_page.update_attributes(params[:page].merge(:page_type => path_type, :role => Role.find_by_int_name(:guest)))
       cache_html!(@edit_page)
       flash.now[:success] = "post updated."
     else
@@ -298,6 +298,10 @@ class PagesController < ApplicationController
     return :page if /^\/pages/ =~ request.request_uri
     return :news if /^\/news/ =~ request.request_uri
     return :news if /^\/blog/ =~ request.request_uri
+  end
+
+  def path_type_name
+    path_type == :news ? "post" : "page"
   end
   
   def load_page
