@@ -136,6 +136,18 @@ class PagesController < ApplicationController
     
     redirect_to pages_path
   end
+
+  def destroy_news
+    @edit_page = Page.find(params[:id])
+    @edit_page.destroy
+    
+    Tag.all.each do |tag|
+      tag.destroy if tag.pages.empty?
+    end
+    
+    flash[:success] = "post deleted."
+    redirect_to news_index_path
+  end
   
   def update
     @title = "edit page"
