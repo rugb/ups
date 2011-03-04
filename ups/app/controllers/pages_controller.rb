@@ -1,29 +1,53 @@
+require 'pp'
+
 class PagesController < ApplicationController
-  #before_filter :current_show_page
+  before_filter :load_page
 
   #before_filter :load_comment, :only => [ :update_comment, :delete_comment ]
   filter_access_to :edit_comment, :update_comment, :destroy_comment, :model => Comment, :load_method => :load_comment, :attribute_check => true
   filter_access_to :all
   
   include PagesHelper
+  include ConfHelper
+
+  def my_logger
+    @@log_file = File.open("#{RAILS_ROOT}/log/my.log", File::WRONLY | File::APPEND)
+    @@my_logger ||= Logger.new(@@log_file)
+  end
+  
   
   def index
     @pages = editable_children_pages nil
   end
+
+  def index_news
+    if params[:category].present?
+      @browse_category = Category.find_by_id params[:category]
+    end
+    
+    if params[:tags].present?
+      @browse_tags_names = params[:tags].split "+"
+      @browse_tags = @browse_tags_names.map do |tag_name|
+        Tag.find_by_name tag_name
+      end.compact
+    end
+    
+    @pages = Page.find(:all, :order => "created_at DESC", :conditions => {:page_type => :news}).find_all do |page|
+      (@browse_category.nil? || page.categories.index(@browse_category)) && (page.tags & @browse_tags).size == @browse_tags.size
+    end
+  end
   
   def show
-    @page = Page.find params[:id]
-    
-    if !has_role_with_hierarchy?(@page.role.int_name)
-      permission_denied
-    else
+#    if !has_role_with_hierarchy?(@page.role.int_name)
+#      permission_denied
+#    else
       http_404 and return if(@page.nil? || !@page.visible?)
       
       redirect_to show_page_path(@page.id, @page.int_title) and return if (params[:int_title] != @page.int_title)
       set_session_language params[:language_short] if params[:language_short].present?
       
       redirect_to @page.forced_url if @page.forced_url.present?
-    end
+#    end
   end
   
   def new
@@ -211,8 +235,10 @@ class PagesController < ApplicationController
     end
   end
 
-  def current_show_page
-    @page ||= Page.find_by_id(params[:id]) if params[:id].present?
+  def load_page
+    @page = Page.find_by_id(params[:id]) if params[:id].present?
+
+    @browse_tags = []
   end
 
   def load_comment
