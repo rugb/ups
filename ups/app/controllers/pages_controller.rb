@@ -32,12 +32,17 @@ class PagesController < ApplicationController
       end.compact
     end
     
-    @pages = Page.find(:all, :order => "created_at DESC", :conditions => {:page_type => :news}).find_all do |page|
+    @pages = Page.find(:all, :order => "created_at DESC", :conditions => {:page_type => path_type}).find_all do |page|
       (@browse_category.nil? || page.categories.index(@browse_category)) && (page.tags & @browse_tags).size == @browse_tags.size
     end
   end
   
   def show
+     if path_type == :news
+       render 'show_news'
+       return
+     end
+    
 #    if !has_role_with_hierarchy?(@page.role.int_name)
 #      permission_denied
 #    else
@@ -52,14 +57,21 @@ class PagesController < ApplicationController
   
   def new
     @title = "create new page"
-    @edit_page = Page.new(:page_type => :page, :enabled => false, :role => Role.find_by_int_name(:guest))
+    @edit_page = Page.new(:page_type => path_type, :enabled => false, :role => Role.find_by_int_name(:guest))
+    @edit_page.extend
+    @edit_page.user = @current_user
+  end
+  
+  def new_news
+    @title = "create new post"
+    @edit_page = Page.new(:page_type => path_type, :enabled => false, :role => Role.find_by_int_name(:guest))
     @edit_page.extend
     @edit_page.user = @current_user
   end
   
   def create
     @title = "create new page"
-    @edit_page = Page.new(params[:page].merge(:page_type => :page, :enabled => false, :role => Role.find_by_int_name(:guest), :user => @current_user))
+    @edit_page = Page.new(params[:page].merge(:page_type => path_type, :enabled => false, :role => Role.find_by_int_name(:guest), :user => @current_user))
     
     position_select = params[:position_select].split("_")
     
@@ -82,11 +94,38 @@ class PagesController < ApplicationController
       flash.now[:error] = "page creation failed."
       render :action => :new
     end
+  end
+
+  def create_news
+    @title = "create new post"
+    @edit_page = Page.new(params[:page].merge(:page_type => path_type, :enabled => false, :role => Role.find_by_int_name(:guest), :user => @current_user))
+    @edit_page.edit_role = Role.find_by_int_name :member
     
+    if @edit_page.valid? && @edit_page.page_contents.any? &&  @edit_page.save
+      cache_html!(@edit_page)
+      
+      @edit_page.reload
+      @edit_page.parent = Page.find(:first, :conditions => {:forced_url => "/news"})
+      @edit_page.enabled = true
+      @edit_page.save
+      twitter_update(make_page_url(@edit_page) + ": " + select_by_languages(@edit_page.page_contents, [Conf.default_language]).title)
+      flash[:success] = "post created."
+      redirect_to edit_news_path @edit_page
+    else
+      @edit_page.extend
+      flash.now[:error] = "post creation failed."
+      render :action => :new_news
+    end
   end
   
   def edit
     @title = "edit page"
+    @edit_page = Page.find params[:id]
+    @edit_page.extend
+  end
+
+  def edit_news
+    @title = "edit #{path_type.to_s}"
     @edit_page = Page.find params[:id]
     @edit_page.extend
   end
@@ -235,6 +274,12 @@ class PagesController < ApplicationController
     end
   end
 
+  def path_type
+    type = :page if /^\/pages/ =~ request.request_uri
+    type = :news if /^\/news/ =~ request.request_uri
+    type = :news if /^\/blog/ =~ request.request_uri
+  end
+  
   def load_page
     @page = Page.find_by_id(params[:id]) if params[:id].present?
 

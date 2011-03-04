@@ -1,0 +1,6 @@
+<p class="actions">
+  <%= link_to "back", show_news_path, :class => "back" %>
+</p>
+<%= form_for @edit_page, :url => news_path(@edit_page), :html => {:method => :put} do |f| %>
+<%= render 'form_news', :f => f %>
+<% end %>
