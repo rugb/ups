@@ -13,6 +13,8 @@ class AddIndizes < ActiveRecord::Migration
     add_index :pages, :position
     add_index :pages, :role_id
     add_index :pages, :edit_role_id
+    add_index :pages, :user_id
+    add_index :pages, :page_type
 
     add_index :roles, :int_name
 
@@ -42,7 +44,11 @@ class AddIndizes < ActiveRecord::Migration
     add_index :link_categories, :link_id
     add_index :link_categories, :category_id
 
-    remove_column :links, :cateogory_id
+    add_index :timeslots, :gevent_id
+
+    add_index :users, :language_id
+
+    remove_column :links, :category_id
   end
 
   def self.down
@@ -59,6 +65,8 @@ class AddIndizes < ActiveRecord::Migration
     remove_index :pages, :position
     remove_index :pages, :role_id
     remove_index :pages, :edit_role_id
+    remove_index :pages, :user_id
+    remove_index :pages, :page_type
 
     remove_index :roles, :int_name
 
@@ -88,6 +96,10 @@ class AddIndizes < ActiveRecord::Migration
     remove_index :link_categories, :link_id
     remove_index :link_categories, :category_id
 
-    add_column :links, :cateogory_id, :integer
+    remove_index :timeslots, :gevent_id
+
+    remove_index :users, :language_id
+
+    add_column :links, :category_id, :integer
   end
 end
