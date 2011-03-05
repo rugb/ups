@@ -7,4 +7,5 @@ tmp/
 .swp.*
 Gemfile.lock
 coverage
+rails_best_practices_output.html
 public/uploads
