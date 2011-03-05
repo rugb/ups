@@ -38,7 +38,7 @@ class PageContent < ActiveRecord::Base
   end
 
   def update_int_title
-    if(page.int_title.blank? || (page.page_type != :project && (page.page_contents.size == 1 || Conf.default_language == language)))
+    if(page.int_title.blank? || ((page.parent.nil? || page.parent.int_title != "projects") && (page.page_contents.size == 1 || Conf.default_language == language)))
       page.int_title = make_short_title(title)
       page.save if page.changed?
     end

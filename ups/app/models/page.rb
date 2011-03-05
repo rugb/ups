@@ -65,6 +65,39 @@ class Page < ActiveRecord::Base
 
   before_validation :destroy_relevant
 
+  def self.projects
+    project_page = find_or_initialize_by_int_title :projects
+    if project_page.page_contents.empty?
+      project_page.parent = nil
+      project_page.int_title = :projects
+      project_page.enabled = false
+      project_page.page_type = :page
+      project_page.position = 23
+      project_page.role = Role.find_by_int_name :guest
+      project_page.save!
+      project_page.page_contents.build(:language_id => Language.find_by_short("en").id, :title => "Projects").save
+      project_page.page_contents.build(:language_id => Language.find_by_short("de").id, :title => "Projekte").save
+    end
+
+    project_page
+  end
+
+  def self.project_by_repo(repo)
+    page = find_or_initialize_by_int_title(repo.name.tr(" ", "_").downcase.tr("^a-z0-9_", ""))
+    if page.page_contents.empty?
+      page.parent = projects
+      page.enabled = false
+      page.page_type = :page
+      page.position = 23
+      page.role = Role.find_by_int_name :guest
+      page.edit_role = Role.find_by_int_name :member
+      page.save!
+      page.page_contents.build(:language_id => Conf.default_language.id, :title => repo.name, :text => repo.description).save
+    end
+
+    page
+  end
+
   def initialize(options = {})
     super(options)
 
