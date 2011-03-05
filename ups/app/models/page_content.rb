@@ -18,7 +18,8 @@ class PageContent < ActiveRecord::Base
   attr_accessible :title, :text, :html, :excerpt, :language_id, :language
   
   validates :title, :presence => true, :length => { :maximum => 50 }
-  #validates :page_id, :presence => true
+  validates_numericality_of :page_id, :greater_than => 0, :allow_nil => true
+  validates_numericality_of :language_id, :greater_than => 0
   validates :language_id, :presence => true
   
   belongs_to :page
