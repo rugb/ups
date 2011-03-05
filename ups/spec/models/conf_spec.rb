@@ -57,7 +57,7 @@ describe Conf do
     end
     
     it "should reject nil" do
-      expect { Conf.default_language = nil  }.to raise_error
+      expect { Conf.default_language= nil }.to raise_error
     end
     
     it "should store the right language" do
@@ -90,7 +90,7 @@ describe Conf do
     
     it "should store the right page" do
       default_page = Conf.default_page
-      page = Page.new(:page_type => :page, :enabled => true, :int_title => "test")
+      page = Page.new(:page_type => :page, :enabled => true, :int_title => "test", :role_id => 1)
       Conf.default_page = page
       Conf.default_page.should == page
       
@@ -99,7 +99,7 @@ describe Conf do
     end
     
     it "should reject disabled pages" do
-      page = Page.new(:page_type => :page, :enabled => false)
+      page = Page.new(:page_type => :page, :enabled => false, :role_id => 1)
       expect { Conf.default_page = page }.to raise_error
     end
   end

@@ -102,7 +102,7 @@ class Conf < ActiveRecord::Base
   end
 
   def self.default_language=(lang)
-    return false if lang.nil?
+    raise false if lang.nil?
     lang.save if lang.changed?
     set(:default_language, lang.short)
   end
@@ -112,7 +112,8 @@ class Conf < ActiveRecord::Base
   end
 
   def self.default_page=(page)
-    return false if page.nil?
+    raise false if page.nil?
+    raise false if page.enabled? == false
     page.save if page.changed?
     set(:default_page, page.id)
   end
