@@ -1,6 +1,4 @@
 Ups::Application.routes.draw do
-  match "/foo", :to => proc { |env| [200, {}, "Hello World!"] }
-  
   resources :events do
     member do
       delete 'vote/:user_vote_id' => "events#user_vote_destroy", :as => :delete_user_votes
