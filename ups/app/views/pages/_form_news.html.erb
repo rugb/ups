@@ -22,7 +22,7 @@
   </section>
 </section>
 <fieldset>
-  <%= render 'errors/form', :object => @edit_post %>
+  <%= render 'errors/form', :object => @edit_page %>
   <div class="field">
     <label>
       visible after:
@@ -37,16 +37,16 @@
   </div>
   <fieldset id="content_tabs">
     <ul>
-      <% @edit_post.page_contents.each do |content| %>
+      <% @edit_page.page_contents.each do |content| %>
       <li>
         <%= link_to content.language.name, "#content_tab_"+content.language.short %>
       </li>
       <% end %>
     </ul>
-    <%= render 'shared/text_form', :f => f, :edit_page => @edit_post %>
+    <%= render 'shared/text_form', :f => f, :edit_page => @edit_page %>
   </fieldset>
-  <% if @edit_post.id.present? && @edit_post.forced_url.nil?  %>
-    <%= render 'shared/file_upload_index', :file_uploads => @edit_post.file_uploads, :edit_page => @edit_post %>
+  <% if @edit_page.id.present? && @edit_page.forced_url.nil?  %>
+    <%= render 'shared/file_upload_index', :file_uploads => @edit_page.file_uploads, :edit_page => @edit_page %>
   <% end %>
   <div class="actions">
     <%= f.submit :class => "continue" %>
