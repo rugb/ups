@@ -68,4 +68,24 @@
   $(function(){
       $("#content_tabs").tabs();
   })
+
+  function preview(id) {
+    lang_short = $("#" + id).attr("short");
+    value = escape($("#" + id).val());
+    $.getScript("<%= preview_pages_path @edit_page, :js %>?&short=" + lang_short + "&text=" + value);
+  }
+
+  var preview_timeout = null;
+
+  function schedule_preview(ev) {
+    if(preview_timeout != null)
+      window.clearTimeout(preview_timeout);
+    preview_timeout = window.setTimeout("preview('" + this.id + "')", 1000);
+  }
+
+  $(function() {
+    $(".kramdown").keyup(schedule_preview).each(function(i) {
+      preview(this.id);
+    });
+  });
 </script>

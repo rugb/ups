@@ -35,8 +35,7 @@ class ApplicationController < ActionController::Base
     page.save
   end
 
-  def preview_html(page_content, text)
-    page_content.text = text
+  def preview_html(page_content)
     update_html(page_content).html
   end
   

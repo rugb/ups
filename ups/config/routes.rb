@@ -55,9 +55,9 @@ Ups::Application.routes.draw do
     member do
       get 'activate'
       get 'deactivate'
-      get 'preview'
     end
     collection do
+      get 'preview'
       get ':id/:comment_id/edit', :action => :edit_comment, :as => :edit_comment
       put ':id/:comment_id', :action => :update_comment, :as => :update_comment
       post ':id/create_comment', :action => :create_comment, :as => :create_comment
