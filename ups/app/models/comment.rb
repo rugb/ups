@@ -22,11 +22,11 @@ class Comment < ActiveRecord::Base
   email_regex = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 
   validate do |comment|
-    comment.errors.add :user_id, "can't be blank" if comment.user_id.blank? && (comment.name.blank? && comment.email.blank?)
+    comment.errors.add :user_id, "can't be blank" unless comment.user_id? || (comment.name? && comment.email?)
 
-    comment.errors.add :name, "can't be blank" if comment.name.blank? && comment.user_id.nil?
+    comment.errors.add :name, "can't be blank" unless comment.name? || comment.user_id?
 
-    comment.errors.add :email, "can't be blank" if comment.email.blank? && comment.user_id.nil?
+    comment.errors.add :email, "can't be blank" unless comment.email? || comment.user_id?
   end
 
   validates :name,   :length   => { :maximum => 255 },

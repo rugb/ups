@@ -42,11 +42,11 @@ class User < ActiveRecord::Base
 
   validate do |user|
     if user.role.nil?
-      user.errors.add :role_id, "role should be guest"  if user.openid.blank? && user.name.blank? && user.email.blank?
+      user.errors.add :role_id, "role should be guest" unless user.openid? || user.name? || user.email?
     elsif user.role.present? && user.role.int_name != :guest
-      user.errors.add :openid, "openid can't be blank" if user.openid.blank?
-      user.errors.add :name, "name can't be blank" if user.name.blank?
-      user.errors.add :email, "email can't be blank" if user.email.blank?
+      user.errors.add :openid, "openid can't be blank" unless user.openid?
+      user.errors.add :name, "name can't be blank" unless user.name?
+      user.errors.add :email, "email can't be blank" unless user.email?
     end
   end
 

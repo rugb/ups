@@ -4,6 +4,7 @@ describe Event do
   before(:each) do
     @user = User.new(:name => "test user", :email => "foo@bar.com", :openid => "openid")
     @user.role_id = Role.find_by_int_name(:member).id
+    @user.save!
     @attr = {
       :name => "Fachgespraech",
       :location => "MZH",
@@ -45,9 +46,4 @@ describe Event do
       end
     end
   end
-
-  describe "relation to timeslot" do
-    pending " not implemented yet."
-  end
-
 end
