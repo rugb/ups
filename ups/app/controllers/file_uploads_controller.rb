@@ -2,6 +2,7 @@ class FileUploadsController < ApplicationController
   filter_access_to :show
 
   before_filter :check_for_page_rights, :except => :show
+  before_filter :load_file_upload, :only => [:edit, :update, :destroy]
 
   include PagesHelper
 
@@ -24,7 +25,7 @@ class FileUploadsController < ApplicationController
   end
 
   def update
-    @file_upload = FileUpload.find(params[:id])
+    http_404 and return  if @file_upload.nil?
 
     @file_upload.update_attributes(params[:file_upload])
 
@@ -39,11 +40,9 @@ class FileUploadsController < ApplicationController
 
   def edit
     @title = "edit upload"
-    @file_upload = FileUpload.find(params[:id]) if (params[:id])
   end
 
   def destroy
-    @file_upload = FileUpload.find(params[:id]) if (params[:id])
     @file_upload.destroy
 
     if @file_upload.page.present?
@@ -78,5 +77,9 @@ class FileUploadsController < ApplicationController
     @edit_page ||= FileUpload.find_by_id(params[:id]).page
 
     permission_denied and return unless @edit_page.nil? || page_editable?(@edit_page)
+  end
+
+  def load_file_upload
+    @file_upload = FileUpload.find_by_id params[:id] if (params[:id])
   end
 end

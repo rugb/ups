@@ -1,6 +1,8 @@
 class CategoriesController < ApplicationController
   filter_access_to :all
 
+  before_filter :load_category, :only => [:edit, :update, :destroy]
+
   def new
     @title = "new category"
     @edit_category = Category.new
@@ -22,13 +24,10 @@ class CategoriesController < ApplicationController
 
   def edit
     @title = "edit category"
-    @edit_category = Category.find(params[:id])
     @edit_category.extend
   end
 
   def update
-    @edit_category = Category.find params[:id]
-
     if @edit_category.update_attributes params[:category]
       flash[:success] = "category updated."
       redirect_to categories_path
@@ -40,8 +39,6 @@ class CategoriesController < ApplicationController
   end
 
   def destroy
-    @edit_category = Category.find params[:id]
-
     if @edit_category.destroy
       flash[:success] = "category deleted."
       redirect_to categories_path
@@ -57,6 +54,11 @@ class CategoriesController < ApplicationController
 
   def index
     @edit_categories = Category.all
+  end
+
+  private
+  def load_category
+    @edit_category = Category.find_by_id params[:id]
   end
 
 end

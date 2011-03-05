@@ -32,11 +32,9 @@ class UsersController < ApplicationController
   end
 
   def update
-    @user = User.find params[:id]
+    @user = User.find_by_id params[:id]
 
-    if has_role? :admin
-      @user.role_id = params[:user][:role_id]
-    end
+    @user.role_id = params[:user][:role_id] if has_role? :admin
 
     if @user.update_attributes(params[:user])
       set_session_language @user.language.short if @user.language.present?

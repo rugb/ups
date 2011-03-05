@@ -1,6 +1,8 @@
 class LinksController < ApplicationController
   filter_access_to :all
 
+  before_filter :load_link, :only => [:update, :destroy, :show, :edit]
+
   def new
     @title = "create new link"
     @link = Link.new
@@ -22,8 +24,6 @@ class LinksController < ApplicationController
   end
 
   def update
-    @link = Link.find(params[:id])
-
     if @link.update_attributes(params[:link])
       flash[:success] = "link updated."
       redirect_to links_path
@@ -35,8 +35,6 @@ class LinksController < ApplicationController
   end
 
   def destroy
-    @link = Link.find(params[:id])
-
     @link.destroy
 
     flash[:success] = "link deleted."
@@ -49,12 +47,15 @@ class LinksController < ApplicationController
   end
 
   def show
-    @link = Link.find(params[:id])
   end
 
   def edit
     @title = "edit link"
-    @link = Link.find(params[:id])
     @link.extend
+  end
+
+  private
+  def load_link
+    @link = Link.find_by_id params[:id]
   end
 end

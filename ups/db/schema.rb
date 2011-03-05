@@ -97,7 +97,6 @@ ActiveRecord::Schema.define(:version => 20110303160424) do
   create_table "links", :force => true do |t|
     t.string   "title"
     t.string   "href"
-    t.integer  "category_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -156,6 +155,8 @@ ActiveRecord::Schema.define(:version => 20110303160424) do
   add_index "pages", ["parent_id"], :name => "index_pages_on_parent_id"
   add_index "pages", ["position"], :name => "index_pages_on_position"
   add_index "pages", ["role_id"], :name => "index_pages_on_role_id"
+  add_index "pages", ["user_id"], :name => "index_pages_on_user_id"
+  add_index "pages", ["page_type"], :name => "index_pages_on_page_type"
 
   create_table "roles", :force => true do |t|
     t.string   "name"
@@ -184,6 +185,7 @@ ActiveRecord::Schema.define(:version => 20110303160424) do
   end
 
   add_index "timeslots", ["event_id"], :name => "index_timeslots_on_event_id"
+  add_index "timeslots", ["gevent_id"], :name => "index_timeslots_on_gevent_id"
 
   create_table "user_votes", :force => true do |t|
     t.integer  "event_id"
@@ -208,6 +210,7 @@ ActiveRecord::Schema.define(:version => 20110303160424) do
   end
 
   add_index "users", ["role_id"], :name => "index_users_on_role_id"
+  add_index "users", ["language_id"], :name => "index_users_on_language_id"
   add_index "users", ["salt"], :name => "index_users_on_salt", :unique => true
 
   create_table "votes", :force => true do |t|
