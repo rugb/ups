@@ -1,5 +1,5 @@
 <section class="sidebar right">
-  <% if @edit_page.page_type == :news %>
+  <% if edit_page.page_type == :news %>
     <% if Category.first.present? %>
       <section class="categories">
         <h3>
@@ -24,22 +24,22 @@
   <% else %>
     <section class="categories">
       <h3>position:</h3>
-      <%= possible_page_position_options(@edit_page) %>
+      <%= possible_page_position_options(edit_page) %>
     </section>
   <% end %>
 </section>
 <fieldset>
-  <%= render 'errors/form', :object => @edit_page %>
-  <% if @edit_page.page_type == :page %>
+  <%= render 'errors/form', :object => edit_page %>
+  <% if edit_page.page_type == :page %>
     <div class="field actions">
       <label>
         title:
       </label>
-      <span><%= page_title @edit_page %>
-        <i>(<%= (@edit_page.int_title or "new") %>)</i></span>
-      <span><%= link_to "activate", activate_page_path(@edit_page), :class => "enable" if page_activateable? @edit_page %>
+      <span><%= page_title edit_page %>
+        <i>(<%= (edit_page.int_title or "new") %>)</i></span>
+      <span><%= link_to "activate", activate_page_path(edit_page), :class => "enable" if page_activateable? edit_page %>
       </span>
-      <span><%= link_to "deactivate", deactivate_page_path(@edit_page), :class => "disable" if page_deactivateable? @edit_page %>
+      <span><%= link_to "deactivate", deactivate_page_path(edit_page), :class => "disable" if page_deactivateable? edit_page %>
       </span>
     </div>
   <% end %>
@@ -49,8 +49,8 @@
     </label>
     <%= f.datetime_select :start_at, :order => [:day, :month, :year], :date_seperator => ".", :time_seperator => ":" %>
   </div>
-  <% if @edit_page.page_type == :page %>
-    <%= render 'role_edit', :f => f, :edit_page => @edit_page %>
+  <% if edit_page.page_type == :page %>
+    <%= render 'role_edit', :f => f, :edit_page => edit_page %>
   <% end %>
   <div class="field">
     <label>
@@ -60,16 +60,16 @@
   </div>
   <fieldset id="content_tabs">
     <ul>
-      <% @edit_page.page_contents.each do |content| %>
+      <% edit_page.page_contents.each do |content| %>
       <li>
         <%= link_to content.language.name, "#content_tab_"+content.language.short %>
       </li>
       <% end %>
     </ul>
-    <%= render 'shared/text_form', :f => f, :edit_page => @edit_page %>
+    <%= render 'shared/text_form', :f => f, :edit_page => edit_page %>
   </fieldset>
-  <% if @edit_page.id.present? && @edit_page.forced_url.nil? %>
-    <%= render 'shared/file_upload_index', :file_uploads => @edit_page.file_uploads, :edit_page => @edit_page %>
+  <% if edit_page.id.present? && edit_page.forced_url.nil? %>
+    <%= render 'shared/file_upload_index', :file_uploads => edit_page.file_uploads, :edit_page => edit_page %>
   <% end %>
   <div class="actions">
     <%= f.submit :class => "continue" %>
