@@ -138,7 +138,7 @@ class Page < ActiveRecord::Base
   end
 
   def position_select=(position_select)
-    positions_select = position_select.split "_"
+    position_select = position_select.split "_"
 
     if position_select.empty?
       self.parent = nil
