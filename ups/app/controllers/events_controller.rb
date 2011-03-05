@@ -95,8 +95,7 @@ class EventsController < ApplicationController
         @timeslots << timeslot if timeslot.choosen?
       end
 
-      @event.finished = true
-      @event.save!
+      @event.update_attribute :finished, true
 
       if @timeslots.empty?
         flash[:notice] = "no event created"
