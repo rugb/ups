@@ -69,8 +69,8 @@ class Page < ActiveRecord::Base
   end
   
   def extend
-    extend_page_contents(self)
-    extend_page_categories(self)
+    extend_page_contents
+    extend_page_categories
   end
   
   def to_s
@@ -156,26 +156,26 @@ class Page < ActiveRecord::Base
   
   private
   
-  def extend_page_contents(page)
+  def extend_page_contents
     Language.all.each do |lang|
       found = false
-      page.page_contents.each do |page_content|
+      self.page_contents.each do |page_content|
         found ||= lang == page_content.language
       end
-      page.page_contents.build(:language_id => lang.id) unless found
+      self.page_contents.build(:language_id => lang.id) unless found
     end
   end
   
-  def extend_page_categories(page)
-    page.page_categories.each do |page_category|
+  def extend_page_categories
+    self.page_categories.each do |page_category|
       page_category.checked = "1"
     end
     Category.all.each do |cat|
       found = false
-      page.page_categories.each do |page_category|
+      self.page_categories.each do |page_category|
         found ||= cat == page_category.category
       end
-      page_category = page.page_categories.build(:category_id => cat.id) unless found
+      page_category = self.page_categories.build(:category_id => cat.id) unless found
     end
   end
   

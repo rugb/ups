@@ -137,10 +137,6 @@ class PagesController < ApplicationController
     @title = "edit #{path_type_name}"
     @edit_page = Page.find params[:id]
     @edit_page.extend
-
-#     if path_type == :news
-#       render 'edit_news' and return
-#     end
   end
   
   def destroy
@@ -153,11 +149,7 @@ class PagesController < ApplicationController
 
     flash[:success] = "#{path_type_name} deleted."
 
-    if path_type == :pages
-      redirect_to index_path
-    elsif path_type == :news
-      redirect_to index_path
-    end
+    redirect_to index_path
   end
   
   def update
