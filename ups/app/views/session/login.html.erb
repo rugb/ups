@@ -1,13 +1,14 @@
+<fieldset>
 <% form_tag start_session_index_path, :method => :get do %>
-<%= hidden_field :openid_fb3, :value, {:value => @fb3_openid} %> 
-<div>
-  <%= image_submit_tag 'https://openid.tzi.de/images/login_button.png' %>
-</div>
+  <%= hidden_field :openid_fb3, :value, {:value => @fb3_openid} %>
+  <div class="field">
+    <%= image_submit_tag 'https://openid.tzi.de/images/login_button.png' %>
+  </div>
+  <% end %>
+  <% form_tag start_session_index_path, :method => :get do %>
+  <div class="field">
+   <%= text_field_tag :openid_identifier %>
+   <%= submit_tag 'Submit' %>
+  </div>
 <% end %>
-
-<% form_tag start_session_index_path, :method => :get do %>
-<div>
- <%= text_field_tag :openid_identifier %>
- <%= submit_tag 'Submit' %>
-</div>
-<% end %>
+</fieldset>

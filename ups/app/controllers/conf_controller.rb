@@ -3,7 +3,7 @@ class ConfController < ApplicationController
 
   def index
   end
-  
+
   def update
     Conf.default_language = Language.find_by_any(params[:default_language])
     Conf.default_page = Page.find(params[:default_page])
@@ -61,7 +61,7 @@ class ConfController < ApplicationController
 
     redirect_to :action => :index
   end
- 
+
   def pull_github
     begin
       user = GitHub.user(Conf.github_user)

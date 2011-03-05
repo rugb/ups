@@ -1,2 +1,2 @@
-module FileUploadsHelper  
+module FileUploadsHelper
 end

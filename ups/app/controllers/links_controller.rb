@@ -1,6 +1,6 @@
 class LinksController < ApplicationController
   filter_access_to :all
-  
+
   def new
     @title = "create new link"
     @link = Link.new
@@ -10,7 +10,7 @@ class LinksController < ApplicationController
   def create
     @title = "create new links"
     @link = Link.new(params[:link])
-    
+
     if @link.save
       flash[:success] = "link created"
       redirect_to links_path

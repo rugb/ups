@@ -12,7 +12,7 @@
 
 class UserVote < ActiveRecord::Base
   attr_accessible :user_id, :user, :event_id, :event, :votes_attributes
-  
+
   belongs_to :event
   belongs_to :user
 
@@ -20,10 +20,10 @@ class UserVote < ActiveRecord::Base
   accepts_nested_attributes_for :votes
 
   def to_s
-  	if user.present? && event.present?
-  		"#{user.name}'s vote for #{event.name}"
-  	else
-  		"UserVote"
-  	end
+    if user.present? && event.present?
+      "#{user.name}'s vote for #{event.name}"
+    else
+      "UserVote"
+    end
   end
 end

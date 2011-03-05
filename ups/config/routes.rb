@@ -17,13 +17,13 @@ Ups::Application.routes.draw do
   resources :users
   resources :links
   resource :user, :only => :show, :as => :current_user
-  
+
   resources :file_uploads, :except => [ :new, :show ] do
     collection do
       get ':page_id/new', :action => :new, :as => :new_with_page
     end
   end
-  
+
   match "/downloads/:id" => "file_uploads#show", :as => :download_file
 
   resources :session, :only => [] do
@@ -34,8 +34,8 @@ Ups::Application.routes.draw do
       get :logout
     end
   end
-  
-  
+
+
   match "/blog/:id/(:int_title)(/:language_short)" => "pages#show", :as => :show_news, :via => :get
   match "/blog/:id/(:int_title)(/:language_short)" => "pages#destroy", :as => :show_news, :via => :delete
   match "/blog/:id/(:int_title)(/:language_short)" => "pages#update", :as => :show_news, :via => :put
@@ -49,7 +49,7 @@ Ups::Application.routes.draw do
   end
 
   resources :categories, :except => :show
-  
+
   match "/page/:id/(:int_title)(/:language_short)" => "pages#show", :as => :show_page, :via => :get
   resources :pages do
     member do
@@ -65,22 +65,22 @@ Ups::Application.routes.draw do
       delete ':id/:comment_id/destroy_comment', :action => :destroy_comment, :as => :destroy_comment
     end
   end
-  
+
   match "/config" => "conf#index", :via => :get
   match "/config" => "conf#update", :via => :put
   match "/config/check_twitter" => "conf#check_twitter", :via => :get
   match "/config/check_google" => "conf#check_google", :via => :get
   match "/config/create_google_calendar" => "conf#create_google_calendar", :via => :post
   match "/config/pull_github" => "conf#pull_github", :via => :get
-  
+
   match "/credits" => "pages#credits"
   match "/setup" => "pages#setup"
 
   if Rails.env.development?
     match "/backdoor" => "users#backdoor", :via => :get
   end
-  
+
   root :to => "pages#home"
-  
+
 #   match "*a" => "application#http_404"
 end

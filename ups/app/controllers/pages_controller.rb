@@ -6,7 +6,7 @@ class PagesController < ApplicationController
   before_filter :load_comment, :only => [ :edit_comment,        :update_comment, :destroy_comment ]
   filter_access_to :edit_comment, :update_comment, :destroy_comment, :model => Comment, :load_method => :load_comment, :attribute_check => true
   filter_access_to :all
-  
+
   include PagesHelper
   include ConfHelper
 
@@ -41,7 +41,7 @@ class PagesController < ApplicationController
     return "/blog/#{page.id}" if path_type == :news
     return "/page/#{page.id}/#{page.int_title}" if path_type == :page
   end
-  
+
   def index
     if path_type == :page
       @pages = editable_children_pages nil
@@ -49,14 +49,14 @@ class PagesController < ApplicationController
       if params[:category].present?
         @browse_category = Category.find_by_id params[:category]
       end
-      
+
       if params[:tags].present?
         @browse_tags_names = params[:tags].split "+"
         @browse_tags = @browse_tags_names.map do |tag_name|
           Tag.find_by_name tag_name
         end.compact
       end
-      
+
       @pages = Page.find(:all, :order => "created_at DESC", :conditions => {:page_type => path_type}).find_all do |page|
         (@browse_category.nil? || page.categories.index(@browse_category)) && (page.tags & @browse_tags).size == @browse_tags.size
       end
@@ -64,32 +64,32 @@ class PagesController < ApplicationController
       render 'index_news' and return
     end
   end
-  
+
   def show
      if path_type == :news
        render 'show_news'
        return
      end
-    
+
 #    if !has_role_with_hierarchy?(@page.role.int_name)
 #      permission_denied
 #    else
       http_404 and return if(@page.nil? || !@page.visible?)
-      
+
       redirect_to show_page_path(@page.id, @page.int_title) and return if (params[:int_title] != @page.int_title)
       set_session_language params[:language_short] if params[:language_short].present?
-      
+
       redirect_to @page.forced_url if @page.forced_url.present?
 #    end
   end
-  
+
   def new
     @title = "create new #{path_type_name}"
     @edit_page = Page.new(:page_type => path_type, :enabled => false, :role => Role.find_by_int_name(:guest))
     @edit_page.extend
     @edit_page.user = @current_user
   end
-  
+
   def create
     @title = "create new #{path_type_name}"
     @edit_page = Page.new(params[:page].merge(:page_type => path_type, :enabled => false, :role => Role.find_by_int_name(:guest), :user => @current_user))
@@ -108,10 +108,10 @@ class PagesController < ApplicationController
         @edit_page.parent = Page.find_by_id position_select[0]
         @edit_page.position = position_select[1] == "" ? nil : position_select[1].to_i
       end
-      
+
       update_edit_role
     end
-    
+
     if @edit_page.valid? && @edit_page.page_contents.any? &&  @edit_page.save
       cache_html!(@edit_page)
 
@@ -120,12 +120,12 @@ class PagesController < ApplicationController
       if path_type == :news
         @edit_page.enabled = true
         @edit_page.save
-        
+
         redirect_to edit_news_path @edit_page
       else
         redirect_to edit_page_path @edit_page
       end
-      
+
     else
       @edit_page.extend
       flash.now[:error] = "#{path_type_name} creation failed."
@@ -137,13 +137,13 @@ class PagesController < ApplicationController
       end
     end
   end
-  
+
   def edit
     @title = "edit #{path_type_name}"
     @edit_page = Page.find params[:id]
     @edit_page.extend
   end
-  
+
   def destroy
     @page = Page.find(params[:id])
     @page.destroy
@@ -156,7 +156,7 @@ class PagesController < ApplicationController
 
     redirect_to index_path
   end
-  
+
   def update
     @title = "edit #{path_type_name}"
     @edit_page = Page.find params[:id]
@@ -176,9 +176,9 @@ class PagesController < ApplicationController
 
       recalc_page_positions_for_page @edit_page
     end
-    
+
     if @edit_page.update_attributes params[:page].merge(:user => @current_user)
-      cache_html! @edit_page 
+      cache_html! @edit_page
       flash.now[:success] = "#{path_type_name} updated."
     else
       flash.now[:error] = "#{path_type_name} update failed."
@@ -192,7 +192,7 @@ class PagesController < ApplicationController
       render 'edit'
     end
   end
-  
+
   def activate
     @edit_page = Page.find params[:id]
     @edit_page.enabled = true
@@ -201,10 +201,10 @@ class PagesController < ApplicationController
     else
       flash[:error] = "this page cannot be activated."
     end
-    
+
     redirect_to pages_path
   end
-  
+
   def deactivate
     @edit_page = Page.find params[:id]
     @edit_page.enabled = false
@@ -219,7 +219,7 @@ class PagesController < ApplicationController
   end
 
   def create_comment_preview
-    
+
   end
 
   def create_comment
@@ -255,7 +255,7 @@ class PagesController < ApplicationController
         redirect_to make_page_path @page
       else
         redirect_to show_news_path @page
-      end      
+      end
     else
       flash.now[:error] = "error on updating a comment"
       render :edit_comment
@@ -269,14 +269,14 @@ class PagesController < ApplicationController
     @comment.destroy
 
     flash[:success] = "comment deleted"
-    
+
     if @page.page_type == :page
       redirect_to make_page_path @page
     else
       redirect_to show_news_path @page
     end
   end
-  
+
   def home
     default_page = Conf.default_page
     if default_page.nil?
@@ -285,10 +285,10 @@ class PagesController < ApplicationController
       redirect_to make_page_path(default_page), :flash => flash
     end
   end
-  
+
   def credits
   end
-  
+
   def setup
   end
 
@@ -297,7 +297,7 @@ class PagesController < ApplicationController
     render :layout => false
     response.headers["Content-Type"] = "application/xml; charset=utf-8"
   end
-  
+
   private
   def update_edit_role
     if @edit_page.edit_role.present?
@@ -312,7 +312,7 @@ class PagesController < ApplicationController
   def path_type_name
     path_type == :news ? "post" : "page"
   end
-  
+
   def load_page
     @page = Page.find_by_id(params[:id]) if params[:id].present?
 
@@ -322,7 +322,7 @@ class PagesController < ApplicationController
   def load_comment
     @comment = Comment.find params[:comment_id]
   end
-  
+
   def recalc_page_positions_for_page(page)
     pages = Page.find(:all, :conditions => {:parent_id => ((page.parent and page.parent_id) or nil)})
     p "pages", pages.size

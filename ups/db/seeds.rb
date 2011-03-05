@@ -4,12 +4,12 @@
 # from http://railspikes.com/tags/fixtures
 # extend with helper method for ensuring / updating seed objects
 class ActiveRecord::Base
-  # given a hash of attributes including the ID, look up the record by ID. 
-  # If it does not exist, it is created with the rest of the options. 
-  # If it exists, it is updated with the given options. 
+  # given a hash of attributes including the ID, look up the record by ID.
+  # If it does not exist, it is created with the rest of the options.
+  # If it exists, it is updated with the given options.
   #
   # Raises an exception if the record is invalid to ensure seed data is loaded correctly.
-  # 
+  #
   # Returns the record.
   def self.ensure(options = {})
     id = options.delete(:id)
@@ -17,7 +17,7 @@ class ActiveRecord::Base
     record.id = id
     record.attributes = options
     record.save!
-    
+
     record
   end
 end
@@ -50,7 +50,7 @@ if Page.all.empty? || PageContent.all.empty?
   page.page_contents.build(:id => pcID, :language_id => 2, :title => "Startseite", :text => "Dies ist die Default-Startseite.", :html => "Dies ist die Default-Startseite.").save
 
   Conf.ensure(:id => 2, :name => :default_page, :value => 1)
-  
+
   page = Page.ensure(:id => pID, :int_title => :edit_news, :page_type => :page, :enabled => true, :forced_url => "/news", :position => pID * 10, :role_id => guest.id)
   page.page_contents.build(:id => pcID, :language_id => 1, :title => "Blog").save
 
@@ -59,21 +59,21 @@ if Page.all.empty? || PageContent.all.empty?
   adminPage.save
   adminPage.page_contents.build(:id => pcID, :language_id => 1, :title => "Administration").save
   adminPage.page_contents.build(:id => pcID, :language_id => 2, :title => "Verwaltung").save
-  
+
   page = Page.ensure(:id => pID, :parent_id => adminPage.id, :int_title => :edit_pages, :page_type => :page, :enabled => true, :forced_url => "/pages", :position => pID * 10, :role_id => member.id)
   page.edit_role = nil
   page.save
   page.page_contents.build(:id => pcID, :language_id => 1, :title => "Pages").save
   page.page_contents.build(:id => pcID, :language_id => 2, :title => "Seiten").save
-  
+
   page = Page.ensure(:id => pID, :parent_id => adminPage.id, :int_title => :edit_categories, :page_type => :page, :enabled => true, :forced_url => "/categories", :position => pID * 10, :role_id => admin.id)
   page.page_contents.build(:id => pcID, :language_id => 1, :title => "Categories").save
   page.page_contents.build(:id => pcID, :language_id => 2, :title => "Kategorien").save
-  
+
   page = Page.ensure(:id => pID, :parent_id => adminPage.id, :int_title => :edit_users, :page_type => :page, :enabled => true, :forced_url => "/users", :position => pID * 10, :role_id => admin.id)
   page.page_contents.build(:id => pcID, :language_id => 1, :title => "User").save
   page.page_contents.build(:id => pcID, :language_id => 2, :title => "Benutzer").save
-  
+
   page = Page.ensure(:id => pID, :parent_id => adminPage.id, :int_title => :edit_links, :page_type => :page, :enabled => true, :forced_url => "/links", :position => pID * 10, :role_id => admin.id)
   page.page_contents.build(:id => pcID, :language_id => 1, :title => "Linksmanagment").save
   page.page_contents.build(:id => pcID, :language_id => 2, :title => "Linksverwaltung").save
@@ -106,4 +106,4 @@ category.save!
 
 User.ensure(:id => 0)
 
-Conf.web_name = "university project system" 
+Conf.web_name = "university project system"

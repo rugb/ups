@@ -8,7 +8,7 @@
       <p class="footer actions">
         author:
         <% if comment.user.present? %>
-          <%= link_to comment.user.name, comment.user, :class => "user" %> 
+          <%= link_to comment.user.name, comment.user, :class => "user" %>
           <% if @current_user == comment.user || has_role?(:admin) %>
             <%= link_to "edit", edit_comment_pages_path(page.id, comment.id), :class => "edit" %>
             <%= link_to "del", destroy_comment_pages_path(page.id, comment.id), :confirm => "Are you sure?", :method => :delete, :class => "delete" %>

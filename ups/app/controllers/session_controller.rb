@@ -12,46 +12,47 @@ class SessionController < ApplicationController
   skip_before_filter :verify_authenticity_token
 
   def login
+    @title = "login with openid"
     @fb3_openid = 'https://openid.tzi.de/'
   end
-  
 
-  def start    
+
+  def start
     open_id_identifier = params[:openid_identifier] if params[:openid_identifier].present?
     open_id_identifier = params[:openid_fb3][:value] if params[:openid_fb3].present?
-    
+
     if !using_open_id? open_id_identifier
       flash[:error] = "OpenID should not be empty"
       redirect_to :action => :login
       return
     end
-    
+
     open_id_authentication open_id_identifier
   end
-  
+
   def logout
     sign_out
-    
+
     flash[:success] = "You have been logged out."
     redirect_back_or login_session_index_path
   end
-  
+
   def show
   end
-  
+
   def successful_login
     sign_in @current_user
 
     set_current_user
-    
+
     redirect_back_or root_path, :flash => { :success => "You're logged in." }
   end
-  
+
   def failed_login(error)
      flash[:error] = error
      redirect_to login_session_index_path
   end
-  
+
   def permission_denied
     if has_role? :guest
       store_location
@@ -60,11 +61,11 @@ class SessionController < ApplicationController
       http_404
     end
   end
-  
+
   private
 
   def open_id_authentication(openid_url)
-    authenticate_with_open_id(openid_url, :required => [ :nickname, :email ], :optional => :fullname) do |result, identity_url, registration|      
+    authenticate_with_open_id(openid_url, :required => [ :nickname, :email ], :optional => :fullname) do |result, identity_url, registration|
       if result.successful? && @current_user = User.find_or_initialize_by_openid(identity_url)
         if @current_user.new_record?
 	  role = User.all.count == 1 ? Role.find_by_int_name(:admin) : Role.find_by_int_name(:user)
@@ -77,7 +78,7 @@ class SessionController < ApplicationController
         @current_user.save
 
         set_session_language @current_user.language.short if @current_user.language.present?
-	
+
         successful_login
       else
         failed_login(result.message || "Sorry, no user by that identity URL exists (#{identity_url})")
