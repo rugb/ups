@@ -18,9 +18,9 @@ class PagesController < ApplicationController
   end
 
   def path_type
-    return :page if /^\/pages/ =~ request.request_uri
-    return :news if /^\/news/ =~ request.request_uri
-    return :news if /^\/blog/ =~ request.request_uri
+    return :page if /^\/pages/ =~ request.fullpath
+    return :news if /^\/news/ =~ request.fullpath
+    return :news if /^\/blog/ =~ request.fullpath
   end
 
   def index_path
