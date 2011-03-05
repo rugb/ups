@@ -1,7 +1,7 @@
 class FileUploadsController < ApplicationController
   filter_access_to :show
 
-  before_filter :check_for_page_rights, :except => :show
+  before_filter :check_for_page_rights, :except => [:index, :show]
   before_filter :load_file_upload, :only => [:edit, :update, :destroy]
 
   include PagesHelper

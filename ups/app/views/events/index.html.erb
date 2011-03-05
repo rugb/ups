@@ -28,14 +28,14 @@
           <%= event.end_at %>
         </td>
         <td class="actions">
-          <% if event.end_at.nil? || event.end_at.present? && event.end_at.future? && !event.finished? %>
+          <% if event.votable? %>
             <%= link_to "vote", event, :class => "vote" %>
           <% else %>
             <%= link_to "show", event, :class => "continue" %>
           <% end %>
         </td>
         <td class="actions">
-          <% if !event.finished? && (event.user == @current_user || has_role?(:admin)) %>
+          <% if event.editable_for_user? @current_user, has_role?(:admin) %>
             <%= link_to "edit", edit_event_path(event), :class => "edit" %>
           <% end %>
         </td>

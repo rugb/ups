@@ -27,4 +27,12 @@ class Event < ActiveRecord::Base
   validates :name, :presence => true, :length => { :maximum => 255 }
   validates :location, :presence => true, :length => { :maximum => 255 }
   validates :user_id, :presence => true
+
+  def votable?
+    end_at.nil? || end_at? && end_at.future? && !finished?
+  end
+
+  def editable_for_user?(user, admin = false)
+    !finished? && (self.user == user || admin)
+  end
 end

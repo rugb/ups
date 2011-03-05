@@ -35,7 +35,7 @@ authorization do
   role :member do
     includes :user
 
-    has_permission_on :pages, :to => [:index, :new, :create]
+    has_permission_on :pages, :to => [:index, :new, :create, :preview]
     has_permission_on :pages, :to => [:edit, :update] do
       if_attribute :edit_role => { :int_name => is { user.role.int_title } }
     end
