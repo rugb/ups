@@ -98,6 +98,17 @@ class Page < ActiveRecord::Base
     page
   end
 
+  def self.new_by_params_and_page_type_and_user(params, page_type, user)
+    page = new(params.merge(:page_type => page_type, :enabled => false, :role => Role.find_by_int_name(:guest), :user => user))
+
+    if page_type == :news
+      page.edit_role = Role.find_by_int_name :member
+      page.parent = Page.blog.first
+    end
+
+    page
+  end
+
   def initialize(options = {})
     super(options)
 

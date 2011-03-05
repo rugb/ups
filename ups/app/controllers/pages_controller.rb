@@ -90,12 +90,9 @@ class PagesController < ApplicationController
 
   def create
     @title = "create new #{path_type_name}"
-    @edit_page = Page.new(params[:page].merge(:page_type => path_type, :enabled => false, :role => Role.find_by_int_name(:guest), :user => @current_user))
+    @edit_page = Page.new_by_params_and_page_type_and_user params[:page], path_type, @current_user
 
-    if path_type == :news
-      @edit_page.edit_role = Role.find_by_int_name :member
-      @edit_page.parent = Page.blog.first
-    else
+    if path_type == :page
       @edit_page.position_select = params[:position_select]
       update_edit_role
     end
