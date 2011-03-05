@@ -2,7 +2,7 @@
   <% if page.present? %>
   <h2>select language:</h2>
   <ul>
-    <% @languages.each do |language| %>
+    <% languages.each do |language| %>
     <li>
       <%= link_to language.name, show_page_path(page.id, page.int_title, language.short) %>
     </li>
