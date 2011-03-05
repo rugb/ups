@@ -1,6 +1,6 @@
 <div class="list tags">
-  <% if @page.present? && @page.tags.any? %>
+  <% if page.present? && page.tags.any? %>
   <h2>tags:</h2>
-  <%= list_tags_for @page %>
+  <%= list_tags_for page %>
   <% end %>
 </div>
