@@ -11,6 +11,7 @@ class ApplicationController < ActionController::Base
 
   before_filter :current_user
   before_filter :current_page
+  before_filter :load_languages
 
   helper_method :select_by_language_id
 
@@ -202,5 +203,9 @@ class ApplicationController < ActionController::Base
 
       "[#{title}](#{link}){: class=\"#{css_class}\"}"
     end
+  end
+
+  def load_languages
+    @languages = Language.all
   end
 end
