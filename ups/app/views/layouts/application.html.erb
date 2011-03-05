@@ -32,11 +32,11 @@
     <footer>
       <%= render 'layouts/categories', :page => @page %>
       <%= render 'layouts/tags', :page => @page %>
-      <%= render 'layouts/languages', :page => @page %>
+      <%= render 'layouts/languages', :page => @page, :languages => @languages %>
       <%= render 'shared/twitter' %>
       <%= render 'shared/linklist' %>
       <% if Rails.env.development? %>
-      <%= render 'shared/backdoor' if signed_in? %>
+      <%= render 'shared/backdoor', :user => @current_user if signed_in? %>
       <div class="list debug">
         <%= debug(params) %>
       </div>

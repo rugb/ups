@@ -23,6 +23,6 @@
 <% if page.enable_comments %>
   <h2>add new comment:</h2>
   <%= form_for :comment, :url => create_comment_pages_path, :method => :post do |f| %>
-    <%= render 'shared/comment_form', :f => f %>
+    <%= render 'shared/comment_form', :f => f, :user => @current_user %>
   <% end %>
 <% end %>
