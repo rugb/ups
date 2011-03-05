@@ -26,15 +26,10 @@ Ups::Application.routes.draw do
 
   match "/downloads/:id" => "file_uploads#show", :as => :download_file
 
-  resources :session, :only => [] do
-    collection do
-      get :login
-      get :start
-      get :complete
-      get :logout
-    end
-  end
-
+  match "/session/login" => "session#login", :via => :get
+  match "/session/start" => "session#start", :via => :get
+  match "/session/complete" => "session#complete", :via => :get
+  match "/session/logout" => "session#logout", :via => :get
 
   match "/blog/:id/(:int_title)(/:language_short)" => "pages#show", :as => :show_news, :via => :get
   match "/blog/:id/(:int_title)(/:language_short)" => "pages#destroy", :as => :show_news, :via => :delete

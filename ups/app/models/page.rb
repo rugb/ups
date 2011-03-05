@@ -115,6 +115,12 @@ class Page < ActiveRecord::Base
     self.edit_role = Role.find_by_int_name :admin
   end
 
+  def reset_upload_visibility
+    file_uploads.each do |file_upload|
+      file_upload.update_attribute :visible, true
+    end
+  end
+
   def extend
     extend_page_contents
     extend_page_categories
