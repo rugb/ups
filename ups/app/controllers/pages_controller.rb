@@ -10,7 +10,7 @@ class PagesController < ApplicationController
   include PagesHelper
   include ConfHelper
 
-  helper_method :index_path, :edit_path, :path_type
+  helper_method :path_type, :index_path, :edit_path, :show_path
 
   def my_logger
     @@log_file = File.open("#{RAILS_ROOT}/log/my.log", File::WRONLY | File::APPEND)
@@ -30,6 +30,11 @@ class PagesController < ApplicationController
 
   def edit_path(page)
 
+  end
+
+  def show_path(page)
+    return "/blog/#{page.id}" if path_type == :news
+    return "/page/#{page.id}/#{page.int_title}" if path_type == :page
   end
   
   def index
@@ -133,9 +138,9 @@ class PagesController < ApplicationController
     @edit_page = Page.find params[:id]
     @edit_page.extend
 
-    if path_type == :news
-      render 'edit_news' and return
-    end
+#     if path_type == :news
+#       render 'edit_news' and return
+#     end
   end
   
   def destroy
