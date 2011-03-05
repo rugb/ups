@@ -1,0 +1,16 @@
+<% if edit_page.forced_url.nil?  && edit_page != Conf.default_page %>
+  <div class="field">
+    <label>
+      visible for:
+    </label>
+    <%= f.select :role_id, roles_options %>
+  </div>
+<% end %>
+<% if page_edit_role_changeable? edit_page %>
+  <div class="field">
+    <label>
+      editable for:
+    </label>
+    <%= f.select :edit_role_id, edit_roles_options %>
+  </div>
+<% end %>

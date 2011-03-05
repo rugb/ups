@@ -84,7 +84,7 @@ class ConfController < ApplicationController
           if page.page_contents.empty?
             page.parent = project_page
             page.enabled = false
-            page.page_type = :project
+            page.page_type = :page
             page.position = 23
             page.role = Role.find_by_int_name :guest
             page.edit_role = Role.find_by_int_name :member

@@ -1,4 +1,7 @@
 <p class="actions">
-  <%= link_to "back", pages_path, :class => "back" %>
+  <%= link_to "back", show_path(@edit_page), :class => "back" %>
+  <%= link_to "index", index_path, :class => "back" %>
 </p>
-<%= render 'form' %>
+<%= form_for @edit_page, :url => show_path(@edit_page), :html => { :method => :put } do |f| %>
+  <%= render 'form', :f => f, :edit_page => @edit_page %>
+<% end %>

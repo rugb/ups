@@ -1,8 +1,8 @@
 <section class="sidebar right">
   <% if has_role_with_hierarchy?(:member) %>
-  <p class="actions">
-    <%= link_to "new post", new_news_path, :class => "new" %>
-  </p>
+    <p class="actions">
+      <%= link_to "new post", new_news_path, :class => "new" %>
+    </p>
   <% end %>
   <% if Category.first.present? %>
   <section class="categories">

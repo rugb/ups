@@ -1,104 +1,191 @@
-class PagesController < ApplicationController
-  #before_filter :current_show_page
+require 'pp'
 
-  #before_filter :load_comment, :only => [ :update_comment, :delete_comment ]
+class PagesController < ApplicationController
+  before_filter :load_page
+
+  before_filter :load_comment, :only => [ :edit_comment,        :update_comment, :destroy_comment ]
   filter_access_to :edit_comment, :update_comment, :destroy_comment, :model => Comment, :load_method => :load_comment, :attribute_check => true
   filter_access_to :all
   
   include PagesHelper
+  include ConfHelper
+
+  helper_method :path_type, :index_path, :edit_path, :show_path
+
+  def my_logger
+    @@log_file = File.open("#{RAILS_ROOT}/log/my.log", File::WRONLY | File::APPEND)
+    @@my_logger ||= Logger.new(@@log_file)
+  end
+
+  def path_type
+    return :page if /^\/pages/ =~ request.fullpath
+    return :news if /^\/news/ =~ request.fullpath
+    return :news if /^\/blog/ =~ request.fullpath
+  end
+
+  def index_path
+    return "/news" if path_type == :news
+    return "/pages" if path_type == :page
+  end
+
+  def edit_path(page)
+
+  end
+
+  def show_path(page)
+    return "/blog/#{page.id}" if path_type == :news
+    return "/page/#{page.id}/#{page.int_title}" if path_type == :page
+  end
   
   def index
-    @pages = editable_children_pages nil
+    if path_type == :page
+      @pages = editable_children_pages nil
+    elsif path_type == :news
+      if params[:category].present?
+        @browse_category = Category.find_by_id params[:category]
+      end
+      
+      if params[:tags].present?
+        @browse_tags_names = params[:tags].split "+"
+        @browse_tags = @browse_tags_names.map do |tag_name|
+          Tag.find_by_name tag_name
+        end.compact
+      end
+      
+      @pages = Page.find(:all, :order => "created_at DESC", :conditions => {:page_type => path_type}).find_all do |page|
+        (@browse_category.nil? || page.categories.index(@browse_category)) && (page.tags & @browse_tags).size == @browse_tags.size
+      end
+
+      render 'index_news' and return
+    end
   end
   
   def show
-    @page = Page.find params[:id]
+     if path_type == :news
+       render 'show_news'
+       return
+     end
     
-    if !has_role_with_hierarchy?(@page.role.int_name)
-      permission_denied
-    else
+#    if !has_role_with_hierarchy?(@page.role.int_name)
+#      permission_denied
+#    else
       http_404 and return if(@page.nil? || !@page.visible?)
       
       redirect_to show_page_path(@page.id, @page.int_title) and return if (params[:int_title] != @page.int_title)
       set_session_language params[:language_short] if params[:language_short].present?
       
       redirect_to @page.forced_url if @page.forced_url.present?
-    end
+#    end
   end
   
   def new
-    @title = "create new page"
-    @edit_page = Page.new(:page_type => :page, :enabled => false, :role => Role.find_by_int_name(:guest))
+    @title = "create new #{path_type_name}"
+    @edit_page = Page.new(:page_type => path_type, :enabled => false, :role => Role.find_by_int_name(:guest))
     @edit_page.extend
     @edit_page.user = @current_user
   end
   
   def create
-    @title = "create new page"
-    @edit_page = Page.new(params[:page].merge(:page_type => :page, :enabled => false, :role => Role.find_by_int_name(:guest), :user => @current_user))
-    
-    position_select = params[:position_select].split("_")
-    
-    if position_select.empty?
-      @edit_page.parent = nil
-      @edit_page.position = nil
+    @title = "create new #{path_type_name}"
+    @edit_page = Page.new(params[:page].merge(:page_type => path_type, :enabled => false, :role => Role.find_by_int_name(:guest), :user => @current_user))
+
+    if path_type == :news
+      @edit_page.edit_role = Role.find_by_int_name :member
+      @edit_page.parent = Page.find(:first, :conditions => {:forced_url => "/news"})
+#       @edit_page.enabled = true
     else
-      @edit_page.parent = Page.find_by_id position_select[0]
-      @edit_page.position = position_select[1] == "" ? nil : position_select[1].to_i
+      position_select = params[:position_select].split("_")
+
+      if position_select.empty?
+        @edit_page.parent = nil
+        @edit_page.position = nil
+      else
+        @edit_page.parent = Page.find_by_id position_select[0]
+        @edit_page.position = position_select[1] == "" ? nil : position_select[1].to_i
+      end
+      
+      update_edit_role
     end
-    
-    update_edit_role
     
     if @edit_page.valid? && @edit_page.page_contents.any? &&  @edit_page.save
       cache_html!(@edit_page)
-      flash[:success] = "page created."
-      redirect_to edit_page_path @edit_page
+
+      flash[:success] = "#{path_type_name} created."
+
+      if path_type == :news
+        @edit_page.enabled = true
+        @edit_page.save
+        
+        redirect_to edit_news_path @edit_page
+      else
+        redirect_to edit_page_path @edit_page
+      end
+      
     else
       @edit_page.extend
-      flash.now[:error] = "page creation failed."
-      render :action => :new
+      flash.now[:error] = "#{path_type_name} creation failed."
+
+      if path_type == :news
+        render 'new_news'
+      else
+        render 'new'
+      end
     end
-    
   end
   
   def edit
-    @title = "edit page"
+    @title = "edit #{path_type_name}"
     @edit_page = Page.find params[:id]
     @edit_page.extend
   end
   
   def destroy
-    Page.find(params[:id]).destroy
-    flash[:success] = "page deleted."
-    
-    redirect_to pages_path
+    @page = Page.find(params[:id])
+    @page.destroy
+
+    Tag.all.each do |tag|
+      tag.destroy if tag.pages.empty?
+    end
+
+    flash[:success] = "#{path_type_name} deleted."
+
+    redirect_to index_path
   end
   
   def update
-    @title = "edit page"
+    @title = "edit #{path_type_name}"
     @edit_page = Page.find params[:id]
-    
-    position_select = params[:position_select].split("_")
-    
-    if position_select.empty?
-      @edit_page.parent = nil
-      @edit_page.position = nil
-    else
-      @edit_page.parent = Page.find_by_id position_select[0]
-      @edit_page.position = position_select[1] == "" ? nil : position_select[1].to_i
-    end
 
-    update_edit_role
+    if path_type == :page
+      position_select = params[:position_select].split("_")
+
+      if position_select.empty?
+        @edit_page.parent = nil
+        @edit_page.position = nil
+      else
+        @edit_page.parent = Page.find_by_id position_select[0]
+        @edit_page.position = position_select[1] == "" ? nil : position_select[1].to_i
+      end
+
+      update_edit_role
+
+      recalc_page_positions_for_page @edit_page
+    end
     
     if @edit_page.update_attributes params[:page].merge(:user => @current_user)
       cache_html! @edit_page 
-      recalc_page_positions_for_page @edit_page
-      flash.now[:success] = "post updated."
+      flash.now[:success] = "#{path_type_name} updated."
     else
-      flash.now[:error] = "post update failed."
+      flash.now[:error] = "#{path_type_name} update failed."
     end
+
     @edit_page.extend
-    render :action => :edit
+
+    if path_type == :news
+      render 'edit_news'
+    else
+      render 'edit'
+    end
   end
   
   def activate
@@ -149,11 +236,11 @@ class PagesController < ApplicationController
   end
 
   def edit_comment
-     @comment = Comment.find params[:comment_id]
+     #@comment = Comment.find params[:comment_id]
   end
 
   def update_comment
-    @page = Page.find params[:id]
+    #@page = Page.find params[:id]
     @comment = Comment.find params[:comment_id]
 
     if @comment.update_attributes(params[:comment])
@@ -171,8 +258,8 @@ class PagesController < ApplicationController
   end
 
   def destroy_comment
-    @page = Page.find params[:id]
-    @comment = Comment.find params[:comment_id]
+    #@page = Page.find params[:id]
+    #@comment = Comment.find params[:comment_id]
 
     @comment.destroy
 
@@ -199,6 +286,12 @@ class PagesController < ApplicationController
   
   def setup
   end
+
+  def rss
+    @news = Page.find(:all, :order => "created_at DESC", :conditions => {:page_type => path_type}, :limit => 10)
+    render :layout => false
+    response.headers["Content-Type"] = "application/xml; charset=utf-8"
+  end
   
   private
   def update_edit_role
@@ -211,8 +304,14 @@ class PagesController < ApplicationController
     end
   end
 
-  def current_show_page
-    @page ||= Page.find_by_id(params[:id]) if params[:id].present?
+  def path_type_name
+    path_type == :news ? "post" : "page"
+  end
+  
+  def load_page
+    @page = Page.find_by_id(params[:id]) if params[:id].present?
+
+    @browse_tags = []
   end
 
   def load_comment
