@@ -3,12 +3,12 @@
   <% if page_editable? @page %>
   <p class="actions">
     <%= link_to "edit", edit_news_path(@page), :class => "edit" %>
-    <%= link_to "delete", news_path(@page), :confirm => "Are you sure?", :method => :delete, :class => "delete" %>, 
-    kramdown reference: 
+    <%= link_to "delete", news_path(@page), :confirm => "Are you sure?", :method => :delete, :class => "delete" %>,
+    kramdown reference:
     <code>
       [[<%= @page.int_title %>]]
     </code>
-    or 
+    or
     <code>
       [[<%= @page.id %>]]
     </code>

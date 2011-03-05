@@ -1,7 +1,7 @@
 module ConfHelper
 
   include GoogleHelper
-  
+
   def twitter_update(tweet)
     twitter_auth
     begin

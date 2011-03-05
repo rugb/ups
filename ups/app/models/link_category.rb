@@ -12,7 +12,7 @@
 
 class LinkCategory < ActiveRecord::Base
   attr_accessor :checked, :category_attributes
-  
+
   belongs_to :category
   belongs_to :link
 

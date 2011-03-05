@@ -23,7 +23,7 @@ module GoogleHelper
     rescue
       return nil
     end
-    
+
     g
   end
 end

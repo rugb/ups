@@ -16,12 +16,12 @@ authorization do
 
     has_permission_on :users, :to => :backdoor if Rails.env.development?
   end
-  
+
   role :user do
     includes :guest
 
     has_permission_on :users, :to => [ :edit, :update ] do
-      if_attribute :id => is { user.id } 
+      if_attribute :id => is { user.id }
     end
 
     has_permission_on :users, :to => :show
@@ -56,7 +56,7 @@ authorization do
       if_attribute :finished => false
     end
   end
-  
+
   role :admin do
     includes :member
 
@@ -65,7 +65,7 @@ authorization do
 #     has_permission_on :authorization_rules, :to => :read
 #     has_permission_on :authorization_usages, :to => :read
   end
-  
+
 #   role :user do
 #     includes :guest
 #     has_permission_on :users, :to => :manage do
@@ -74,7 +74,7 @@ authorization do
 #   end
 end
 
- 
+
 # privileges do
 #   privilege :manage, :includes => [:create, :read, :update, :delete]
 #   privilege :read,   :includes => [:index, :show]

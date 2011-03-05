@@ -9,9 +9,9 @@ Bundler.require(:default, Rails.env) if defined?(Bundler)
 module Ups
   class Application < Rails::Application
     # Added by the Rails 3 jQuery Template
-	  # http://github.com/lleger/Rails-3-jQuery, written by Logan Leger
-	  config.action_view.javascript_expansions[:defaults] = %w(jquery rails)
-	  config.action_view.javascript_expansions[:cdn] = %w(https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js rails)
+    # http://github.com/lleger/Rails-3-jQuery, written by Logan Leger
+    config.action_view.javascript_expansions[:defaults] = %w(jquery rails)
+    config.action_view.javascript_expansions[:cdn] = %w(https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js rails)
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
@@ -43,12 +43,12 @@ module Ups
 
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
-    
+
     ### Part of a Spork hack. See http://bit.ly/arY19y
     if Rails.env.test?
       initializer :after => :initialize_dependency_mechanism do
       # Work around initializer in railties/lib/rails/application/bootstrap.rb
-	ActiveSupport::Dependencies.mechanism = :load
+      ActiveSupport::Dependencies.mechanism = :load
       end
     end
   end

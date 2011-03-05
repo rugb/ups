@@ -2,7 +2,7 @@ require 'pp'
 class EventsController < ApplicationController
 
   include GoogleHelper
-  
+
   before_filter :load_event, :except => [ :new, :create, :calendar, :index, :user_vote_destroy, :new_absence, :create_absence ]
   before_filter :load_user_vote, :only => :user_vote_destroy #, :model => :UserVote, :attribute_check => true
 
@@ -47,7 +47,7 @@ class EventsController < ApplicationController
 
     redirect_to :action => :calendar
   end
-  
+
   def new
     @event = Event.new
   end
@@ -143,7 +143,7 @@ class EventsController < ApplicationController
       timeslot.gevent_id = nil
       timeslot.save
     end
-    
+
     if @event.save
       flash[:success] = "event reopened"
       redirect_to edit_event_path @event
@@ -191,7 +191,7 @@ class EventsController < ApplicationController
 
     @vote_button = !@event.finished? && @user_vote.new_record?
     @finish_button = @current_user == @event.user
-    
+
     @button_div =  @vote_button || @finish_button
   end
 

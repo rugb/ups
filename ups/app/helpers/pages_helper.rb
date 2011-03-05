@@ -29,11 +29,11 @@ module PagesHelper
 
   def editable_children_pages(page)
     if page.nil?
-      Page.find(:all).select do |child| 
+      Page.find(:all).select do |child|
         child_editable?(child) && (child.parent.nil? || (child.parent.edit_role.present? && !has_role_with_hierarchy?(child.parent.edit_role.int_name)))
       end
     else
-      page.children.find(:all, :conditions => {:parent_id => page.id}).select do |child| 
+      page.children.find(:all, :conditions => {:parent_id => page.id}).select do |child|
         child_editable?(child)
       end
     end
@@ -50,24 +50,24 @@ module PagesHelper
       child.position.present? && has_role_with_hierarchy?(child.role.int_name) && child.page_type != :news
     end
   end
-  
+
   # thats for the index table of page management
   def make_treecell_style(depth)
     raw('style="background-position: ' + (-48 + 16 * depth).to_s + 'px 0; padding-left: ' + (5 + 16 * depth).to_s + 'px;"')
   end
-  
+
   def page_title(page)
     select_by_language_id(page.page_contents).title
   end
-  
+
   def page_excerpt(page)
     select_by_language_id(page.page_contents).excerpt
   end
-  
+
   def page_text(page)
     raw select_by_language_id(page.page_contents).html
   end
-  
+
   def make_page_path(page)
     if page.forced_url.nil?
       if(page.int_title.nil?)
@@ -79,7 +79,7 @@ module PagesHelper
       page.forced_url
     end
   end
-  
+
   def make_page_url(page)
     if page.forced_url.nil?
       if(page.int_title.nil?)
@@ -91,11 +91,11 @@ module PagesHelper
       root_path + page.forced_url
     end
   end
-  
+
   def possible_page_position_options(page)
     make_page_position_tree(nil, page)
   end
-  
+
   def make_page_int_title(page)
     page_content = select_by_language_id(page.page_contents)
     if page_content.nil?
@@ -104,11 +104,11 @@ module PagesHelper
       page_content.title
     end
   end
-  
+
   def roles_options
     Role.all.collect { |r| [ r.to_s.pluralize, r.id ] }
   end
-  
+
   def edit_roles_options
     admin = Role.find_by_int_name :admin
     member = Role.find_by_int_name :member
@@ -118,7 +118,7 @@ module PagesHelper
   private
   def make_page_position_tree(parent, me)
     options = []
-    
+
     if(parent.nil?)
       pages = children_pages nil
       options << radio_button_tag(:position_select, "_", me.parent.nil? && me.position.nil?) + " not in menu"
@@ -127,11 +127,11 @@ module PagesHelper
       pages = children_pages parent
       options << radio_button_tag(:position_select, parent.id.to_s+"_1") + " under " + make_page_int_title(parent)
     end
-    
+
     pages.each do |page|
       if page.position.present?
         p page, me
-        if page.id == me.id 
+        if page.id == me.id
           options << radio_button_tag(:position_select, page.position_select, true) + " " + make_page_int_title(page)
         else
           options << " " + make_page_int_title(page) + make_page_position_tree(page, me)
@@ -139,7 +139,7 @@ module PagesHelper
         end
       end
     end
-    
+
     make_html_list(options)
   end
 
