@@ -57,7 +57,7 @@ class PagesController < ApplicationController
         end.compact
       end
 
-      @pages = Page.find(:all, :order => "created_at DESC", :conditions => {:page_type => path_type}).find_all do |page|
+      @pages = Page.news.select do |page|
         (@browse_category.nil? || page.categories.index(@browse_category)) && (page.tags & @browse_tags).size == @browse_tags.size
       end
 
@@ -96,8 +96,7 @@ class PagesController < ApplicationController
 
     if path_type == :news
       @edit_page.edit_role = Role.find_by_int_name :member
-      @edit_page.parent = Page.find(:first, :conditions => {:forced_url => "/news"})
-#       @edit_page.enabled = true
+      @edit_page.parent = Page.blog.first
     else
       position_select = params[:position_select].split("_")
 
@@ -293,7 +292,7 @@ class PagesController < ApplicationController
   end
 
   def rss
-    @news = Page.find(:all, :order => "created_at DESC", :conditions => {:page_type => path_type}, :limit => 10)
+    @news = Page.news.limit(10)
     render :layout => false
     response.headers["Content-Type"] = "application/xml; charset=utf-8"
   end
@@ -324,8 +323,12 @@ class PagesController < ApplicationController
   end
 
   def recalc_page_positions_for_page(page)
-    pages = Page.find(:all, :conditions => {:parent_id => ((page.parent and page.parent_id) or nil)})
-    p "pages", pages.size
+    if page.parent.present?
+      pages = Page.find_by_parent_id(page.parent_id)
+    else
+      pages = Page.find_by_parent_id(nil)
+    end
+
     pages.each_with_index do |page, i|
      (page.position = (i+1) * 10) and page.save if page.position.present?
     end

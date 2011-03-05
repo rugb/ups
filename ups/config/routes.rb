@@ -39,11 +39,6 @@ Ups::Application.routes.draw do
   match "/blog/:id/(:int_title)(/:language_short)" => "pages#show", :as => :show_news, :via => :get
   match "/blog/:id/(:int_title)(/:language_short)" => "pages#destroy", :as => :show_news, :via => :delete
   match "/blog/:id/(:int_title)(/:language_short)" => "pages#update", :as => :show_news, :via => :put
-
-#   match "news" => "pages#index_news", :via => :get
-#   match "news/new" => "pages#new_news", :via => :get
-#   match "news" => "pages#create_news", :via => :post
-#   match "news/:id/edit" => "pages#edit_news", :via => :get, :as => :edit_news
   resources :news, :controller => :pages do
     get 'rss', :on => :collection
   end
@@ -51,6 +46,8 @@ Ups::Application.routes.draw do
   resources :categories, :except => :show
 
   match "/page/:id/(:int_title)(/:language_short)" => "pages#show", :as => :show_page, :via => :get
+  match "/page/:id/(:int_title)(/:language_short)" => "pages#destroy", :as => :show_page, :via => :delete
+  match "/page/:id/(:int_title)(/:language_short)" => "pages#update", :as => :show_page, :via => :put
   resources :pages do
     member do
       get 'activate'
