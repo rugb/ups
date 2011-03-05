@@ -42,7 +42,7 @@ class Category < ActiveRecord::Base
   end
 
   def self.get_or_new(options)
-    if (!options[:id].nil?)
+    if (options[:id].present?)
       return Category.find(options[:id])
     else
       return Category.new(options)
