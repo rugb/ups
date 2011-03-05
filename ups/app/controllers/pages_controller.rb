@@ -10,6 +10,9 @@ class PagesController < ApplicationController
   include PagesHelper
   include ConfHelper
 
+  def preview
+  end
+
   def my_logger
     @@log_file = File.open("#{RAILS_ROOT}/log/my.log", File::WRONLY | File::APPEND)
     @@my_logger ||= Logger.new(@@log_file)
