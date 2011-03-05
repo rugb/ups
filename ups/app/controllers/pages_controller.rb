@@ -3,7 +3,7 @@ require 'pp'
 class PagesController < ApplicationController
   before_filter :load_page
 
-  #before_filter :load_comment, :only => [ :update_comment, :delete_comment ]
+  before_filter :load_comment, :only => [ :edit_comment, :update_comment, :destroy_comment ]
   filter_access_to :edit_comment, :update_comment, :destroy_comment, :model => Comment, :load_method => :load_comment, :attribute_check => true
   filter_access_to :all
   
@@ -78,7 +78,7 @@ class PagesController < ApplicationController
     if path_type == :news
       @edit_page.edit_role = Role.find_by_int_name :member
       @edit_page.parent = Page.find(:first, :conditions => {:forced_url => "/news"})
-      @edit_page.enabled = true
+#       @edit_page.enabled = true
     else
       position_select = params[:position_select].split("_")
 
@@ -95,13 +95,27 @@ class PagesController < ApplicationController
     
     if @edit_page.valid? && @edit_page.page_contents.any? &&  @edit_page.save
       cache_html!(@edit_page)
-      
+
       flash[:success] = "#{path_type_name} created."
-      redirect_to edit_page_path @edit_page
+
+      if path_type == :news
+        @edit_page.enabled = true
+        @edit_page.save
+        
+        redirect_to edit_news_path @edit_page
+      else
+        redirect_to edit_page_path @edit_page
+      end
+      
     else
       @edit_page.extend
       flash.now[:error] = "#{path_type_name} creation failed."
-      render :action => :new
+
+      if path_type == :news
+        render 'new_news'
+      else
+        render 'new'
+      end
     end
   end
   
@@ -125,7 +139,11 @@ class PagesController < ApplicationController
 
     flash[:success] = "#{path_type_name} deleted."
 
-    redirect_to pages_path
+    if path_type == :pages
+      redirect_to pages_path
+    elsif path_type == :news
+      redirect_to news_index_path
+    end
   end
   
   def update
@@ -156,7 +174,12 @@ class PagesController < ApplicationController
     end
 
     @edit_page.extend
-    render :action => :edit
+
+    if path_type == :news
+      render 'edit_news'
+    else
+      render 'edit'
+    end
   end
   
   def activate
@@ -207,11 +230,11 @@ class PagesController < ApplicationController
   end
 
   def edit_comment
-     @comment = Comment.find params[:comment_id]
+     #@comment = Comment.find params[:comment_id]
   end
 
   def update_comment
-    @page = Page.find params[:id]
+    #@page = Page.find params[:id]
     @comment = Comment.find params[:comment_id]
 
     if @comment.update_attributes(params[:comment])
@@ -229,8 +252,8 @@ class PagesController < ApplicationController
   end
 
   def destroy_comment
-    @page = Page.find params[:id]
-    @comment = Comment.find params[:comment_id]
+    #@page = Page.find params[:id]
+    #@comment = Comment.find params[:comment_id]
 
     @comment.destroy
 

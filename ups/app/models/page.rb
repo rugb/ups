@@ -51,7 +51,7 @@ class Page < ActiveRecord::Base
     record.errors.add :parent_id, "cannot have itself as parent" if record.parent_id.present? && record.parent_id == record.id
     
     # page cannot be enabled without int_title
-    record.errors.add :enabled, "connot be true if page has no internal title" if record.enabled && (record.int_title.nil? || record.int_title == "")
+    record.errors.add :enabled, "cannot be true if page has no internal title" if record.enabled && (record.int_title.nil? || record.int_title == "")
   end
   validates_numericality_of :position, :only_integer => true, :greater_than => 0, :allow_nil => true
   validates_inclusion_of :page_type, :in => [:news, :page, :project]
