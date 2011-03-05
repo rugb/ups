@@ -137,6 +137,18 @@ class Page < ActiveRecord::Base
     p
   end
 
+  def position_select=(position_select)
+    position_select = position_select.split "_"
+
+    if position_select.empty?
+      self.parent = nil
+      self.position = nil
+    else
+      self.parent = Page.find_by_id position_select[0]
+      self.position = position_select[1] == "" ? nil : position_select[1].to_i
+    end
+  end
+
   def visible?
     enabled && (start_at.nil? or DateTime.now > start_at) && page_contents.any?
   end
