@@ -114,7 +114,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_page
-    page = Page.find(:first, :conditions => {:forced_url => request.path})
+    page = Page.find_by_forced_url(request.path)
     @page = page if page.present? && page.visible?
   end
 

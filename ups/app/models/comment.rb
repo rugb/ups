@@ -14,7 +14,7 @@
 #
 
 class Comment < ActiveRecord::Base
-  attr_accessible :user_id, :text, :name, :email
+  attr_accessible :user_id, :user, :page, :text, :name, :email
 
   belongs_to :user
   belongs_to :page

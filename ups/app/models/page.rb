@@ -44,7 +44,10 @@ class Page < ActiveRecord::Base
 
   has_many :file_uploads
 
-  default_scope :order => "pages.position"
+  default_scope :order => "position"
+
+  named_scope :news, :conditions => {:page_type => :news}, :order => "created_at DESC"
+  named_scope :blog, :conditions => {:forced_url => "/news"}, :limit => 1
 
   validate do |record|
     # reject pages having itself as parent
