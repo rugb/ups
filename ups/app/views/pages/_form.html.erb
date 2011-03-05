@@ -68,7 +68,7 @@
     </ul>
     <%= render 'shared/text_form', :f => f, :edit_page => edit_page %>
   </fieldset>
-  <% if edit_page.id.present? && edit_page.forced_url.nil? %>
+  <% if edit_page.id? && edit_page.forced_url.nil? %>
     <%= render 'shared/file_upload_index', :file_uploads => edit_page.file_uploads, :edit_page => edit_page %>
   <% end %>
   <div class="actions">

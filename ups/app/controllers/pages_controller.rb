@@ -80,7 +80,7 @@ class PagesController < ApplicationController
       redirect_to show_page_path(@page.id, @page.int_title) and return if (params[:int_title] != @page.int_title)
       set_session_language params[:language_short] if params[:language_short].present?
 
-      redirect_to @page.forced_url if @page.forced_url.present?
+      redirect_to @page.forced_url if @page.forced_url?
 #    end
   end
 
@@ -292,7 +292,7 @@ class PagesController < ApplicationController
     end
 
     pages.each_with_index do |page, i|
-     (page.position = (i+1) * 10) and page.save if page.position.present?
+     (page.position = (i+1) * 10) and page.save if page.position?
     end
   end
 

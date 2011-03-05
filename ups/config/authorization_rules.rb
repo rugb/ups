@@ -36,7 +36,7 @@ authorization do
     includes :user
 
     has_permission_on :pages, :to => [:index, :new, :create, :preview]
-    has_permission_on :pages, :to => [:edit, :update] do
+    has_permission_on :pages, :to => [:edit, :update, :destroy] do
       if_attribute :edit_role => { :int_name => is { user.role.int_title } }
     end
 
