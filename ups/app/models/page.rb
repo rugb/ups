@@ -46,8 +46,8 @@ class Page < ActiveRecord::Base
 
   default_scope :order => "position"
 
-  named_scope :news, :conditions => {:page_type => :news}, :order => "created_at DESC"
-  named_scope :blog, :conditions => {:forced_url => "/news"}, :limit => 1
+  scope :news, :conditions => {:page_type => :news}, :order => "created_at DESC"
+  scope :blog, :conditions => {:forced_url => "/news"}, :limit => 1
 
   validate do |record|
     # reject pages having itself as parent
