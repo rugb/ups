@@ -119,7 +119,7 @@ class ApplicationController < ActionController::Base
   private
 
   def update_html(page_content)
-    if page_content.text.present?
+    if page_content.text?
       kramdown = page_content.text
       kramdown = kramdown_internal_files page_content.page, kramdown, page_content.language
       kramdown = kramdown_internal_img page_content.page, kramdown, page_content.language

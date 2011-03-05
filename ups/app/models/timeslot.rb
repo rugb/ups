@@ -26,7 +26,7 @@ class Timeslot < ActiveRecord::Base
   default_scope :order => "timeslots.start_at"
 
   validate do |timeslot|
-    timeslot.errors.add :start_at, "is after end_at" if timeslot.start_at.present? && timeslot.end_at.present? && timeslot.start_at > timeslot.end_at
+    timeslot.errors.add :start_at, "is after end_at" if timeslot.start_at? && timeslot.end_at? && timeslot.start_at > timeslot.end_at
   end
 
   def vote_for_user_vote(user_vote)
