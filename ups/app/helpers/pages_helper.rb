@@ -69,8 +69,8 @@ module PagesHelper
   end
 
   def make_page_path(page)
-    if page.forced_url.nil?
-      if(page.int_title.nil?)
+    unless page.forced_url?
+      unless page.int_title?
         page_path(page)
       else
         show_page_path(page.id, page.int_title)
@@ -81,8 +81,8 @@ module PagesHelper
   end
 
   def make_page_url(page)
-    if page.forced_url.nil?
-      if(page.int_title.nil?)
+    unless page.forced_url?
+      unless page.int_title?
         page_url(page)
       else
         show_page_url(page.id, page.int_title)
@@ -129,7 +129,7 @@ module PagesHelper
     end
 
     pages.each do |page|
-      if page.position.present?
+      if page.position?
         p page, me
         if page.id == me.id
           options << radio_button_tag(:position_select, page.position_select, true) + " " + make_page_int_title(page)
