@@ -4,10 +4,8 @@ class EventsController < ApplicationController
   include GoogleHelper
 
   before_filter :load_event, :except => [ :new, :create, :calendar, :index, :user_vote_destroy, :new_absence, :create_absence ]
-  before_filter :load_user_vote, :only => :user_vote_destroy #, :model => :UserVote, :attribute_check => true
+  before_filter :load_user_vote, :only => :user_vote_destroy
 
-  # todo
-  # check for edit,update attribute
   filter_access_to :edit, :update, :attribute_check => true
   filter_access_to :user_vote_destroy, :model => UserVote, :attribute_check => true
   filter_access_to :all
@@ -112,8 +110,7 @@ class EventsController < ApplicationController
           }
           created_event_on_google = google_add_event(google, gevent)
           if created_event_on_google[:saved]
-            timeslot.gevent_id = created_event_on_google[:event].id
-            timeslot.save
+            timeslot.update_attribute :gevent_id, created_event_on_google[:event].id
             count += 1
           end
         end
@@ -139,8 +136,7 @@ class EventsController < ApplicationController
       if (timeslot.gevent_id.present? && gevent = google_find_event(google, timeslot.gevent_id))
         gevent.delete unless gevent.status == :canceled
       end
-      timeslot.gevent_id = nil
-      timeslot.save
+      timeslot.update_attribute :gevent_id, nil
     end
 
     if @event.save

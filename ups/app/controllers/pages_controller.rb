@@ -1,9 +1,7 @@
-require 'pp'
-
 class PagesController < ApplicationController
   before_filter :load_page
-
   before_filter :load_comment, :only => [ :edit_comment,        :update_comment, :destroy_comment ]
+
   filter_access_to :edit_comment, :update_comment, :destroy_comment, :model => Comment, :load_method => :load_comment, :attribute_check => true
   filter_access_to :all
 
@@ -217,15 +215,9 @@ class PagesController < ApplicationController
     end
   end
 
-  def create_comment_preview
-
-  end
-
   def create_comment
     @page = Page.find params[:id]
-    @comment = Comment.new(params[:comment])
-    @comment.user = @current_user if signed_in?
-    @comment.page_id = @page.id
+    @comment = Comment.new(params[:comment].merge(:page => @page, :user => @current_user))
 
     if @comment.save
       flash[:success] = "comment created"
@@ -240,14 +232,12 @@ class PagesController < ApplicationController
   end
 
   def edit_comment
-     #@comment = Comment.find params[:comment_id]
   end
 
   def update_comment
-    #@page = Page.find params[:id]
     @comment = Comment.find params[:comment_id]
 
-    if @comment.update_attributes(params[:comment])
+    if @comment.update_attributes(params[:comment].merge(:page => @page, :user => @current_user))
       flash[:success] = "comment updated"
 
       if @page.page_type == :page
@@ -262,9 +252,6 @@ class PagesController < ApplicationController
   end
 
   def destroy_comment
-    #@page = Page.find params[:id]
-    #@comment = Comment.find params[:comment_id]
-
     @comment.destroy
 
     flash[:success] = "comment deleted"
