@@ -68,14 +68,11 @@ class SessionController < ApplicationController
     authenticate_with_open_id(openid_url, :required => [ :nickname, :email ], :optional => :fullname) do |result, identity_url, registration|
       if result.successful? && @current_user = User.find_or_initialize_by_openid(identity_url)
         if @current_user.new_record?
-	  role = User.all.count == 1 ? Role.find_by_int_name(:admin) : Role.find_by_int_name(:user)
-	  @current_user.role = role
+          role = User.all.count == 1 ? Role.find_by_int_name(:admin) : Role.find_by_int_name(:user)
+          @current_user.role = role
         end
-        @current_user.name = registration['nickname']
-        @current_user.email = registration['email']
-        @current_user.fullname = registration['fullname'] if registration['fullname'].present?
-
-        @current_user.save
+        @current_user.update_attributes :name => registration['nickname'], :email => registration['email']
+        @current_user.update_attribute :fullname, registration['fullname'] if registration['fullname'].present?
 
         set_session_language @current_user.language.short if @current_user.language.present?
 
