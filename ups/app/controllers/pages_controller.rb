@@ -11,7 +11,7 @@ class PagesController < ApplicationController
   include ConfHelper
 
   def preview
-    @html = preview_html(PageContent.new(:language => Language.find_by_short(params[:short]), :text => params[:text]))
+    @html = preview_html(PageContent.new(:language => Language.find_by_short(params[:short]), :text => params[:text].encode("UTF-8", "ISO-8859-1")))
     @field = "#preview_" + params[:short]
   end
 
