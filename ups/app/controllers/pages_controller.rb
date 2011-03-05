@@ -96,7 +96,7 @@ class PagesController < ApplicationController
       @edit_page.edit_role = Role.find_by_int_name :member
       @edit_page.parent = Page.blog.first
     else
-      @edit_page.position_select params[:position_select]
+      @edit_page.position_select = params[:position_select]
       update_edit_role
     end
 
@@ -150,7 +150,7 @@ class PagesController < ApplicationController
     @edit_page = Page.find params[:id]
 
     if path_type == :page
-      @edit_page.position_select params[:position_select]
+      @edit_page.position_select = params[:position_select]
 
       update_edit_role
 
@@ -294,9 +294,9 @@ class PagesController < ApplicationController
 
   def recalc_page_positions_for_page(page)
     if page.parent.present?
-      pages = Page.find_by_parent_id(page.parent_id)
+      pages = Page.find_all_by_parent_id(page.parent_id)
     else
-      pages = Page.find_by_parent_id(nil)
+      pages = Page.find_all_by_parent_id(nil)
     end
 
     pages.each_with_index do |page, i|
