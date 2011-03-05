@@ -3,18 +3,34 @@ require 'pp'
 class PagesController < ApplicationController
   before_filter :load_page
 
-  before_filter :load_comment, :only => [ :edit_comment, :update_comment, :destroy_comment ]
+  before_filter :load_comment, :only => [ :edit_comment,        :update_comment, :destroy_comment ]
   filter_access_to :edit_comment, :update_comment, :destroy_comment, :model => Comment, :load_method => :load_comment, :attribute_check => true
   filter_access_to :all
   
   include PagesHelper
   include ConfHelper
 
+  helper_method :index_path, :edit_path, :path_type
+
   def my_logger
     @@log_file = File.open("#{RAILS_ROOT}/log/my.log", File::WRONLY | File::APPEND)
     @@my_logger ||= Logger.new(@@log_file)
   end
-  
+
+  def path_type
+    return :page if /^\/pages/ =~ request.request_uri
+    return :news if /^\/news/ =~ request.request_uri
+    return :news if /^\/blog/ =~ request.request_uri
+  end
+
+  def index_path
+    return "/news" if path_type == :news
+    return "/pages" if path_type == :page
+  end
+
+  def edit_path(page)
+
+  end
   
   def index
     if path_type == :page
@@ -62,10 +78,6 @@ class PagesController < ApplicationController
     @edit_page = Page.new(:page_type => path_type, :enabled => false, :role => Role.find_by_int_name(:guest))
     @edit_page.extend
     @edit_page.user = @current_user
-
-    if path_type == :news
-      render 'new_news' and return
-    end
   end
   
   def create
@@ -137,9 +149,9 @@ class PagesController < ApplicationController
     flash[:success] = "#{path_type_name} deleted."
 
     if path_type == :pages
-      redirect_to pages_path
+      redirect_to index_path
     elsif path_type == :news
-      redirect_to news_index_path
+      redirect_to index_path
     end
   end
   
@@ -293,12 +305,6 @@ class PagesController < ApplicationController
         @edit_page.edit_role_id = params[:page][:edit_role_id]
       end
     end
-  end
-
-  def path_type
-    return :page if /^\/pages/ =~ request.request_uri
-    return :news if /^\/news/ =~ request.request_uri
-    return :news if /^\/blog/ =~ request.request_uri
   end
 
   def path_type_name
