@@ -25,9 +25,7 @@ class ApplicationController < ActionController::Base
   end
 
   def cache_html!(page)
-    page.file_uploads.each do |file_upload|
-      file_upload.update_attribute :visible, true
-    end
+    page.reset_upload_visibility
     page.page_contents.map do |page_content|
       update_html(page_content)
     end
@@ -55,25 +53,25 @@ class ApplicationController < ActionController::Base
 
   # returns a prioritised array of Languages wich should be used to render the page content
   def wanted_languages
-    wanted_languages = []
+    wanted_languages_array = []
 
     # explicit selected in url
-    wanted_languages << Language.find_by_short(params[:language_short])
+    wanted_languages_array << Language.find_by_short(params[:language_short])
 
     # session/user
     #wanted_languages << Language.find_by_short(cookies.signed[:user_language]) if cookies.signed[:user_language].present?
-    wanted_languages << Language.find_by_short(get_session_language) if get_session_language.present?
+    wanted_languages_array << Language.find_by_short(get_session_language) if get_session_language.present?
 
     # wanted by browser
-    wanted_languages |= accepted_languages.map do |lang|
+    wanted_languages_array |= accepted_languages.map do |lang|
       Language.find_by_short(lang)
     end
 
     # default language
-    wanted_languages << Conf.default_language
+    wanted_languages_array << Conf.default_language
 
     # cleanup
-    wanted_languages.compact
+    wanted_languages_array.compact
   end
 
   # by http://mashing-it-up.blogspot.com/2008/10/parsing-accept-language-in-rails.html
