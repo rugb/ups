@@ -1,6 +1,9 @@
 class PagesController < ApplicationController
   before_filter :load_page
-  before_filter :load_comment, :only => [ :edit_comment,        :update_comment, :destroy_comment ]
+  before_filter :load_edit_page
+  before_filter :load_comment, :only => [:edit_comment, :update_comment, :destroy_comment]
+  before_filter :set_new_title, :only => [:new, :create]
+  before_filter :set_edit_title, :only => [:edit, :update]
 
   filter_access_to :edit_comment, :update_comment, :destroy_comment, :model => Comment, :load_method => :load_comment, :attribute_check => true
   filter_access_to :all
@@ -82,14 +85,12 @@ class PagesController < ApplicationController
   end
 
   def new
-    @title = "create new #{path_type_name}"
     @edit_page = Page.new(:page_type => path_type, :enabled => false, :role => Role.find_by_int_name(:guest))
     @edit_page.extend
     @edit_page.user = @current_user
   end
 
   def create
-    @title = "create new #{path_type_name}"
     @edit_page = Page.new_by_params_and_page_type_and_user params[:page], path_type, @current_user
 
     if path_type == :page
@@ -124,13 +125,10 @@ class PagesController < ApplicationController
   end
 
   def edit
-    @title = "edit #{path_type_name}"
-    @edit_page = Page.find params[:id]
     @edit_page.extend
   end
 
   def destroy
-    @page = Page.find(params[:id])
     @page.destroy
 
     Tag.all.each do |tag|
@@ -143,9 +141,6 @@ class PagesController < ApplicationController
   end
 
   def update
-    @title = "edit #{path_type_name}"
-    @edit_page = Page.find params[:id]
-
     if path_type == :page
       @edit_page.position_select = params[:position_select]
 
@@ -171,7 +166,6 @@ class PagesController < ApplicationController
   end
 
   def activate
-    @edit_page = Page.find params[:id]
     @edit_page.enabled = true
     if @edit_page.save
       flash[:success] = "activated."
@@ -183,7 +177,6 @@ class PagesController < ApplicationController
   end
 
   def deactivate
-    @edit_page = Page.find params[:id]
     @edit_page.enabled = false
     @edit_page.save
     if @edit_page.save
@@ -196,7 +189,6 @@ class PagesController < ApplicationController
   end
 
   def create_comment
-    @page = Page.find params[:id]
     @comment = Comment.new(params[:comment].merge(:page => @page, :user => @current_user))
 
     if @comment.save
@@ -285,6 +277,10 @@ class PagesController < ApplicationController
     @browse_tags = []
   end
 
+  def load_edit_page
+    @edit_page = Page.find_by_id params[:id]
+  end
+
   def load_comment
     @comment = Comment.find params[:comment_id]
   end
@@ -299,5 +295,13 @@ class PagesController < ApplicationController
     pages.each_with_index do |page, i|
      (page.position = (i+1) * 10) and page.save if page.position.present?
     end
+  end
+
+  def set_new_title
+    @title = "create new #{path_type_name}"
+  end
+
+  def set_edit_title
+    @title = "edit #{path_type_name}"
   end
 end
