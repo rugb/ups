@@ -26,6 +26,14 @@ describe LinksHelper do
       linklist(Category.first.category_names.first.name).should_not == nil
     end
 
-    it "should return a string containing ul, li and h2"
+    it "should return a string containing ul, li and h2" do
+      link = Link.create(:href => "http://google.de", :name => "google")
+      link.categories = [Category.first]
+      link.save
+
+      linklist(Category.first.id)
+
+      pending "write it to the end"
+    end
   end
 end

@@ -16,16 +16,22 @@
     <% if edit_page.forced_url.nil? %>
       <div class="field">
         <label>
-          text (kramdown):
-        </label>
-        <%= content_fields.text_area :text, :class => "kramdown" %>
-      </div>
-      <div class="field">
-        <label>
           excerpt:
         </label>
         <%= content_fields.text_area :excerpt, :rows => 3 %>
       </div>
+      <div class="field">
+        <label>
+          text (kramdown):
+        </label>
+        <%= content_fields.text_area :text, :class => "kramdown", :short => content_fields.object.language.short %>
+      </div>
+      <div class="field">
+        <label>
+          preview:
+        </label>
+      </div>
+      <div class="preview" id="preview_<%= content_fields.object.language.short %>"></div>
     <% end %>
   </div>
 <% end %>

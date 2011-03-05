@@ -12,6 +12,11 @@ class PagesController < ApplicationController
 
   helper_method :path_type, :index_path, :edit_path, :show_path
 
+  def preview
+    @html = preview_html(PageContent.new(:language => Language.find_by_short(params[:short]), :text => params[:text].encode("UTF-8", "ISO-8859-1")))
+    @field = "#preview_" + params[:short]
+  end
+
   def my_logger
     @@log_file = File.open("#{RAILS_ROOT}/log/my.log", File::WRONLY | File::APPEND)
     @@my_logger ||= Logger.new(@@log_file)
