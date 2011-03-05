@@ -11,6 +11,8 @@ class PagesController < ApplicationController
   include ConfHelper
 
   def preview
+    @html = preview_html(@page.page_contents.select { |pc| pc.language.short == params[:short] }.first, params[:text])
+    @field = "#preview_" + params[:short]
   end
 
   def my_logger

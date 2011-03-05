@@ -46,6 +46,14 @@ fieldset .field textarea.kramdown {
 	width: 70%;
 }
 
+.preview {
+    -moz-border-radius: 2px;
+    background: #fff;
+    border: 1px solid #aaa;
+    clear: both;
+    padding: 10px;
+}
+
 .flash {
     -moz-border-radius: 2px;
     border: 1px solid #aaa;

@@ -16,16 +16,41 @@
     <% if edit_page.forced_url.nil? %>
       <div class="field">
         <label>
-          text (kramdown):
-        </label>
-        <%= content_fields.text_area :text, :class => "kramdown" %>
-      </div>
-      <div class="field">
-        <label>
           excerpt:
         </label>
         <%= content_fields.text_area :excerpt, :rows => 3 %>
       </div>
+      <div class="field">
+        <label>
+          text (kramdown):
+        </label>
+        <%= content_fields.text_area :text, :class => "kramdown", :short => content_fields.object.language.short %>
+      </div>
+      <div class="field">
+        <label>
+          preview:
+        </label>
+      </div>
+      <div class="preview" id="preview_<%= content_fields.object.language.short %>"></div>
     <% end %>
   </div>
 <% end %>
+<script type="text/javascript">
+  function preview(id) {
+    lang_short = $("#" + id).attr("short");
+    value = escape($("#" + id).val());
+    $.getScript("<%= preview_page_path @edit_page, :js %>?&short=" + lang_short + "&text=" + value);
+  }
+
+var preview_timeout = null;
+
+  function schedule_preview(ev) {
+    if(preview_timeout != null)
+      window.clearTimeout(preview_timeout);
+    preview_timeout = window.setTimeout("preview('" + this.id + "')", 1000)
+  }
+
+  $(function() {
+    $(".kramdown").keyup(schedule_preview)
+  });
+</script>

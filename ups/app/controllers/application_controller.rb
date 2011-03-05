@@ -34,6 +34,11 @@ class ApplicationController < ActionController::Base
     
     page.save
   end
+
+  def preview_html(page_content, text)
+    page_content.text = text
+    update_html(page_content).html
+  end
   
   def select_by_language_id(elements)
     select_by_languages(elements, wanted_languages)
