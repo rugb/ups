@@ -1,6 +1,6 @@
 <section class="sidebar right">
   <% if edit_page.page_type == :news %>
-    <% if Category.first.present? %>
+    <% if any_category? %>
       <section class="categories">
         <h3>
           categories:
@@ -83,7 +83,7 @@
   function preview(id) {
     lang_short = $("#" + id).attr("short");
     value = escape($("#" + id).val());
-    $.getScript("<%= preview_pages_path @edit_page, :js %>?&short=" + lang_short + "&text=" + value);
+    $.getScript("<%= preview_pages_path :js %>?&short=" + lang_short + "&text=" + value);
   }
 
   var preview_timeout = null;

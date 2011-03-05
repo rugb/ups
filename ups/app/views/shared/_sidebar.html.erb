@@ -4,13 +4,13 @@
       <%= link_to "new post", new_news_path, :class => "new" %>
     </p>
   <% end %>
-  <% if Category.first.present? %>
+  <% if any_category? %>
   <section class="categories">
     <h3>categories:</h3>
     <%= list_categories %>
   </section>
   <% end %>
-  <% if Tag.first.present? %>
+  <% if any_tag? %>
   <section class="tags">
     <h3>tags:</h3>
     <%= tag_cloud %>

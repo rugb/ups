@@ -273,7 +273,6 @@ class PagesController < ApplicationController
 
   def load_page
     @page = Page.find_by_id(params[:id]) if params[:id].present?
-
     @browse_tags = []
   end
 

@@ -1,5 +1,13 @@
 module ApplicationHelper
 
+  def any_category?
+    Category.all.any?
+  end
+
+  def any_tag?
+    Tag.all.any?
+  end
+
   def datetime(dt)
     dt.strftime("%d.%m.%Y %H:%M")
   end
