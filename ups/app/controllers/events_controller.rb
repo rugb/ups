@@ -2,6 +2,7 @@ require 'pp'
 class EventsController < ApplicationController
 
   include GoogleHelper
+  include ConfHelper
 
   before_filter :load_event, :except => [ :new, :create, :calendar, :index, :user_vote_destroy, :new_absence, :create_absence ]
   before_filter :load_user_vote, :only => :user_vote_destroy
@@ -95,33 +96,38 @@ class EventsController < ApplicationController
 
       @event.update_attribute :finished, true
 
-      if @timeslots.empty?
-        flash[:notice] = "no event created"
-      else
-        count=0
-        google = google_auth
-        @timeslots.each do |timeslot|
-          gevent = {
-            :title => @event.name,
-            :content => @event.description,
-            :where => @event.location,
-            :start_time => timeslot.start_at.strftime("%Y-%m-%dT%H:%M:%S"),
-            :end_time => timeslot.end_at.strftime("%Y-%m-%dT%H:%M:%S")
-          }
-          created_event_on_google = google_add_event(google, gevent)
-          if created_event_on_google[:saved]
-            timeslot.update_attribute :gevent_id, created_event_on_google[:event].id
-            count += 1
+      if google_check
+        if @timeslots.empty?
+          flash[:notice] = "no event created"
+        else
+          count=0
+          google = google_auth
+          @timeslots.each do |timeslot|
+            gevent = {
+              :title => @event.name,
+              :content => @event.description,
+              :where => @event.location,
+              :start_time => timeslot.start_at.strftime("%Y-%m-%dT%H:%M:%S"),
+              :end_time => timeslot.end_at.strftime("%Y-%m-%dT%H:%M:%S")
+            }
+            created_event_on_google = google_add_event(google, gevent)
+            if created_event_on_google[:saved]
+              timeslot.update_attribute :gevent_id, created_event_on_google[:event].id
+              count += 1
+            end
+          end
+
+          if count > 0
+            flash[:success] = view_context.pluralize(count, "event") + " (of #{@timeslots.count}) created"
+          else
+            flash[:error] = "no events created"
           end
         end
-
-        if count > 0
-          flash[:success] = view_context.pluralize(count, "event") + " (of #{@timeslots.count}) created"
-        else
-          flash[:error] = "no events created"
-        end
+        redirect_to calendar_path
+      else
+        flash[:notice] = "event finished"
+        redirect_to events_path
       end
-      redirect_to calendar_path
     else
       flash.now[:error] = "error"
       render 'finish'
