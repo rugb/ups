@@ -1,6 +1,6 @@
-# UPS - University Project System
+# ups - university project system
 
-UPS is a CMS/Weblog/Groupware especially designed for student projects of the Department
+ups [sic] is a CMS/Weblog/Groupware especially designed for student projects of the Department
 for Computer Science of the [Univertät Bremen](http://www.informatik.uni-bremen.de).
 
 Intentionally, this piece of software was written by [Dennis Börm](https://github.com/allspark)
@@ -13,5 +13,8 @@ tbd.
 
 # License
 
-Until we decided the finaly (open source) license, consider UPS as copyighted by msquare,
-allspark and dmke.
+ups is licensed under the terms of the GNU GPL, version 2 or higher, and/or under the terms of
+the MIT License.
+
+See the file LICENSE for the full license texts.
+
